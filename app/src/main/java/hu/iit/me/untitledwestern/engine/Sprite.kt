@@ -45,7 +45,7 @@ class Sprite {
 
     private fun loadTextures(fileNames: String, numOfFrames: Int){
         if (numOfFrames == 1){
-            var tex: Texture2D = Texture2D(context)
+            var tex: Texture2D = Texture2D()
 
             var bitmap = ImageUtil.loadBitmap(context, fileNames)
 
@@ -56,7 +56,7 @@ class Sprite {
         }
         else {
             for (i in 1..numOfFrames){
-                var tex: Texture2D = Texture2D(context)
+                var tex: Texture2D = Texture2D()
 
                 var fileName = fileNames.split("/").last()
                 var filePath = "$fileNames/$fileName$i.png"

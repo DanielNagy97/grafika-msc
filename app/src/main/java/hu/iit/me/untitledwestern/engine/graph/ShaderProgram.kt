@@ -2,7 +2,6 @@ package hu.iit.me.untitledwestern.engine.graph
 
 import android.opengl.GLES30
 import java.lang.Exception
-import java.nio.FloatBuffer
 
 class ShaderProgram {
     val programId: Int
@@ -42,28 +41,6 @@ class ShaderProgram {
 
     fun bindAttribLocation(attribName: String, location: Int){
         GLES30.glBindAttribLocation(programId, location, attribName)
-    }
-
-    fun setVertexAttribArray(attribName: String, vertexStride: Int, vertexBuffer: FloatBuffer): Int {
-        return GLES30.glGetAttribLocation(programId, attribName).also {
-
-            // Enable a handle to the triangle vertices
-            GLES30.glEnableVertexAttribArray(it)
-
-            // Prepare the triangle coordinate data
-            GLES30.glVertexAttribPointer(
-                it,
-                3,
-                GLES30.GL_FLOAT,
-                false,
-                vertexStride,
-                vertexBuffer
-            )
-        }
-    }
-
-    fun disableVertexAttribArray(arrayId: Int) {
-        GLES30.glDisableVertexAttribArray(arrayId)
     }
 
     fun createVertexShader(shaderCode: String) {

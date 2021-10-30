@@ -1,17 +1,15 @@
 package hu.iit.me.untitledwestern.engine
 
-import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.opengl.GLES30
 import android.opengl.GLUtils
 import android.opengl.Matrix
 import hu.iit.me.untitledwestern.MyGLRenderer
-import hu.iit.me.untitledwestern.engine.graph.Square
+import hu.iit.me.untitledwestern.engine.graph.Mesh
 import hu.iit.me.untitledwestern.engine.math.Vector2D
 
-class Texture2D(private val context: Context) {
-    private lateinit var mesh: Square
+class Texture2D {
+    private lateinit var mesh: Mesh
     private var width: Int
     private var height: Int
     private val transformationMatrix: FloatArray
@@ -40,19 +38,24 @@ class Texture2D(private val context: Context) {
         loadTexture(bitmap)
 
         var positions = floatArrayOf(
-            0.0f,       height.toFloat(),       0.0f,      // top left
-            0.0f,            0.0f,              0.0f,      // bottom left
-            width.toFloat(), 0.0f,              0.0f,      // bottom right
-            width.toFloat(), height.toFloat(),  0.0f       // top right
+            0.0f, height.toFloat(), 0.0f,
+            width.toFloat(), height.toFloat(), 0.0f,
+            width.toFloat(), 0.0f, 0.0f,
+            width.toFloat(), 0.0f, 0.0f,
+            0.0f, 0.0f, 0.0f,
+            0.0f, height.toFloat(), 0.0f,
         )
 
-        var textCoords = floatArrayOf(
-            0.0f, 1.0f,  // top left
-            0.0f, 0.0f,  // bottom left
-            1.0f, 0.0f,  // top right
-            1.0f, 1.0f  //bottom right
+        var textCoords =  floatArrayOf(
+            0.0f, 1.0f,
+            1.0f, 1.0f,
+            1.0f, 0.0f,
+            1.0f, 0.0f,
+            0.0f, 0.0f,
+            0.0f, 1.0f
         )
-        mesh = Square(positions, textCoords, this)
+
+        mesh = Mesh(positions, textCoords, this, 6)
         return true
     }
 
@@ -64,6 +67,8 @@ class Texture2D(private val context: Context) {
         GLES30.glGenTextures(1, textures, 0)
         textureId = textures[0]
         bind()
+
+        GLES30.glPixelStorei(GLES30.GL_UNPACK_ALIGNMENT, 1)
 
         // Enable alpha
         GLES30.glEnable(GLES30.GL_BLEND);
