@@ -8,10 +8,10 @@ import hu.iit.me.untitledwestern.engine.util.ImageUtil
 class Sprite {
     private val context: Context
     // frames vector
-    private var mvFrames: ArrayList<SpriteFrame>
+    var mvFrames: ArrayList<SpriteFrame>
 
     // Actual frame
-    private var miActualFrame: Int
+    var miActualFrame: Int
 
     // Position of the sprite
     var position: Vector2D
@@ -47,9 +47,7 @@ class Sprite {
         if (numOfFrames == 1){
             var tex: Texture2D = Texture2D(context)
 
-            var fileName = fileNames.split("/").last()
-            var filePath = "$fileNames/$fileName"+"1.png"
-            var bitmap = ImageUtil.loadBitmap(context, filePath)
+            var bitmap = ImageUtil.loadBitmap(context, fileNames)
 
             tex.createTexture(bitmap)
 

@@ -4,10 +4,12 @@ import android.content.Context
 import android.opengl.GLES20
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix
+import android.util.Log
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 import hu.iit.me.untitledwestern.engine.graph.ShaderProgram
 import hu.iit.me.untitledwestern.engine.GameObject
+import hu.iit.me.untitledwestern.engine.math.Vector2D
 import hu.iit.me.untitledwestern.engine.util.TextUtil
 
 class MyGLRenderer (private val context: Context): GLSurfaceView.Renderer{
@@ -18,9 +20,12 @@ class MyGLRenderer (private val context: Context): GLSurfaceView.Renderer{
 
     lateinit var mBackground: GameObject
     lateinit var mPlayerObject: GameObject
+    lateinit var mPistolObject: GameObject
+
+    lateinit var mControlPad: GameObject
 
     init{
-        Matrix.setLookAtM(viewMatrix, 0, 0f, 0f, -3f, 0f, 0f, 0f, 0f, 1.0f, 0.0f)
+        Matrix.setLookAtM(viewMatrix, 0, 0f, 0f, 6f, 0f, 0f, 0f, 0f, 1f, 0f)
     }
 
     override fun onSurfaceCreated(unused: GL10, config: EGLConfig) {
@@ -39,12 +44,22 @@ class MyGLRenderer (private val context: Context): GLSurfaceView.Renderer{
         shaderProgram.createUniform("vColor")
         shaderProgram.createUniform("u_Texture")
 
-        mPlayerObject = GameObject(context, -0.5f, -0.5f, 0.015f)
+        var scale = 0.03f
+
+        mControlPad = GameObject(context, -3.2f, -1.9f, scale)
+        mControlPad.addSprite("sprites/control/pad/pad_background.png", 1, 0)
+
+        mPlayerObject = GameObject(context, -1.0f, -1.0f, scale)
         mPlayerObject.addSprite("sprites/hero/idle", 5, 8)
         mPlayerObject.addSprite("sprites/hero/walk", 8, 12)
 
-        mBackground = GameObject(context, -2.0f, -2.0f, 0.01f)
-        mBackground.addSprite("sprites/background", 1, 0)
+        mPistolObject = GameObject(context, -1.0f, -1.0f, scale)
+        mPistolObject.addSprite("sprites/hero/pistol/pistol1.png", 1, 0)
+        mPistolObject.addSprite("sprites/hero/pistol", 5, 12)
+
+
+        mBackground = GameObject(context, -4.0f, -4.0f, 0.02f)
+        mBackground.addSprite("sprites/background/background.png", 1, 0)
     }
 
     override fun onDrawFrame(gl: GL10) {
@@ -55,16 +70,29 @@ class MyGLRenderer (private val context: Context): GLSurfaceView.Renderer{
         // mPlayer.mRotationAngle = 0.090f * time.toInt()
 
         // TODO: Rotate the bitmap!
-        mPlayerObject.rotationAngle = 180f
-        mBackground.rotationAngle = 180f
+        //mPlayerObject.rotationAngle = 180f
+        //mBackground.rotationAngle = 180f
 
         mBackground.draw(this)
         mPlayerObject.draw(this)
+
+        // TODO: Make an object that handles this! Like a character object or something...
+        mPistolObject.position = Vector2D( mPlayerObject.position.x+1f, mPlayerObject.position.y+0.40f)
+        mPistolObject.draw(this)
+
+        mControlPad.draw(this)
+
         mPlayerObject.currSprite = 0
+
+        if (mPistolObject.currSprite == 1 && mPistolObject.mSprites[1].miActualFrame == 0){
+            mPistolObject.mSprites[1].miActualFrame = 0 // TODO: reset sprite
+            mPistolObject.currSprite = 0
+        }
     }
 
 
     override fun onSurfaceChanged(unused: GL10, width: Int, height: Int) {
+        Log.d("renderer", "$width, $height")
         GLES20.glViewport(0, 0, width, height)
         val ratio: Float = width.toFloat() / height.toFloat()
 
