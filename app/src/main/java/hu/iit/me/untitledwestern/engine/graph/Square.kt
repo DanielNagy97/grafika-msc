@@ -1,6 +1,6 @@
 package hu.iit.me.untitledwestern.engine.graph
 
-import android.opengl.GLES20
+import android.opengl.GLES30
 import hu.iit.me.untitledwestern.engine.Texture2D
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -53,29 +53,29 @@ class Square {
     }
 
     fun draw(shaderProgram: ShaderProgram) {
-        GLES20.glGetAttribLocation(shaderProgram.programId, "a_TexCoordinate").also{
-            GLES20.glActiveTexture(GLES20.GL_TEXTURE0)
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture.textureId)
+        GLES30.glGetAttribLocation(shaderProgram.programId, "a_TexCoordinate").also{
+            GLES30.glActiveTexture(GLES30.GL_TEXTURE0)
+            GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, texture.textureId)
 
             textureBuffer.position(0)
-            GLES20.glVertexAttribPointer(
+            GLES30.glVertexAttribPointer(
                 it,
                 2,
-                GLES20.GL_FLOAT,
+                GLES30.GL_FLOAT,
                 false,
                 0,
                 textureBuffer
             )
-            GLES20.glEnableVertexAttribArray(it)
+            GLES30.glEnableVertexAttribArray(it)
         }
 
         shaderProgram.setVertexAttribArray("vPosition",
             vertexStride,
             vertexBuffer).also{
-            GLES20.glDrawElements(
-                GLES20.GL_TRIANGLES,
+            GLES30.glDrawElements(
+                GLES30.GL_TRIANGLES,
                 drawOrder.size,
-                GLES20.GL_UNSIGNED_SHORT,
+                GLES30.GL_UNSIGNED_SHORT,
                 drawListBuffer
             )
             shaderProgram.disableVertexAttribArray(it)

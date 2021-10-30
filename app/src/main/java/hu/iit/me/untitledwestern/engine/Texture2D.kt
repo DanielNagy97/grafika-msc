@@ -3,7 +3,7 @@ package hu.iit.me.untitledwestern.engine
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.opengl.GLES20
+import android.opengl.GLES30
 import android.opengl.GLUtils
 import android.opengl.Matrix
 import hu.iit.me.untitledwestern.MyGLRenderer
@@ -33,7 +33,7 @@ class Texture2D(private val context: Context) {
     }
 
     private fun bind(){
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId)
+        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textureId)
     }
 
     fun createTexture(bitmap: Bitmap): Boolean{
@@ -61,28 +61,28 @@ class Texture2D(private val context: Context) {
         height = bitmap.height
 
         var textures: IntArray = IntArray(1)
-        GLES20.glGenTextures(1, textures, 0)
+        GLES30.glGenTextures(1, textures, 0)
         textureId = textures[0]
         bind()
 
         // Enable alpha
-        GLES20.glEnable(GLES20.GL_BLEND);
-        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+        GLES30.glEnable(GLES30.GL_BLEND);
+        GLES30.glBlendFunc(GLES30.GL_SRC_ALPHA, GLES30.GL_ONE_MINUS_SRC_ALPHA);
 
         // Set filtering
-        GLES20.glTexParameteri(
-            GLES20.GL_TEXTURE_2D,
-            GLES20.GL_TEXTURE_MIN_FILTER,
-            GLES20.GL_NEAREST
+        GLES30.glTexParameteri(
+            GLES30.GL_TEXTURE_2D,
+            GLES30.GL_TEXTURE_MIN_FILTER,
+            GLES30.GL_NEAREST
         )
-        GLES20.glTexParameteri(
-            GLES20.GL_TEXTURE_2D,
-            GLES20.GL_TEXTURE_MAG_FILTER,
-            GLES20.GL_NEAREST
+        GLES30.glTexParameteri(
+            GLES30.GL_TEXTURE_2D,
+            GLES30.GL_TEXTURE_MAG_FILTER,
+            GLES30.GL_NEAREST
         )
 
         // Load the bitmap into the bound texture.
-        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0)
+        GLUtils.texImage2D(GLES30.GL_TEXTURE_2D, 0, bitmap, 0)
 
         // Recycle the bitmap, since its data has been loaded into OpenGL.
         bitmap.recycle()

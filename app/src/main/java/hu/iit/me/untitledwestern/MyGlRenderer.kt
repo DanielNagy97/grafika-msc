@@ -1,7 +1,7 @@
 package hu.iit.me.untitledwestern
 
 import android.content.Context
-import android.opengl.GLES20
+import android.opengl.GLES30
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix
 import android.util.Log
@@ -29,7 +29,7 @@ class MyGLRenderer (private val context: Context): GLSurfaceView.Renderer{
     }
 
     override fun onSurfaceCreated(unused: GL10, config: EGLConfig) {
-        GLES20.glClearColor(0.1f, 0.1f, 0.1f, 1.0f)
+        GLES30.glClearColor(0.1f, 0.1f, 0.1f, 1.0f)
         var vertexShaderCode = TextUtil.readFile(context, "shaders/vertexShader.txt")
         var fragmentShaderCode = TextUtil.readFile(context, "shaders/fragmentShader.txt")
 
@@ -64,7 +64,7 @@ class MyGLRenderer (private val context: Context): GLSurfaceView.Renderer{
 
     override fun onDrawFrame(gl: GL10) {
         // Redraw background color
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT)
+        GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT)
 
         //val time = SystemClock.uptimeMillis() % 4000L
         // mPlayer.mRotationAngle = 0.090f * time.toInt()
@@ -93,7 +93,7 @@ class MyGLRenderer (private val context: Context): GLSurfaceView.Renderer{
 
     override fun onSurfaceChanged(unused: GL10, width: Int, height: Int) {
         Log.d("renderer", "$width, $height")
-        GLES20.glViewport(0, 0, width, height)
+        GLES30.glViewport(0, 0, width, height)
         val ratio: Float = width.toFloat() / height.toFloat()
 
         Matrix.frustumM(projectionMatrix, 0, -ratio, ratio, -1f, 1f, 3f, 7f)
