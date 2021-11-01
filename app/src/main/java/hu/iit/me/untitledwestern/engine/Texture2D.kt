@@ -13,7 +13,7 @@ class Texture2D {
     private var width: Int
     private var height: Int
     private val transformationMatrix: FloatArray
-    private val rotationMatrix = FloatArray(16)
+    private val rotationMatrix: FloatArray
     var textureId: Int
     var position: Vector2D
     var scale: Float
@@ -28,6 +28,7 @@ class Texture2D {
         position = Vector2D(0.0f, 0.0f)
         rotationAngle = 0f
         transformationMatrix = FloatArray(16)
+        rotationMatrix = FloatArray(16)
     }
 
     private fun bind(){
