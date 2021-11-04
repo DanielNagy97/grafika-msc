@@ -40,9 +40,14 @@ class Mesh {
         GLES30.glGenBuffers(1, vboID, 0)
 
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, vboID[0])
+
         GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, buffer.capacity() * 4, buffer, GLES30.GL_STATIC_DRAW)
 
         GLES30.glVertexAttribPointer(attribute, size, GLES30.GL_FLOAT, false, 0, 0)
+
+        // Don't know why, but this line solved the line-drawing problem??
+        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, 0)
+
         return vboID[0]
     }
 

@@ -10,8 +10,8 @@ import hu.iit.me.untitledwestern.engine.math.Vector2D
 
 class Texture2D {
     private lateinit var mesh: Mesh
-    private var width: Int
-    private var height: Int
+    var width: Int
+    var height: Int
     private val transformationMatrix: FloatArray
     private val rotationMatrix: FloatArray
     var textureId: Int
@@ -86,6 +86,7 @@ class Texture2D {
             GLES30.GL_TEXTURE_MAG_FILTER,
             GLES30.GL_NEAREST
         )
+
 
         // Load the bitmap into the bound texture.
         GLUtils.texImage2D(GLES30.GL_TEXTURE_2D, 0, bitmap, 0)

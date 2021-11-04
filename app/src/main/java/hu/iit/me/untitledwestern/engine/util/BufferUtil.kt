@@ -10,7 +10,7 @@ class BufferUtil {
             return ByteBuffer.allocateDirect(inputArray.size * 4).run {
                 order(ByteOrder.nativeOrder())
                 asFloatBuffer().apply {
-                    put(inputArray)
+                    put(inputArray).flip()
                     position(0)
                 }
             }

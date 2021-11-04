@@ -52,6 +52,7 @@ class Sprite {
             tex.createTexture(bitmap)
 
             var newFrame: SpriteFrame = SpriteFrame(tex, "Frame_1")
+            newFrame.addBoundingBox(Vector2D(0.0f, 0.0f), Vector2D(tex.width.toFloat(), tex.height.toFloat()))
             mvFrames.add(newFrame)
         }
         else {
@@ -65,9 +66,25 @@ class Sprite {
                 tex.createTexture(bitmap)
 
                 var newFrame: SpriteFrame = SpriteFrame(tex, "Frame_$i")
+                newFrame.addBoundingBox(Vector2D(0.0f, 0.0f), Vector2D(tex.width.toFloat(), tex.height.toFloat()))
                 mvFrames.add(newFrame)
             }
         }
+    }
+
+    fun getCurrentFrameTransformedBoundingBox(): BoundingBox2D {
+        var currentFrame: SpriteFrame = mvFrames[miActualFrame]
+
+        var original: BoundingBox2D = currentFrame.mBBoxOriginal
+        var transformed: BoundingBox2D = currentFrame.mBBoxTransformed
+        transformed.setIdentityForTransformation()
+        transformed.setPoints(original.minpoint, original.maxpoint)
+        transformed.transformByRotate(mRotationAngle)
+        transformed.transformByScale(mScale)
+
+        transformed.transformByTranslate(Vector2D(position.x, position.y))
+
+        return transformed
     }
 
     fun draw(renderer: MyGLRenderer){

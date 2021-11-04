@@ -2,9 +2,9 @@ package hu.iit.me.untitledwestern.engine
 
 import android.opengl.GLES30
 import android.opengl.Matrix
+import hu.iit.me.untitledwestern.MyGLRenderer
 import hu.iit.me.untitledwestern.engine.graph.ShaderProgram
 import hu.iit.me.untitledwestern.engine.math.Vector2D
-import hu.iit.me.untitledwestern.engine.math.Vector3D
 import hu.iit.me.untitledwestern.engine.util.BufferUtil
 
 class BoundingBox2D {
@@ -12,7 +12,7 @@ class BoundingBox2D {
     var minpoint: Vector2D
     var maxpoint: Vector2D
 
-    var bbPoints: ArrayList<Vector2D>
+    var bbPoints: Array<Vector2D>
     private var boxHalfWidth: Float
     private var boxHalfHeight: Float
 
@@ -21,16 +21,24 @@ class BoundingBox2D {
 
     var mEnabled: Boolean
 
+    var color = floatArrayOf(0.9f, 0.1f, 0.0f, 1.0f)
+
+    val COORDS_PER_VERTEX = 3
+    private val VertexStride = COORDS_PER_VERTEX * 4 // 4 bytes per vertex
+
     constructor(newMinPoint: Vector2D, newMaxPoint: Vector2D){
         boxHalfWidth = 0f
         boxHalfHeight = 0f
 
         mEnabled = true
 
-        bbPoints = ArrayList(AABB_POINTS_2D)
+        bbPoints = Array(AABB_POINTS_2D) {Vector2D(0f, 0f)}
+        /*
         for (i in 0 until bbPoints.size){
             bbPoints[i] = Vector2D(0f, 0f)
         }
+
+         */
 
         transformationMatrix = FloatArray(16)
         rotationMatrix = FloatArray(16)
@@ -56,7 +64,7 @@ class BoundingBox2D {
         boxHalfHeight = (maxpoint.y - minpoint.y) / 2.0f
     }
 
-    fun setUpBBPoints() {
+    private fun setUpBBPoints() {
         bbPoints[0].set(minpoint.x, minpoint.y)
 
         bbPoints[1].set(maxpoint.x, minpoint.y)
@@ -66,7 +74,7 @@ class BoundingBox2D {
         bbPoints[3].set(minpoint.x, maxpoint.y)
     }
 
-    fun searchMinMax() {
+    private fun searchMinMax() {
         var min = Vector2D(bbPoints[0].x, bbPoints[0].y)
         var max = Vector2D(bbPoints[0].x, bbPoints[0].y)
 
@@ -102,7 +110,7 @@ class BoundingBox2D {
             var point = floatArrayOf(bbPoints[i].x, bbPoints[i].y, 0.0f, 0.0f)
             var newpoint = FloatArray(4)
             Matrix.multiplyMV(newpoint, 0, transformationMatrix, 0, point, 0)
-            bbPoints[i].set(newpoint[0], newpoint[1]);
+            bbPoints[i].set(newpoint[0], newpoint[1])
         }
 
         setUpBBPoints()
@@ -142,11 +150,12 @@ class BoundingBox2D {
         searchMinMax()
     }
 
-    fun draw(shaderProgram: ShaderProgram, projectionMatrix: FloatArray) {
+    fun draw(renderer: MyGLRenderer) {
         // TODO: Try out the bounding box!!!
         if (!mEnabled){
             return
         }
+
         var vertices = floatArrayOf(
             minpoint.x, minpoint.y, 0.0f,
             minpoint.x, maxpoint.y, 0.0f,
@@ -154,6 +163,40 @@ class BoundingBox2D {
             maxpoint.x, minpoint.y, 0.0f,
             minpoint.x, minpoint.y, 0.0f
         )
+
+        renderer.lineShader.bind()
+
+        renderer.lineShader.setUniform("projectionMatrix", renderer.projectionMatrix)
+        renderer.lineShader.setUniform("modelMatrix", renderer.viewMatrix)
+        renderer.lineShader.setUniform4f("vColor", color)
+
+        var posAttrib = GLES30.glGetAttribLocation(renderer.lineShader.programId, "vPosition")
+        GLES30.glEnableVertexAttribArray(posAttrib)
+        var positionBuffer = BufferUtil.createFloatBuffer(vertices)
+        GLES30.glVertexAttribPointer(
+            posAttrib, Line.COORDS_PER_VERTEX,
+            GLES30.GL_FLOAT, false,
+            VertexStride, positionBuffer
+        )
+
+        GLES30.glEnableVertexAttribArray(posAttrib)
+        GLES30.glLineWidth(4.0f)
+        GLES30.glDrawArrays(GLES30.GL_LINE_STRIP, 0, 5)
+        GLES30.glDisableVertexAttribArray(posAttrib)
+
+        renderer.lineShader.unbind()
+
+        /*
+        minpoint = Vector2D(0f, 0f)
+        maxpoint = Vector2D(0.5f, 0.5f)
+        var vertices = floatArrayOf(
+            minpoint.x, minpoint.y, 0.0f,
+            minpoint.x, maxpoint.y, 0.0f,
+            maxpoint.x, maxpoint.y, 0.0f,
+            maxpoint.x, minpoint.y, 0.0f,
+            minpoint.x, minpoint.y, 0.0f
+        )
+
 
         var vaos = IntArray(1)
         GLES30.glGenVertexArrays(1, vaos, 0)
@@ -166,25 +209,32 @@ class BoundingBox2D {
         GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, positionBuffer.capacity() * 4, positionBuffer, GLES30.GL_STATIC_DRAW)
 
         GLES30.glVertexAttribPointer(0, 3, GLES30.GL_FLOAT, false, 0, 0)
+        // Don't know why, but this line solved the line-drawing problem??
+        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, 0)
 
         shaderProgram.bind()
+
         shaderProgram.setUniform("projectionMatrix", projectionMatrix)
 
         var modelMatrix = FloatArray(16)
+        //Matrix.setIdentityM(modelMatrix, 0)
         shaderProgram.setUniform("modelMatrix", modelMatrix)
 
-        // TODO: Rewrite the shader according to my own colormapping
-        shaderProgram.setUniform4f("linecolor", floatArrayOf(0.8f, 0.4f, 0.4f, 1.0f))
+        shaderProgram.setUniform4f("vColor", floatArrayOf(0.8f, 0.4f, 0.4f, 1.0f))
 
+        var posAttrib = GLES30.glGetAttribLocation(shaderProgram.programId, "vPosition")
         // render the VAO
         GLES30.glBindVertexArray(vaos[0])
-        GLES30.glEnableVertexAttribArray(0)
+        GLES30.glEnableVertexAttribArray(posAttrib)
 
         GLES30.glDrawArrays(GLES30.GL_LINE_STRIP, 0, 5)
 
-        GLES30.glDisableVertexAttribArray(0)
+        GLES30.glDisableVertexAttribArray(posAttrib)
+        GLES30.glBindVertexArray(0)
 
         shaderProgram.unbind()
+
+         */
     }
 
     fun checkOverlapping(box: BoundingBox2D): Boolean {

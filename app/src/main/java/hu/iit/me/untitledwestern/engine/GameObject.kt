@@ -34,5 +34,7 @@ class GameObject {
         sprite.mScale = scale
 
         sprite.draw(renderer)
+
+        sprite.getCurrentFrameTransformedBoundingBox().draw(renderer)
     }
 }
