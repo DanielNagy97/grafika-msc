@@ -99,39 +99,39 @@ class BoundingBox2D {
         maxpoint.set(max.x, max.y)
     }
 
-    fun setIdentityForTransformation() {
-        Matrix.setIdentityM(transformationMatrix, 0)
-    }
-
     fun transformByScale(scale: Float) {
+        Matrix.setIdentityM(transformationMatrix, 0)
         Matrix.scaleM(transformationMatrix, 0, scale, scale, scale)
 
         for (i in 0 until AABB_POINTS_2D){
-            var point = floatArrayOf(bbPoints[i].x, bbPoints[i].y, 0.0f, 0.0f)
-            var newpoint = FloatArray(4)
-            Matrix.multiplyMV(newpoint, 0, transformationMatrix, 0, point, 0)
-            bbPoints[i].set(newpoint[0], newpoint[1])
+            transformPoint(bbPoints[i])
         }
-
-        setUpBBPoints()
         searchMinMax()
+        setUpBBPoints()
+    }
+
+    fun transformPoint(vec: Vector2D){
+        var x = vec.x
+        var y = vec.y
+
+        vec.x = x * transformationMatrix[0] + y * transformationMatrix[4] + transformationMatrix[12]
+        vec.y = x * transformationMatrix[1] + y * transformationMatrix[5] + transformationMatrix[13]
     }
 
     fun transformByTranslate(translateVector: Vector2D) {
+        Matrix.setIdentityM(transformationMatrix, 0)
         Matrix.translateM(transformationMatrix, 0, translateVector.x, translateVector.y, 0f)
 
         for (i in 0 until AABB_POINTS_2D){
-            var point = floatArrayOf(bbPoints[i].x, bbPoints[i].y, 0.0f, 0.0f)
-            var newpoint = FloatArray(4)
-            Matrix.multiplyMV(newpoint, 0, transformationMatrix, 0, point, 0)
-            bbPoints[i].set(newpoint[0], newpoint[1]);
+            transformPoint(bbPoints[i])
         }
-
-        setUpBBPoints()
         searchMinMax()
+        setUpBBPoints()
+
     }
 
     fun transformByRotate(rotationAngle: Float) {
+        Matrix.setIdentityM(transformationMatrix, 0)
         var x = boxHalfWidth
         var y = boxHalfHeight
         Matrix.translateM(transformationMatrix, 0, x, y, 0f)
@@ -140,14 +140,10 @@ class BoundingBox2D {
         Matrix.translateM(transformationMatrix, 0, -x, -y, 0f)
 
         for (i in 0 until AABB_POINTS_2D){
-            var point = floatArrayOf(bbPoints[i].x, bbPoints[i].y, 0.0f, 0.0f)
-            var newpoint = FloatArray(4)
-            Matrix.multiplyMV(newpoint, 0, transformationMatrix, 0, point, 0)
-            bbPoints[i].set(newpoint[0], newpoint[1]);
+            transformPoint(bbPoints[i])
         }
-
-        setUpBBPoints()
         searchMinMax()
+        setUpBBPoints()
     }
 
     fun draw(renderer: MyGLRenderer) {

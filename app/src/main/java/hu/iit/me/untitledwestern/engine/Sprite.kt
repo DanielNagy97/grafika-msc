@@ -77,12 +77,12 @@ class Sprite {
 
         var original: BoundingBox2D = currentFrame.mBBoxOriginal
         var transformed: BoundingBox2D = currentFrame.mBBoxTransformed
-        transformed.setIdentityForTransformation()
         transformed.setPoints(original.minpoint, original.maxpoint)
+
         transformed.transformByRotate(mRotationAngle)
         transformed.transformByScale(mScale)
-
         transformed.transformByTranslate(Vector2D(position.x, position.y))
+
 
         return transformed
     }

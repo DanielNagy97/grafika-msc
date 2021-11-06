@@ -22,7 +22,7 @@ class Texture2D {
 
     init{
         textureId = -1
-        scale = 0.04f
+        scale = 1f
         width = 0
         height = 0
         position = Vector2D(0.0f, 0.0f)
@@ -103,6 +103,7 @@ class Texture2D {
         var x = 0.5f * width
         var y = 0.5f * height
         Matrix.translateM(transformationMatrix, 0, x, y, 0f)
+
         Matrix.setRotateM(rotationMatrix, 0, rotationAngle, 0f, 0f, -1.0f)
         Matrix.multiplyMM(transformationMatrix, 0, transformationMatrix, 0, rotationMatrix, 0)
         Matrix.translateM(transformationMatrix, 0, -x, -y, 0f)
@@ -110,7 +111,7 @@ class Texture2D {
         return transformationMatrix
     }
 
-    private fun draw(renderer: MyGLRenderer){
+    fun draw(renderer: MyGLRenderer){
         renderer.shaderProgram.bind()
 
         renderer.shaderProgram.setUniform("projectionMatrix", renderer.projectionMatrix)

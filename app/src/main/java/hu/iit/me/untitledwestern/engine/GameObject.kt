@@ -12,6 +12,7 @@ class GameObject {
 
     var scale: Float
     var rotationAngle: Float
+    var visible: Boolean
 
     constructor(context: Context, posX: Float, posY: Float, scale: Float){
         this.context = context
@@ -21,10 +22,15 @@ class GameObject {
         rotationAngle = 0f
         currSprite = 0
         mSprites = ArrayList()
+        visible = true
     }
 
     fun addSprite(fileNames: String, numberOfFrames: Int, Fps: Int) {
         mSprites.add(Sprite(context, fileNames, numberOfFrames, Fps, position, scale))
+    }
+
+    fun getBoundingBox(): BoundingBox2D {
+        return mSprites[currSprite].getCurrentFrameTransformedBoundingBox()
     }
 
     fun draw(renderer: MyGLRenderer) {
