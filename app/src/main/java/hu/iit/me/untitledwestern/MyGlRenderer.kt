@@ -14,7 +14,7 @@ import hu.iit.me.untitledwestern.engine.Line
 import hu.iit.me.untitledwestern.engine.math.Vector2D
 import hu.iit.me.untitledwestern.engine.util.TextUtil
 
-class MyGLRenderer (private val context: Context): GLSurfaceView.Renderer{
+class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
     lateinit var shaderProgram: ShaderProgram
     lateinit var lineShader: ShaderProgram
 
@@ -31,17 +31,20 @@ class MyGLRenderer (private val context: Context): GLSurfaceView.Renderer{
 
     lateinit var vertLine: Line
 
+    var idle = true
     var walking = false
     var shooting = false
     var jumping = false
-    var falling = false
-    var velocityX = 0f
-    var velocityY = 0f
+    var falling = true
+    var velocity = 1.5f
+
+    var speedX = 0f
+    var speedY = 0f
     var gForce = 1f
     var xdir = 1f
     var ydir = -1f
 
-    init{
+    init {
         Matrix.setLookAtM(viewMatrix, 0, 0f, 0f, 80f, 0f, 0f, 0f, 0f, 1f, 0f)
     }
 
@@ -80,18 +83,23 @@ class MyGLRenderer (private val context: Context): GLSurfaceView.Renderer{
         mPlayerObject = GameObject(context, -50.0f, -20.0f, scale)
         mPlayerObject.addSprite("sprites/hero/idle", 5, 8)
         mPlayerObject.addSprite("sprites/hero/walk", 8, 12)
-        mPlayerObject.addSprite("sprites/hero/jump", 3, 2)
-        mPlayerObject.addSprite("sprites/hero/fall", 3, 2)
+        mPlayerObject.addSprite("sprites/hero/jump/jump3.png", 1, 0)
+        mPlayerObject.addSprite("sprites/hero/fall/fall3.png", 1, 0)
 
-        mPistolObject = GameObject(context, mPlayerObject.position.x+30f, mPlayerObject.position.y+15.0f, scale)
+        mPistolObject = GameObject(
+            context,
+            mPlayerObject.position.x + 30f,
+            mPlayerObject.position.y + 15.0f,
+            scale
+        )
 
         mPistolObject.addSprite("sprites/hero/pistol/pistol1.png", 1, 0)
-        mPistolObject.addSprite("sprites/hero/pistol", 5, 12)
+        mPistolObject.addSprite("sprites/hero/pistol", 6, 20)
 
         mBackground = GameObject(context, -200f, -200f, scale)
         mBackground.addSprite("sprites/background/background.png", 1, 0)
 
-        bboxtest = BoundingBox2D(Vector2D(-100f,-80f), Vector2D(60f, -60f))
+        bboxtest = BoundingBox2D(Vector2D(-100f, -80f), Vector2D(50f, -40f))
         vertLine = Line()
     }
 
@@ -103,10 +111,8 @@ class MyGLRenderer (private val context: Context): GLSurfaceView.Renderer{
         //mPlayerObject.position.y += -4f
 
 
-        mPlayerObject.position.x += velocityX * xdir
-        mPlayerObject.position.y += (velocityY * ydir) - gForce
 
-
+/*
         when {
             walking -> {
                 mPlayerObject.currSprite = 1
@@ -155,15 +161,104 @@ class MyGLRenderer (private val context: Context): GLSurfaceView.Renderer{
             mPistolObject.currSprite = 0
         }
 
+ */
 
-        if(mPlayerObject.getBoundingBox().checkOverlapping(bboxtest)){
+        mPlayerObject.position.x += xdir * speedX
+        mPlayerObject.position.y += ydir * speedY
+
+        if (falling) {
+            if (speedY == 0f) {
+                speedY = 0.5f
+            }
+
+            //max speed
+            if (speedY < 3.5f) {
+                speedY *= 1.2f
+            } else {
+                speedY = 3.5f
+            }
+
+            //checking ground
+            if (mPlayerObject.position.y < -80f) {
+                falling = false
+                speedY = 0f
+                mPlayerObject.position.y = -80f
+                if (speedX > 0) {
+                    idle = false
+                }
+            }
+        } else if (jumping) {
+            if (speedY <= 0f) {
+                ydir = 1f
+                speedY = 5f
+            } else if (speedY >= 0.3f && ydir == 1f) {
+                speedY *= 0.9f
+            } else if (speedY < 0.3f) {
+                //falling begins
+                jumping = false
+                falling = true
+                ydir = -1f
+            }
+        }
+
+
+        if (mPlayerObject.getBoundingBox().checkOverlapping(bboxtest)) {
             mPlayerObject.position.y = bboxtest.maxpoint.y
-        }
-        if(mPlayerObject.position.y < -80f){
-            mPlayerObject.position.y = -80f
+            if (falling) {
+                falling = false
+                speedY = 0f
+                if (speedX > 0) {
+                    idle = false
+                }
+            }
+        } else {
+            if (!falling && mPlayerObject.position.y == bboxtest.maxpoint.y) {
+                falling = true
+            }
         }
 
-        mPistolObject.position = Vector2D( mPlayerObject.position.x+30f, mPlayerObject.position.y+15.0f)
+        // double check ground
+        //if (mPlayerObject.position.y < -80f) {
+        //    mPlayerObject.position.y = -80f
+        //}
+
+        if(xdir == 1f){
+            mPistolObject.position =
+                Vector2D(mPlayerObject.position.x + (mPlayerObject.getBoundingBox().maxpoint.x-mPlayerObject.getBoundingBox().minpoint.x), mPlayerObject.position.y + (mPlayerObject.getBoundingBox().maxpoint.y-mPlayerObject.getBoundingBox().minpoint.y)/3)
+        }
+        else{
+            mPistolObject.position =
+                Vector2D(mPlayerObject.position.x - (mPistolObject.getBoundingBox().maxpoint.x-mPistolObject.getBoundingBox().minpoint.x), mPlayerObject.position.y + (mPlayerObject.getBoundingBox().maxpoint.y-mPlayerObject.getBoundingBox().minpoint.y)/3)
+        }
+
+
+
+
+        if (falling) {
+            mPlayerObject.currSprite = 3
+        } else if (jumping) {
+            mPlayerObject.currSprite = 2
+        } else if (idle) {
+            mPlayerObject.currSprite = 0
+        } else if (!idle) {
+            mPlayerObject.currSprite = 1
+        }
+
+        mPlayerObject.mSprites[mPlayerObject.currSprite].toFlip = xdir != 1f
+
+        if (shooting) {
+            mPistolObject.currSprite = 1
+            if (mPistolObject.mSprites[1].miActualFrame == mPistolObject.mSprites[1].mvFrames.size-1) {
+                shooting = false
+            }
+        } else{
+            // TODO: Make a function that plays animation only once and a resetter!!
+            mPistolObject.mSprites[1].miActualFrame = 0
+            mPistolObject.currSprite = 0
+        }
+        mPistolObject.mSprites[mPistolObject.currSprite].toFlip = xdir != 1f
+
+
 
         mBackground.draw(this)
         mPlayerObject.draw(this)
@@ -172,6 +267,7 @@ class MyGLRenderer (private val context: Context): GLSurfaceView.Renderer{
         mControlPad.draw(this)
 
         bboxtest.draw(this)
+
     }
 
 

@@ -29,7 +29,7 @@ class MyGLSurfaceView(context: Context) : GLSurfaceView(context) {
 
         if(e.action == MotionEvent.ACTION_DOWN ) {
             if(x < width / 2){
-                renderer.velocityX = 1.5f
+                renderer.speedX = renderer.velocity
                 if(x < width / 4){
                     renderer.xdir = -1f
                 }
@@ -37,29 +37,24 @@ class MyGLSurfaceView(context: Context) : GLSurfaceView(context) {
                     renderer.xdir = 1f
                 }
                 if (!renderer.jumping && !renderer.falling){
-                    renderer.walking = true
+                    renderer.idle = false
                 }
             }
             else{
-                if(y > height / 2 && !renderer.shooting){
-                    renderer.shooting = true
+                if(y < height / 2 && !renderer.jumping && !renderer.falling){
+                    renderer.jumping = true
                 }
-                else{
-                    if(!renderer.jumping && !renderer.falling){
-                        renderer.jumping = true
-                        renderer.velocityY = 10f
-                        renderer.ydir = 1f
-                    }
+                if(y > height / 2){
+                    renderer.shooting = true
                 }
             }
         }
 
         if(e.action == MotionEvent.ACTION_UP) {
             if(x < width / 2){
-                renderer.velocityX = 0f
-
+                renderer.speedX = 0f
             }
-            renderer.walking = false
+            renderer.idle = true
         }
 
         return true

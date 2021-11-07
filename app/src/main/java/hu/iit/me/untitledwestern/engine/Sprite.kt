@@ -28,6 +28,9 @@ class Sprite {
     // scale
     var mScale: Float
 
+    //flip
+    var toFlip: Boolean
+
     constructor(context: Context, filenames: String, numOfFrames: Int, Fps: Int, position: Vector2D, scale: Float){
         this.context = context
         this.miActualFrame = 0
@@ -41,6 +44,8 @@ class Sprite {
 
         this.mScale = scale
         this.mRotationAngle = 0f
+
+        this.toFlip = false
     }
 
     private fun loadTextures(fileNames: String, numOfFrames: Int){
@@ -89,7 +94,7 @@ class Sprite {
 
     fun draw(renderer: MyGLRenderer){
         var tex = mvFrames[miActualFrame].mFrame
-        tex.draw(renderer, position, mScale, mRotationAngle)
+        tex.draw(renderer, position, mScale, mRotationAngle, toFlip)
         update()
     }
 

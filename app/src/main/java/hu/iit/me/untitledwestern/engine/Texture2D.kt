@@ -18,6 +18,7 @@ class Texture2D {
     var position: Vector2D
     var scale: Float
     var rotationAngle: Float
+    var toFlip: Boolean
     private val color = floatArrayOf(1.0f, 1.0f, 1.0f, 1.0f)
 
     init{
@@ -27,6 +28,7 @@ class Texture2D {
         height = 0
         position = Vector2D(0.0f, 0.0f)
         rotationAngle = 0f
+        toFlip = true
         transformationMatrix = FloatArray(16)
         rotationMatrix = FloatArray(16)
     }
@@ -95,10 +97,19 @@ class Texture2D {
         bitmap.recycle()
     }
 
+    fun flipOnYAxis(){
+        Matrix.translateM(transformationMatrix, 0, width.toFloat(), 0.0f, 0f)
+        Matrix.scaleM(transformationMatrix, 0, -1.0f, 1.0f, 1.0f)
+    }
+
     private fun getWorldMatrix(): FloatArray {
         Matrix.setIdentityM(transformationMatrix, 0)
         Matrix.translateM(transformationMatrix, 0, position.x, position.y, 0f)
         Matrix.scaleM(transformationMatrix, 0, scale, scale, scale)
+
+        if(toFlip){
+            flipOnYAxis()
+        }
 
         var x = 0.5f * width
         var y = 0.5f * height
@@ -125,10 +136,11 @@ class Texture2D {
         renderer.shaderProgram.unbind()
     }
 
-    fun draw(renderer: MyGLRenderer, position: Vector2D, scale:Float, rotationAngle:Float){
+    fun draw(renderer: MyGLRenderer, position: Vector2D, scale:Float, rotationAngle:Float, flip:Boolean){
         this.position = position
         this.scale = scale
         this.rotationAngle = rotationAngle
+        this.toFlip = flip
 
         this.draw(renderer)
     }
