@@ -1,6 +1,6 @@
 package hu.iit.me.untitledwestern.engine
 
-import android.opengl.GLES30
+import android.opengl.GLES32
 import android.opengl.Matrix
 import hu.iit.me.untitledwestern.MyGLRenderer
 import hu.iit.me.untitledwestern.engine.math.Vector2D
@@ -165,19 +165,19 @@ class BoundingBox2D {
         renderer.lineShader.setUniform("modelMatrix", renderer.viewMatrix)
         renderer.lineShader.setUniform4fv("vColor", color)
 
-        var posAttrib = GLES30.glGetAttribLocation(renderer.lineShader.programId, "vPosition")
-        GLES30.glEnableVertexAttribArray(posAttrib)
+        var posAttrib = GLES32.glGetAttribLocation(renderer.lineShader.programId, "vPosition")
+        GLES32.glEnableVertexAttribArray(posAttrib)
         var positionBuffer = BufferUtil.createFloatBuffer(vertices)
-        GLES30.glVertexAttribPointer(
-            posAttrib, Line.COORDS_PER_VERTEX,
-            GLES30.GL_FLOAT, false,
+        GLES32.glVertexAttribPointer(
+            posAttrib, COORDS_PER_VERTEX,
+            GLES32.GL_FLOAT, false,
             VertexStride, positionBuffer
         )
 
-        GLES30.glEnableVertexAttribArray(posAttrib)
-        GLES30.glLineWidth(4.0f)
-        GLES30.glDrawArrays(GLES30.GL_LINE_STRIP, 0, 5)
-        GLES30.glDisableVertexAttribArray(posAttrib)
+        GLES32.glEnableVertexAttribArray(posAttrib)
+        GLES32.glLineWidth(4.0f)
+        GLES32.glDrawArrays(GLES32.GL_LINE_STRIP, 0, 5)
+        GLES32.glDisableVertexAttribArray(posAttrib)
 
         renderer.lineShader.unbind()
 
@@ -194,18 +194,18 @@ class BoundingBox2D {
 
 
         var vaos = IntArray(1)
-        GLES30.glGenVertexArrays(1, vaos, 0)
-        GLES30.glBindVertexArray(vaos[0])
+        GLES32.glGenVertexArrays(1, vaos, 0)
+        GLES32.glBindVertexArray(vaos[0])
 
         var vboID = IntArray(1)
-        GLES30.glGenBuffers(1, vboID, 0)
+        GLES32.glGenBuffers(1, vboID, 0)
         var positionBuffer = BufferUtil.createFloatBuffer(vertices)
-        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, vboID[0])
-        GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, positionBuffer.capacity() * 4, positionBuffer, GLES30.GL_STATIC_DRAW)
+        GLES32.glBindBuffer(GLES32.GL_ARRAY_BUFFER, vboID[0])
+        GLES32.glBufferData(GLES32.GL_ARRAY_BUFFER, positionBuffer.capacity() * 4, positionBuffer, GLES32.GL_STATIC_DRAW)
 
-        GLES30.glVertexAttribPointer(0, 3, GLES30.GL_FLOAT, false, 0, 0)
+        GLES32.glVertexAttribPointer(0, 3, GLES32.GL_FLOAT, false, 0, 0)
         // Don't know why, but this line solved the line-drawing problem??
-        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, 0)
+        GLES32.glBindBuffer(GLES32.GL_ARRAY_BUFFER, 0)
 
         shaderProgram.bind()
 
@@ -217,15 +217,15 @@ class BoundingBox2D {
 
         shaderProgram.setUniform4f("vColor", floatArrayOf(0.8f, 0.4f, 0.4f, 1.0f))
 
-        var posAttrib = GLES30.glGetAttribLocation(shaderProgram.programId, "vPosition")
+        var posAttrib = GLES32.glGetAttribLocation(shaderProgram.programId, "vPosition")
         // render the VAO
-        GLES30.glBindVertexArray(vaos[0])
-        GLES30.glEnableVertexAttribArray(posAttrib)
+        GLES32.glBindVertexArray(vaos[0])
+        GLES32.glEnableVertexAttribArray(posAttrib)
 
-        GLES30.glDrawArrays(GLES30.GL_LINE_STRIP, 0, 5)
+        GLES32.glDrawArrays(GLES32.GL_LINE_STRIP, 0, 5)
 
-        GLES30.glDisableVertexAttribArray(posAttrib)
-        GLES30.glBindVertexArray(0)
+        GLES32.glDisableVertexAttribArray(posAttrib)
+        GLES32.glBindVertexArray(0)
 
         shaderProgram.unbind()
 

@@ -1,7 +1,7 @@
 package hu.iit.me.untitledwestern.engine
 
 import android.graphics.Bitmap
-import android.opengl.GLES30
+import android.opengl.GLES32
 import android.opengl.GLUtils
 import android.opengl.Matrix
 import hu.iit.me.untitledwestern.MyGLRenderer
@@ -34,7 +34,7 @@ class Texture2D {
     }
 
     private fun bind(){
-        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textureId)
+        GLES32.glBindTexture(GLES32.GL_TEXTURE_2D, textureId)
     }
 
     fun createTexture(bitmap: Bitmap): Boolean{
@@ -67,31 +67,30 @@ class Texture2D {
         height = bitmap.height
 
         var textures: IntArray = IntArray(1)
-        GLES30.glGenTextures(1, textures, 0)
+        GLES32.glGenTextures(1, textures, 0)
         textureId = textures[0]
         bind()
 
-        GLES30.glPixelStorei(GLES30.GL_UNPACK_ALIGNMENT, 1)
+        GLES32.glPixelStorei(GLES32.GL_UNPACK_ALIGNMENT, 1)
 
         // Enable alpha
-        GLES30.glEnable(GLES30.GL_BLEND);
-        GLES30.glBlendFunc(GLES30.GL_SRC_ALPHA, GLES30.GL_ONE_MINUS_SRC_ALPHA);
+        GLES32.glEnable(GLES32.GL_BLEND);
+        GLES32.glBlendFunc(GLES32.GL_SRC_ALPHA, GLES32.GL_ONE_MINUS_SRC_ALPHA);
 
         // Set filtering
-        GLES30.glTexParameteri(
-            GLES30.GL_TEXTURE_2D,
-            GLES30.GL_TEXTURE_MIN_FILTER,
-            GLES30.GL_NEAREST
+        GLES32.glTexParameteri(
+            GLES32.GL_TEXTURE_2D,
+            GLES32.GL_TEXTURE_MIN_FILTER,
+            GLES32.GL_NEAREST
         )
-        GLES30.glTexParameteri(
-            GLES30.GL_TEXTURE_2D,
-            GLES30.GL_TEXTURE_MAG_FILTER,
-            GLES30.GL_NEAREST
+        GLES32.glTexParameteri(
+            GLES32.GL_TEXTURE_2D,
+            GLES32.GL_TEXTURE_MAG_FILTER,
+            GLES32.GL_NEAREST
         )
-
 
         // Load the bitmap into the bound texture.
-        GLUtils.texImage2D(GLES30.GL_TEXTURE_2D, 0, bitmap, 0)
+        GLUtils.texImage2D(GLES32.GL_TEXTURE_2D, 0, bitmap, 0)
 
         // Recycle the bitmap, since its data has been loaded into OpenGL.
         bitmap.recycle()
@@ -148,6 +147,6 @@ class Texture2D {
     fun cleanup(){
         var names = IntArray(1)
         names[0] = textureId
-        GLES30.glDeleteTextures(1, names, 0)
+        GLES32.glDeleteTextures(1, names, 0)
     }
 }

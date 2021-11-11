@@ -1,7 +1,7 @@
 package hu.iit.me.untitledwestern
 
 import android.content.Context
-import android.opengl.GLES30
+import android.opengl.GLES32
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix
 import javax.microedition.khronos.egl.EGLConfig
@@ -24,11 +24,11 @@ class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
     }
 
     override fun onSurfaceCreated(unused: GL10, config: EGLConfig) {
-        GLES30.glClearColor(0.0f, 0.0f, 0.0f, 1.0f)
+        GLES32.glClearColor(0.0f, 0.0f, 0.0f, 1.0f)
 
         shaderProgram = ShaderProgram()
-        shaderProgram.createVertexShader(TextUtil.readFile(context, "shaders/vertexShader.txt"))
-        shaderProgram.createFragmentShader(TextUtil.readFile(context, "shaders/fragmentShader.txt"))
+        shaderProgram.createVertexShader(TextUtil.readFile(context, "shaders/vertexShader.vert"))
+        shaderProgram.createFragmentShader(TextUtil.readFile(context, "shaders/fragmentShader.frag"))
         shaderProgram.bindAttribLocation("a_TexCoordinate", 0)
         shaderProgram.link()
         shaderProgram.createUniform("viewMatrix")
@@ -38,8 +38,8 @@ class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
         shaderProgram.createUniform("u_Texture")
 
         lineShader = ShaderProgram()
-        lineShader.createVertexShader(TextUtil.readFile(context, "shaders/lineVertex.txt"))
-        lineShader.createFragmentShader(TextUtil.readFile(context, "shaders/lineFragment.txt"))
+        lineShader.createVertexShader(TextUtil.readFile(context, "shaders/lineVertex.vert"))
+        lineShader.createFragmentShader(TextUtil.readFile(context, "shaders/lineFragment.frag"))
         lineShader.link()
         lineShader.createUniform("projectionMatrix")
         lineShader.createUniform("modelMatrix")
@@ -49,7 +49,7 @@ class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
     }
 
     override fun onDrawFrame(gl: GL10) {
-        GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT)
+        GLES32.glClear(GLES32.GL_COLOR_BUFFER_BIT)
 
         //TODO: Make a better gameloop!!
         dummygame.updatePositions()
@@ -61,7 +61,7 @@ class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
     }
 
     override fun onSurfaceChanged(unused: GL10, width: Int, height: Int) {
-        GLES30.glViewport(0, 0, width, height)
+        GLES32.glViewport(0, 0, width, height)
         val ratio: Float = width.toFloat() / height.toFloat()
 
         Matrix.frustumM(projectionMatrix, 0, -ratio, ratio, -1f, 1f, 1f, 10000f)

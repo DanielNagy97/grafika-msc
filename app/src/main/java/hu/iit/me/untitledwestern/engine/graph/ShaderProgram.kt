@@ -1,6 +1,6 @@
 package hu.iit.me.untitledwestern.engine.graph
 
-import android.opengl.GLES30
+import android.opengl.GLES32
 import java.lang.Exception
 
 class ShaderProgram {
@@ -10,7 +10,7 @@ class ShaderProgram {
     private var fragmentShaderId: Int = 0
 
     init {
-        programId = GLES30.glCreateProgram()
+        programId = GLES32.glCreateProgram()
         if (programId == 0) {
             throw Exception("Could not create shader program!")
         }
@@ -18,7 +18,7 @@ class ShaderProgram {
     }
 
     fun createUniform(uniformName: String) {
-        var uniformLocation: Int = GLES30.glGetUniformLocation(programId, uniformName)
+        var uniformLocation: Int = GLES32.glGetUniformLocation(programId, uniformName)
         if(uniformLocation < 0) {
             throw Exception("Could not find uniform: $uniformName")
         }
@@ -27,86 +27,86 @@ class ShaderProgram {
     }
 
     fun setUniform(uniformName: String, value: FloatArray){
-        GLES30.glUniformMatrix4fv(uniforms[uniformName]!!, 1, false, value, 0)
+        GLES32.glUniformMatrix4fv(uniforms[uniformName]!!, 1, false, value, 0)
     }
 
     fun setUniform(uniformName: String, value: Int){
-        GLES30.glUniform1i(uniforms[uniformName]!!, value)
+        GLES32.glUniform1i(uniforms[uniformName]!!, value)
     }
 
     fun setUniform4fv(uniformName: String, value: FloatArray){
-        GLES30.glUniform4fv(uniforms[uniformName]!!, 1, value, 0)
+        GLES32.glUniform4fv(uniforms[uniformName]!!, 1, value, 0)
     }
 
     fun bindAttribLocation(attribName: String, location: Int){
-        GLES30.glBindAttribLocation(programId, location, attribName)
+        GLES32.glBindAttribLocation(programId, location, attribName)
     }
 
     fun createVertexShader(shaderCode: String) {
-        vertexShaderId = createShader(shaderCode, GLES30.GL_VERTEX_SHADER)
+        vertexShaderId = createShader(shaderCode, GLES32.GL_VERTEX_SHADER)
     }
 
     fun createFragmentShader(shaderCode: String) {
-        fragmentShaderId = createShader(shaderCode, GLES30.GL_FRAGMENT_SHADER)
+        fragmentShaderId = createShader(shaderCode, GLES32.GL_FRAGMENT_SHADER)
     }
 
     private fun createShader(shaderCode: String, shaderType: Int): Int {
-        return GLES30.glCreateShader(shaderType).also { shaderId ->
+        return GLES32.glCreateShader(shaderType).also { shaderId ->
             if(shaderId == 0) {
                 throw Exception("Error creating shader. Id: $shaderId")
             }
 
-            GLES30.glShaderSource(shaderId, shaderCode)
-            GLES30.glCompileShader(shaderId)
+            GLES32.glShaderSource(shaderId, shaderCode)
+            GLES32.glCompileShader(shaderId)
 
             val compileStatus : IntArray = IntArray(1)
-            GLES30.glGetShaderiv(shaderId, GLES30.GL_COMPILE_STATUS, compileStatus, 0)
+            GLES32.glGetShaderiv(shaderId, GLES32.GL_COMPILE_STATUS, compileStatus, 0)
             if(compileStatus[0] == 0){
-                throw Exception("Error compiling shader code: ${GLES30.glGetProgramInfoLog(shaderId)}")
+                throw Exception("Error compiling shader code: ${GLES32.glGetProgramInfoLog(shaderId)}")
             }
 
-            GLES30.glAttachShader(programId, shaderId)
+            GLES32.glAttachShader(programId, shaderId)
         }
     }
 
     fun link() {
-        GLES30.glLinkProgram(programId)
+        GLES32.glLinkProgram(programId)
 
         val linkStatus : IntArray = IntArray(1)
-        GLES30.glGetProgramiv(programId, GLES30.GL_LINK_STATUS, linkStatus, 0)
+        GLES32.glGetProgramiv(programId, GLES32.GL_LINK_STATUS, linkStatus, 0)
         if(linkStatus[0] == 0){
-            throw Exception("Error linking shader code: ${GLES30.glGetProgramInfoLog(programId)}")
+            throw Exception("Error linking shader code: ${GLES32.glGetProgramInfoLog(programId)}")
         }
 
         if (vertexShaderId != 0) {
-            GLES30.glDetachShader(programId, vertexShaderId)
+            GLES32.glDetachShader(programId, vertexShaderId)
         }
 
         if (fragmentShaderId != 0) {
-            GLES30.glDetachShader(programId, fragmentShaderId)
+            GLES32.glDetachShader(programId, fragmentShaderId)
         }
 
-        GLES30.glValidateProgram(programId)
+        GLES32.glValidateProgram(programId)
 
         val validateStatus : IntArray = IntArray(1)
-        GLES30.glGetProgramiv(programId, GLES30.GL_VALIDATE_STATUS, validateStatus, 0)
+        GLES32.glGetProgramiv(programId, GLES32.GL_VALIDATE_STATUS, validateStatus, 0)
         if(validateStatus[0] == 0){
-            throw Exception("Error validating shader code: ${GLES30.glGetProgramInfoLog(programId)}")
+            throw Exception("Error validating shader code: ${GLES32.glGetProgramInfoLog(programId)}")
         }
     }
 
     fun bind() {
-        GLES30.glUseProgram(programId)
+        GLES32.glUseProgram(programId)
     }
 
     fun unbind() {
-        GLES30.glUseProgram(0)
+        GLES32.glUseProgram(0)
     }
 
     fun cleanup() {
         unbind()
         if (programId != 0) {
-            GLES30.glDeleteProgram(programId)
+            GLES32.glDeleteProgram(programId)
         }
     }
 }
