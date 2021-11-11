@@ -3,7 +3,6 @@ package hu.iit.me.untitledwestern.engine
 import android.opengl.GLES30
 import android.opengl.Matrix
 import hu.iit.me.untitledwestern.MyGLRenderer
-import hu.iit.me.untitledwestern.engine.graph.ShaderProgram
 import hu.iit.me.untitledwestern.engine.math.Vector2D
 import hu.iit.me.untitledwestern.engine.util.BufferUtil
 
@@ -164,7 +163,7 @@ class BoundingBox2D {
 
         renderer.lineShader.setUniform("projectionMatrix", renderer.projectionMatrix)
         renderer.lineShader.setUniform("modelMatrix", renderer.viewMatrix)
-        renderer.lineShader.setUniform4f("vColor", color)
+        renderer.lineShader.setUniform4fv("vColor", color)
 
         var posAttrib = GLES30.glGetAttribLocation(renderer.lineShader.programId, "vPosition")
         GLES30.glEnableVertexAttribArray(posAttrib)

@@ -43,4 +43,10 @@ class GameObject {
 
         sprite.getCurrentFrameTransformedBoundingBox().draw(renderer)
     }
+
+    fun cleanup(){
+        for(sprite in mSprites){
+            sprite.cleanup()
+        }
+    }
 }

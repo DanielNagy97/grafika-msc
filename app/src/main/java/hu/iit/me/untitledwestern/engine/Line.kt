@@ -34,7 +34,7 @@ class Line {
 
         renderer.lineShader.setUniform("projectionMatrix", renderer.projectionMatrix)
         renderer.lineShader.setUniform("modelMatrix", renderer.viewMatrix)
-        renderer.lineShader.setUniform4f("vColor", color)
+        renderer.lineShader.setUniform4fv("vColor", color)
 
         var posAttrib = GLES30.glGetAttribLocation(renderer.lineShader.programId, "vPosition")
         GLES30.glEnableVertexAttribArray(posAttrib)

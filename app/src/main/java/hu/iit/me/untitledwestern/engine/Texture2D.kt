@@ -127,7 +127,7 @@ class Texture2D {
 
         renderer.shaderProgram.setUniform("projectionMatrix", renderer.projectionMatrix)
         renderer.shaderProgram.setUniform("u_Texture", 0);
-        renderer.shaderProgram.setUniform4f("vColor", color)
+        renderer.shaderProgram.setUniform4fv("vColor", color)
         renderer.shaderProgram.setUniform("worldMatrix", getWorldMatrix())
         renderer.shaderProgram.setUniform("viewMatrix", renderer.viewMatrix)
 
@@ -143,5 +143,11 @@ class Texture2D {
         this.toFlip = flip
 
         this.draw(renderer)
+    }
+
+    fun cleanup(){
+        var names = IntArray(1)
+        names[0] = textureId
+        GLES30.glDeleteTextures(1, names, 0)
     }
 }

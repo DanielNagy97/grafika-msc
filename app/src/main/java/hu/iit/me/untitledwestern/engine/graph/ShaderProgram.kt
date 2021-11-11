@@ -5,29 +5,28 @@ import java.lang.Exception
 
 class ShaderProgram {
     val programId: Int
-    private var uniforms: HashMap<String, Int> = HashMap<String, Int>()
+    private var uniforms: HashMap<String, Int>
     private var vertexShaderId: Int = 0
     private var fragmentShaderId: Int = 0
 
     init {
         programId = GLES30.glCreateProgram()
         if (programId == 0) {
-            //throw Exception("Could not create shader program!")
+            throw Exception("Could not create shader program!")
         }
+        uniforms = HashMap<String, Int>()
     }
 
     fun createUniform(uniformName: String) {
-
         var uniformLocation: Int = GLES30.glGetUniformLocation(programId, uniformName)
         if(uniformLocation < 0) {
-            //throw Exception("Could not find uniform: $uniformName")
+            throw Exception("Could not find uniform: $uniformName")
         }
         uniforms[uniformName] = uniformLocation
 
     }
 
     fun setUniform(uniformName: String, value: FloatArray){
-        // Pass the projection and view transformation to the shader
         GLES30.glUniformMatrix4fv(uniforms[uniformName]!!, 1, false, value, 0)
     }
 
@@ -35,7 +34,7 @@ class ShaderProgram {
         GLES30.glUniform1i(uniforms[uniformName]!!, value)
     }
 
-    fun setUniform4f(uniformName: String, value: FloatArray){
+    fun setUniform4fv(uniformName: String, value: FloatArray){
         GLES30.glUniform4fv(uniforms[uniformName]!!, 1, value, 0)
     }
 
@@ -54,13 +53,17 @@ class ShaderProgram {
     private fun createShader(shaderCode: String, shaderType: Int): Int {
         return GLES30.glCreateShader(shaderType).also { shaderId ->
             if(shaderId == 0) {
-                //throw Exception("Error creating shader. Id: $shaderId")
+                throw Exception("Error creating shader. Id: $shaderId")
             }
-            // add the source code to the shader and compile it
+
             GLES30.glShaderSource(shaderId, shaderCode)
             GLES30.glCompileShader(shaderId)
 
-            //TODO: Check if compilation was successful!! glGetShaderiv?
+            val compileStatus : IntArray = IntArray(1)
+            GLES30.glGetShaderiv(shaderId, GLES30.GL_COMPILE_STATUS, compileStatus, 0)
+            if(compileStatus[0] == 0){
+                throw Exception("Error compiling shader code: ${GLES30.glGetProgramInfoLog(shaderId)}")
+            }
 
             GLES30.glAttachShader(programId, shaderId)
         }
@@ -68,7 +71,12 @@ class ShaderProgram {
 
     fun link() {
         GLES30.glLinkProgram(programId)
-        //TODO: Check if linking was successful, glGetProgrami
+
+        val linkStatus : IntArray = IntArray(1)
+        GLES30.glGetProgramiv(programId, GLES30.GL_LINK_STATUS, linkStatus, 0)
+        if(linkStatus[0] == 0){
+            throw Exception("Error linking shader code: ${GLES30.glGetProgramInfoLog(programId)}")
+        }
 
         if (vertexShaderId != 0) {
             GLES30.glDetachShader(programId, vertexShaderId)
@@ -79,7 +87,12 @@ class ShaderProgram {
         }
 
         GLES30.glValidateProgram(programId)
-        //TODO: Check validate status!
+
+        val validateStatus : IntArray = IntArray(1)
+        GLES30.glGetProgramiv(programId, GLES30.GL_VALIDATE_STATUS, validateStatus, 0)
+        if(validateStatus[0] == 0){
+            throw Exception("Error validating shader code: ${GLES30.glGetProgramInfoLog(programId)}")
+        }
     }
 
     fun bind() {

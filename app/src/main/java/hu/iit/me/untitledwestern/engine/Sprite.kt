@@ -107,4 +107,11 @@ class Sprite {
         }
     }
 
+    fun cleanup(){
+        for(frame in mvFrames){
+            var tex = frame.mFrame
+            tex.cleanup()
+        }
+    }
+
 }
