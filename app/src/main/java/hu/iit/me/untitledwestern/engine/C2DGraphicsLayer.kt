@@ -11,6 +11,8 @@ class C2DGraphicsLayer {
     var mName: String
     var mID: Int
 
+    var mCamera: CCamera2D? = null
+
     constructor(name: String, id: Int){
         this.mName = name
         this.mID = id
@@ -18,6 +20,7 @@ class C2DGraphicsLayer {
 
         mTextures = ArrayList<Texture2D>()
         mObjectList = ArrayList<GameObject>()
+        mCamera = null
     }
 
     fun addGameObject(gameObject: GameObject){
@@ -44,6 +47,10 @@ class C2DGraphicsLayer {
             return
         }
 
+        if(mCamera != null){
+             mCamera!!.setViewMatrix(renderer.viewMatrix)
+        }
+
         for(texture in mTextures){
             texture.draw(renderer)
         }
@@ -53,6 +60,12 @@ class C2DGraphicsLayer {
                 continue
             }
             gameObject.draw(renderer)
+        }
+    }
+
+    fun setCamera(camera: CCamera2D){
+        if(camera != null){
+            mCamera = camera
         }
     }
 

@@ -29,15 +29,9 @@ class BoundingBox2D {
         boxHalfWidth = 0f
         boxHalfHeight = 0f
 
-        mEnabled = true
+        mEnabled = false
 
         bbPoints = Array(AABB_POINTS_2D) {Vector2D(0f, 0f)}
-        /*
-        for (i in 0 until bbPoints.size){
-            bbPoints[i] = Vector2D(0f, 0f)
-        }
-
-         */
 
         transformationMatrix = FloatArray(16)
         rotationMatrix = FloatArray(16)
