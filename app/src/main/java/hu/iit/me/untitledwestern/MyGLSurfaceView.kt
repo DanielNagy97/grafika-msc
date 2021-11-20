@@ -1,5 +1,6 @@
 package hu.iit.me.untitledwestern
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.opengl.GLSurfaceView
 import android.view.MotionEvent
@@ -20,6 +21,7 @@ class MyGLSurfaceView(context: Context) : GLSurfaceView(context) {
         touchHandler = TouchHandler()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(e: MotionEvent): Boolean {
         touchHandler.handleInput(e, renderer.dummygame, width, height)
         return true

@@ -3,16 +3,10 @@ package hu.iit.me.untitledwestern.engine
 import android.opengl.Matrix
 import hu.iit.me.untitledwestern.engine.math.Vector2D
 
-class CCamera2D {
-    var mPosition: Vector2D
-    var mId: Int
-    val transformationMatrix: FloatArray
-
-    constructor(x: Float, y: Float, id: Int){
-        mPosition = Vector2D(x, y)
-        mId = id
-        transformationMatrix = FloatArray(16)
-    }
+class CCamera2D(x: Float, y: Float, id: Int) {
+    var mPosition: Vector2D = Vector2D(x, y)
+    var mId: Int = id
+    private val transformationMatrix: FloatArray = FloatArray(16)
 
     fun moveLeft(value: Float){
         mPosition.x += value

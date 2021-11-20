@@ -3,20 +3,17 @@ package hu.iit.me.untitledwestern.engine
 import hu.iit.me.untitledwestern.MyGLRenderer
 
 class C2DScene {
-    var mLayers: ArrayList<C2DGraphicsLayer>
-    var mName: String = ""
-    var mVisible: Boolean
+    private var mLayers: ArrayList<C2DGraphicsLayer> = ArrayList()
+    private var mName: String = ""
+    private var mVisible: Boolean
 
     init{
-        mLayers = ArrayList<C2DGraphicsLayer>()
         mName = "Sample Scene"
         mVisible = true
     }
 
     fun registerLayer(layer: C2DGraphicsLayer){
-        if(layer != null) {
-            mLayers.add(layer)
-        }
+        mLayers.add(layer)
     }
 
     fun render(renderer: MyGLRenderer) {

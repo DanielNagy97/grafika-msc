@@ -5,38 +5,36 @@ import hu.iit.me.untitledwestern.engine.Texture2D
 import hu.iit.me.untitledwestern.engine.util.BufferUtil
 import java.nio.FloatBuffer
 
-class Mesh {
+class Mesh
+    (
+    positions: FloatArray,
+    textCoords: FloatArray,
+    private var texture: Texture2D,
+    numOfVertices: Int
+) {
     private var vaoId: Int
-    private var vboIdList: ArrayList<Int>
-    private var vertexCount: Int
-    private var texture: Texture2D
+    private var vboIdList: ArrayList<Int> = ArrayList()
+    private var vertexCount: Int = numOfVertices
 
-    constructor(positions: FloatArray, textCoords: FloatArray, texture:Texture2D, numOfVertices: Int){
-        this.texture = texture
-        this.vertexCount = numOfVertices
-        vboIdList = ArrayList()
-
+    init {
+        //GLES20.glGetAttribLocation(shaderProgram.programId, "a_TexCoordinate").also{
         vaoId = createVao()
         GLES32.glBindVertexArray(vaoId)
-
-        //GLES20.glGetAttribLocation(shaderProgram.programId, "a_TexCoordinate").also{
-        var textureBuffer = BufferUtil.createFloatBuffer(textCoords)
+        val textureBuffer = BufferUtil.createFloatBuffer(textCoords)
         vboIdList.add(createVbo(textureBuffer, 0, 2))
-
-        var positionBuffer = BufferUtil.createFloatBuffer(positions)
+        val positionBuffer = BufferUtil.createFloatBuffer(positions)
         vboIdList.add(createVbo(positionBuffer, 1, 3))
-
         GLES32.glBindVertexArray(0)
     }
 
     private fun createVao(): Int {
-        var vaos = IntArray(1)
+        val vaos = IntArray(1)
         GLES32.glGenVertexArrays(1, vaos, 0)
         return vaos[0]
     }
 
     private fun createVbo(buffer: FloatBuffer, attribute: Int, size: Int): Int {
-        var vboID = IntArray(1)
+        val vboID = IntArray(1)
         GLES32.glGenBuffers(1, vboID, 0)
 
         GLES32.glBindBuffer(GLES32.GL_ARRAY_BUFFER, vboID[0])
@@ -52,8 +50,8 @@ class Mesh {
     }
 
     fun draw(shaderProgram: ShaderProgram) {
-        var textAttrib = GLES32.glGetAttribLocation(shaderProgram.programId, "a_TexCoordinate")
-        var posAttrib = GLES32.glGetAttribLocation(shaderProgram.programId, "vPosition")
+        val textAttrib = GLES32.glGetAttribLocation(shaderProgram.programId, "a_TexCoordinate")
+        val posAttrib = GLES32.glGetAttribLocation(shaderProgram.programId, "vPosition")
         // Activate texture unit
         GLES32.glActiveTexture(GLES32.GL_TEXTURE0)
         // Bind the texture

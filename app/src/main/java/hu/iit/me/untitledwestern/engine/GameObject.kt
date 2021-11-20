@@ -4,26 +4,13 @@ import android.content.Context
 import hu.iit.me.untitledwestern.MyGLRenderer
 import hu.iit.me.untitledwestern.engine.math.Vector2D
 
-class GameObject {
-    private val context: Context
-    var mSprites: ArrayList<Sprite>
-    var currSprite: Int
-    var position: Vector2D
+class GameObject(private val context: Context, posX: Float, posY: Float, private var scale: Float) {
+    var mSprites: ArrayList<Sprite> = ArrayList()
+    var currSprite: Int = 0
+    var position: Vector2D = Vector2D(posX, posY)
 
-    var scale: Float
-    var rotationAngle: Float
-    var visible: Boolean
-
-    constructor(context: Context, posX: Float, posY: Float, scale: Float){
-        this.context = context
-        this.position = Vector2D(posX, posY)
-
-        this.scale = scale
-        rotationAngle = 0f
-        currSprite = 0
-        mSprites = ArrayList()
-        visible = true
-    }
+    private var rotationAngle: Float = 0f
+    var visible: Boolean = true
 
     fun addSprite(fileNames: String, numberOfFrames: Int, Fps: Int) {
         mSprites.add(Sprite(context, fileNames, numberOfFrames, Fps, position, scale))
@@ -34,7 +21,7 @@ class GameObject {
     }
 
     fun draw(renderer: MyGLRenderer) {
-        var sprite = mSprites[currSprite]
+        val sprite = mSprites[currSprite]
         sprite.position = position
         sprite.mRotationAngle = rotationAngle
         sprite.mScale = scale

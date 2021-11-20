@@ -3,16 +3,10 @@ package hu.iit.me.untitledwestern.engine
 import hu.iit.me.untitledwestern.MyGLRenderer
 
 class C2DSceneManager {
-    var mScenes: ArrayList<C2DScene>
-
-    init{
-        mScenes = ArrayList()
-    }
+    private var mScenes: ArrayList<C2DScene> = ArrayList()
 
     fun registerScene(scene: C2DScene){
-        if (scene != null){
-            mScenes.add(scene)
-        }
+        mScenes.add(scene)
     }
 
     fun render(renderer: MyGLRenderer) {
@@ -23,7 +17,7 @@ class C2DSceneManager {
 
     fun getSceneById(Id: Int): C2DScene?{
         if (Id < mScenes.size) {
-            return mScenes.get(Id)
+            return mScenes[Id]
         }
         return null
     }

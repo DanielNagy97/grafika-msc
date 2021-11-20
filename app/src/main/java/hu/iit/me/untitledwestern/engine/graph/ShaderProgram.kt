@@ -4,26 +4,24 @@ import android.opengl.GLES32
 import java.lang.Exception
 
 class ShaderProgram {
-    val programId: Int
+    val programId: Int = GLES32.glCreateProgram()
     private var uniforms: HashMap<String, Int>
     private var vertexShaderId: Int = 0
     private var fragmentShaderId: Int = 0
 
     init {
-        programId = GLES32.glCreateProgram()
         if (programId == 0) {
             throw Exception("Could not create shader program!")
         }
-        uniforms = HashMap<String, Int>()
+        uniforms = HashMap()
     }
 
     fun createUniform(uniformName: String) {
-        var uniformLocation: Int = GLES32.glGetUniformLocation(programId, uniformName)
+        val uniformLocation: Int = GLES32.glGetUniformLocation(programId, uniformName)
         if(uniformLocation < 0) {
             throw Exception("Could not find uniform: $uniformName")
         }
         uniforms[uniformName] = uniformLocation
-
     }
 
     fun setUniform(uniformName: String, value: FloatArray){
@@ -59,7 +57,7 @@ class ShaderProgram {
             GLES32.glShaderSource(shaderId, shaderCode)
             GLES32.glCompileShader(shaderId)
 
-            val compileStatus : IntArray = IntArray(1)
+            val compileStatus = IntArray(1)
             GLES32.glGetShaderiv(shaderId, GLES32.GL_COMPILE_STATUS, compileStatus, 0)
             if(compileStatus[0] == 0){
                 throw Exception("Error compiling shader code: ${GLES32.glGetProgramInfoLog(shaderId)}")
@@ -72,7 +70,7 @@ class ShaderProgram {
     fun link() {
         GLES32.glLinkProgram(programId)
 
-        val linkStatus : IntArray = IntArray(1)
+        val linkStatus = IntArray(1)
         GLES32.glGetProgramiv(programId, GLES32.GL_LINK_STATUS, linkStatus, 0)
         if(linkStatus[0] == 0){
             throw Exception("Error linking shader code: ${GLES32.glGetProgramInfoLog(programId)}")
@@ -88,7 +86,7 @@ class ShaderProgram {
 
         GLES32.glValidateProgram(programId)
 
-        val validateStatus : IntArray = IntArray(1)
+        val validateStatus = IntArray(1)
         GLES32.glGetProgramiv(programId, GLES32.GL_VALIDATE_STATUS, validateStatus, 0)
         if(validateStatus[0] == 0){
             throw Exception("Error validating shader code: ${GLES32.glGetProgramInfoLog(programId)}")

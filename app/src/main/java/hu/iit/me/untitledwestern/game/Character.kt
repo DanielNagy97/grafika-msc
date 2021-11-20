@@ -1,4 +1,4 @@
-package hu.iit.me.untitledwestern.objects
+package hu.iit.me.untitledwestern.game
 
 import hu.iit.me.untitledwestern.MyGLRenderer
 import hu.iit.me.untitledwestern.engine.GameObject

@@ -2,42 +2,32 @@ package hu.iit.me.untitledwestern.engine
 
 import hu.iit.me.untitledwestern.MyGLRenderer
 
-class C2DGraphicsLayer {
-    var mObjectList: ArrayList<GameObject>
-    var mTextures: ArrayList<Texture2D>
+class C2DGraphicsLayer(name: String, id: Int, var cameraSpeed: Float) {
+    private var mObjectList: ArrayList<GameObject> = ArrayList()
+    private var mTextures: ArrayList<Texture2D> = ArrayList()
 
-    var mVisible: Boolean
+    private var mVisible: Boolean = true
 
-    var mName: String
-    var mID: Int
+    var mName: String = name
+    var mID: Int = id
 
     var mCamera: CCamera2D? = null
 
-    constructor(name: String, id: Int){
-        this.mName = name
-        this.mID = id
-        mVisible = true
-
-        mTextures = ArrayList<Texture2D>()
-        mObjectList = ArrayList<GameObject>()
+    init {
         mCamera = null
     }
 
     fun addGameObject(gameObject: GameObject){
-        if (gameObject != null){
-            mObjectList.add(gameObject)
-        }
+        mObjectList.add(gameObject)
     }
 
     fun addTexture(texture: Texture2D){
-        if (texture != null) {
-            mTextures.add(texture)
-        }
+        mTextures.add(texture)
     }
 
     fun getTexture(index: Int): Texture2D?{
         if (index > -1 && index < mTextures.size){
-            return mTextures.get(index)
+            return mTextures[index]
         }
         return null
     }
@@ -64,9 +54,7 @@ class C2DGraphicsLayer {
     }
 
     fun setCamera(camera: CCamera2D){
-        if(camera != null){
-            mCamera = camera
-        }
+        mCamera = camera
     }
 
     fun getObjectByID(id: Int){

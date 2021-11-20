@@ -15,10 +15,10 @@ class Texture2D {
     private val transformationMatrix: FloatArray
     private val rotationMatrix: FloatArray
     var textureId: Int
-    var position: Vector2D
-    var scale: Float
-    var rotationAngle: Float
-    var toFlip: Boolean
+    private var position: Vector2D
+    private var scale: Float
+    private var rotationAngle: Float
+    private var toFlip: Boolean
     private val color = floatArrayOf(1.0f, 1.0f, 1.0f, 1.0f)
 
     init{
@@ -40,7 +40,7 @@ class Texture2D {
     fun createTexture(bitmap: Bitmap): Boolean{
         loadTexture(bitmap)
 
-        var positions = floatArrayOf(
+        val positions = floatArrayOf(
             0.0f, height.toFloat(), 0.0f,
             width.toFloat(), height.toFloat(), 0.0f,
             width.toFloat(), 0.0f, 0.0f,
@@ -49,7 +49,7 @@ class Texture2D {
             0.0f, height.toFloat(), 0.0f,
         )
 
-        var textCoords =  floatArrayOf(
+        val textCoords =  floatArrayOf(
             0.0f, 1.0f,
             1.0f, 1.0f,
             1.0f, 0.0f,
@@ -66,7 +66,7 @@ class Texture2D {
         width = bitmap.width
         height = bitmap.height
 
-        var textures: IntArray = IntArray(1)
+        val textures = IntArray(1)
         GLES32.glGenTextures(1, textures, 0)
         textureId = textures[0]
         bind()
@@ -74,8 +74,8 @@ class Texture2D {
         GLES32.glPixelStorei(GLES32.GL_UNPACK_ALIGNMENT, 1)
 
         // Enable alpha
-        GLES32.glEnable(GLES32.GL_BLEND);
-        GLES32.glBlendFunc(GLES32.GL_SRC_ALPHA, GLES32.GL_ONE_MINUS_SRC_ALPHA);
+        GLES32.glEnable(GLES32.GL_BLEND)
+        GLES32.glBlendFunc(GLES32.GL_SRC_ALPHA, GLES32.GL_ONE_MINUS_SRC_ALPHA)
 
         // Set filtering
         GLES32.glTexParameteri(
@@ -96,7 +96,7 @@ class Texture2D {
         bitmap.recycle()
     }
 
-    fun flipOnYAxis(){
+    private fun flipOnYAxis(){
         Matrix.translateM(transformationMatrix, 0, width.toFloat(), 0.0f, 0f)
         Matrix.scaleM(transformationMatrix, 0, -1.0f, 1.0f, 1.0f)
     }
@@ -110,8 +110,8 @@ class Texture2D {
             flipOnYAxis()
         }
 
-        var x = 0.5f * width
-        var y = 0.5f * height
+        val x = 0.5f * width
+        val y = 0.5f * height
         Matrix.translateM(transformationMatrix, 0, x, y, 0f)
 
         Matrix.setRotateM(rotationMatrix, 0, rotationAngle, 0f, 0f, -1.0f)
@@ -125,7 +125,7 @@ class Texture2D {
         renderer.shaderProgram.bind()
 
         renderer.shaderProgram.setUniform("projectionMatrix", renderer.projectionMatrix)
-        renderer.shaderProgram.setUniform("u_Texture", 0);
+        renderer.shaderProgram.setUniform("u_Texture", 0)
         renderer.shaderProgram.setUniform4fv("vColor", color)
         renderer.shaderProgram.setUniform("worldMatrix", getWorldMatrix())
         renderer.shaderProgram.setUniform("viewMatrix", renderer.viewMatrix)
@@ -145,7 +145,7 @@ class Texture2D {
     }
 
     fun cleanup(){
-        var names = IntArray(1)
+        val names = IntArray(1)
         names[0] = textureId
         GLES32.glDeleteTextures(1, names, 0)
     }

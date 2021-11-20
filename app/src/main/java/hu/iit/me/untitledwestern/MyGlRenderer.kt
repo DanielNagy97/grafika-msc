@@ -4,12 +4,10 @@ import android.content.Context
 import android.opengl.GLES32
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix
-import hu.iit.me.untitledwestern.engine.CCamera2D
+import hu.iit.me.untitledwestern.engine.graph.ShaderProgram
+import hu.iit.me.untitledwestern.engine.util.TextUtil
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
-import hu.iit.me.untitledwestern.engine.graph.ShaderProgram
-
-import hu.iit.me.untitledwestern.engine.util.TextUtil
 
 class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
     lateinit var shaderProgram: ShaderProgram
@@ -18,14 +16,7 @@ class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
     val projectionMatrix = FloatArray(16)
     var viewMatrix = FloatArray(16)
 
-    var camera: CCamera2D = CCamera2D(0f, 0f, 0)
-
-    var dummygame = DummyGame(context, this)
-
-    init {
-        //Matrix.setLookAtM(viewMatrix, 0, 0f, 0f, 82f, 0f, 0f, 0f, 0f, 1f, 0f)
-        camera.setViewMatrix(viewMatrix)
-    }
+    var dummygame = DummyGame(context, this, 1f)
 
     override fun onSurfaceCreated(unused: GL10, config: EGLConfig) {
         GLES32.glClearColor(0.0f, 0.0f, 0.0f, 1.0f)
@@ -58,13 +49,12 @@ class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
         //TODO: Make a better gameloop!!
         dummygame.updatePositions()
         dummygame.updateAnimations()
-
-        camera.setViewMatrix(viewMatrix)
+        dummygame.updateCameras()
 
         dummygame.sceneManager.render(this)
-
-        dummygame.bboxtest.draw(this)
-
+        for(plat in dummygame.platforms){
+            plat.draw(this)
+        }
     }
 
     override fun onSurfaceChanged(unused: GL10, width: Int, height: Int) {
@@ -77,12 +67,8 @@ class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
     }
 
     fun cleanup() {
-        if(shaderProgram != null){
-            shaderProgram.cleanup()
-        }
-        if(lineShader != null){
-            lineShader.cleanup()
-        }
+        shaderProgram.cleanup()
+        lineShader.cleanup()
     }
 
 }
