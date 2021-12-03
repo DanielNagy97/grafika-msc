@@ -9,29 +9,14 @@ class Sprite(
     private val context: Context,
     filenames: String,
     numOfFrames: Int,
-    Fps: Int,// Position of the sprite
+    private var miFps: Int,// Position of the sprite
     var position: Vector2D,
-    scale: Float
+    var mScale: Float
 ) {
-    // frames vector
     var mvFrames: ArrayList<SpriteFrame>
-
-    // Actual frame
     var miActualFrame: Int
-
-    // The last time the animation was updated
     private var miLastUpdate: Long
-
-    // The number of frames per second
-    private var miFps: Int = Fps
-
-    // rotation angle
     var mRotationAngle: Float
-
-    // scale
-    var mScale: Float = scale
-
-    //flip
     var toFlip: Boolean
 
     init {
@@ -82,7 +67,6 @@ class Sprite(
         transformed.transformByRotate(mRotationAngle)
         transformed.transformByScale(mScale)
         transformed.transformByTranslate(Vector2D(position.x, position.y))
-
 
         return transformed
     }

@@ -3,6 +3,7 @@ package hu.iit.me.untitledwestern
 import android.app.Activity
 import android.opengl.GLSurfaceView
 import android.os.Bundle
+import android.view.View
 
 class MainActivity : Activity() {
     private lateinit var gLView: GLSurfaceView
@@ -10,6 +11,8 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
         gLView = MyGLSurfaceView(this)
         setContentView(gLView)
+
+
     }
 
     override fun onPause() {

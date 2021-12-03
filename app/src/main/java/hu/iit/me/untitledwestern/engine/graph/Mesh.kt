@@ -10,20 +10,22 @@ class Mesh
     positions: FloatArray,
     textCoords: FloatArray,
     private var texture: Texture2D,
-    numOfVertices: Int
+    private var vertexCount: Int
 ) {
     private var vaoId: Int
     private var vboIdList: ArrayList<Int> = ArrayList()
-    private var vertexCount: Int = numOfVertices
 
     init {
         //GLES20.glGetAttribLocation(shaderProgram.programId, "a_TexCoordinate").also{
         vaoId = createVao()
         GLES32.glBindVertexArray(vaoId)
+
         val textureBuffer = BufferUtil.createFloatBuffer(textCoords)
         vboIdList.add(createVbo(textureBuffer, 0, 2))
+
         val positionBuffer = BufferUtil.createFloatBuffer(positions)
         vboIdList.add(createVbo(positionBuffer, 1, 3))
+
         GLES32.glBindVertexArray(0)
     }
 
@@ -43,7 +45,6 @@ class Mesh
 
         GLES32.glVertexAttribPointer(attribute, size, GLES32.GL_FLOAT, false, 0, 0)
 
-        // Don't know why, but this line solved the line-drawing problem??
         GLES32.glBindBuffer(GLES32.GL_ARRAY_BUFFER, 0)
 
         return vboID[0]
@@ -52,8 +53,10 @@ class Mesh
     fun draw(shaderProgram: ShaderProgram) {
         val textAttrib = GLES32.glGetAttribLocation(shaderProgram.programId, "a_TexCoordinate")
         val posAttrib = GLES32.glGetAttribLocation(shaderProgram.programId, "vPosition")
+
         // Activate texture unit
         GLES32.glActiveTexture(GLES32.GL_TEXTURE0)
+
         // Bind the texture
         GLES32.glBindTexture(GLES32.GL_TEXTURE_2D, texture.textureId)
 

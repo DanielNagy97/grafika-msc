@@ -1,6 +1,6 @@
 {
   "player": {
-    "position": ["-70.0", "-20.0"],
+    "position": ["-90.0", "-20.0"],
     "velocity": 1.5,
     "sprites": [
       {
@@ -122,6 +122,16 @@
       "cameraSpeed": 0.2,
       "gameObjects": [
         {
+        "position": ["-600.0", "-22"],
+        "sprites": [
+          {
+            "fileName": "sprites/ground/ground8.png",
+            "numberOfFrames": 1,
+            "Fps": 0
+          }
+        ]
+      },
+        {
           "position": ["-200.0", "-22"],
           "sprites": [
             {
@@ -137,6 +147,16 @@
       "name": "ground-layer6",
       "cameraSpeed": 0.3,
       "gameObjects": [
+        {
+          "position": ["-600.0", "-23"],
+          "sprites": [
+            {
+              "fileName": "sprites/ground/ground7.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
         {
           "position": ["-200.0", "-23"],
           "sprites": [
@@ -154,6 +174,16 @@
       "cameraSpeed": 0.4,
       "gameObjects": [
         {
+          "position": ["-600.0", "-25"],
+          "sprites": [
+            {
+              "fileName": "sprites/ground/ground6.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
           "position": ["-200.0", "-25"],
           "sprites": [
             {
@@ -169,6 +199,16 @@
       "name": "ground-layer4",
       "cameraSpeed": 0.5,
       "gameObjects": [
+        {
+          "position": ["-600.0", "-28"],
+          "sprites": [
+            {
+              "fileName": "sprites/ground/ground5.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
         {
           "position": ["-200.0", "-28"],
           "sprites": [
@@ -186,6 +226,16 @@
       "cameraSpeed": 0.6,
       "gameObjects": [
         {
+          "position": ["-600.0", "-33"],
+          "sprites": [
+            {
+              "fileName": "sprites/ground/ground3.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
           "position": ["-200.0", "-33"],
           "sprites": [
             {
@@ -202,6 +252,16 @@
       "cameraSpeed": 0.7,
       "gameObjects": [
         {
+          "position": ["-600.0", "-44"],
+          "sprites": [
+            {
+              "fileName": "sprites/ground/ground3.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
           "position": ["-200.0", "-44"],
           "sprites": [
             {
@@ -217,6 +277,16 @@
       "name": "ground-layer1",
       "cameraSpeed": 0.8,
       "gameObjects": [
+        {
+          "position": ["-600.0", "-68.0"],
+          "sprites": [
+            {
+              "fileName": "sprites/ground/ground2.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
         {
           "position": ["-200.0", "-68.0"],
           "sprites": [
@@ -245,6 +315,16 @@
       "gameObjects": [
         {
           "position": ["-200.0", "-82.0"],
+          "sprites": [
+            {
+              "fileName": "sprites/ground/ground1.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
+          "position": ["-600.0", "-82.0"],
           "sprites": [
             {
               "fileName": "sprites/ground/ground1.png",

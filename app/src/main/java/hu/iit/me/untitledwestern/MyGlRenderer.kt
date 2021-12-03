@@ -16,6 +16,8 @@ class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
     val projectionMatrix = FloatArray(16)
     var viewMatrix = FloatArray(16)
 
+    var ratio: Float = 0.0f
+
     var dummygame = DummyGame(context, this, 1f)
 
     override fun onSurfaceCreated(unused: GL10, config: EGLConfig) {
@@ -55,11 +57,15 @@ class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
         for(plat in dummygame.platforms){
             plat.draw(this)
         }
+
+        for(plat in dummygame.debugBoxes){
+            plat.draw(this)
+        }
     }
 
     override fun onSurfaceChanged(unused: GL10, width: Int, height: Int) {
         GLES32.glViewport(0, 0, width, height)
-        val ratio: Float = width.toFloat() / height.toFloat()
+        ratio = width.toFloat() / height.toFloat()
 
         //Matrix.orthoM(projectionMatrix,0, 0f, width.toFloat(), height.toFloat(),0f, 1f, 10000f)
 

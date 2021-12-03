@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.opengl.GLSurfaceView
 import android.view.MotionEvent
+import android.view.View
 
 class MyGLSurfaceView(context: Context) : GLSurfaceView(context) {
     private val renderer: MyGLRenderer
@@ -14,6 +15,9 @@ class MyGLSurfaceView(context: Context) : GLSurfaceView(context) {
         setEGLContextClientVersion(3)
 
         renderer = MyGLRenderer(context)
+
+        // Hiding the navigationbar
+        systemUiVisibility = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
 
         // Set the Renderer for drawing on the GLSurfaceView
         setRenderer(renderer)

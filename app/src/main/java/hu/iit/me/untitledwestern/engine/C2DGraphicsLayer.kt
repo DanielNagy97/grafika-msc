@@ -2,14 +2,11 @@ package hu.iit.me.untitledwestern.engine
 
 import hu.iit.me.untitledwestern.MyGLRenderer
 
-class C2DGraphicsLayer(name: String, id: Int, var cameraSpeed: Float) {
-    private var mObjectList: ArrayList<GameObject> = ArrayList()
+class C2DGraphicsLayer(var mName: String, var mID: Int, var cameraSpeed: Float) {
+    var mObjectList: ArrayList<GameObject> = ArrayList()
     private var mTextures: ArrayList<Texture2D> = ArrayList()
 
     private var mVisible: Boolean = true
-
-    var mName: String = name
-    var mID: Int = id
 
     var mCamera: CCamera2D? = null
 

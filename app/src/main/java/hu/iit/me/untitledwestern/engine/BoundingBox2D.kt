@@ -34,8 +34,10 @@ class BoundingBox2D(newMinPoint: Vector2D, newMaxPoint: Vector2D) {
         rotationMatrix = FloatArray(16)
         minpoint = Vector2D(newMinPoint.x, newMinPoint.y)
         maxpoint = Vector2D(newMaxPoint.x, newMaxPoint.y)
+
         setUpBBPoints()
         searchMinMax()
+
         boxHalfWidth = (maxpoint.x - minpoint.x) / 2.0f
         boxHalfHeight = (maxpoint.y - minpoint.y) / 2.0f
     }
@@ -53,11 +55,8 @@ class BoundingBox2D(newMinPoint: Vector2D, newMaxPoint: Vector2D) {
 
     private fun setUpBBPoints() {
         bbPoints[0].set(minpoint.x, minpoint.y)
-
         bbPoints[1].set(maxpoint.x, minpoint.y)
-
         bbPoints[2].set(maxpoint.x, maxpoint.y)
-
         bbPoints[3].set(minpoint.x, maxpoint.y)
     }
 
@@ -82,7 +81,6 @@ class BoundingBox2D(newMinPoint: Vector2D, newMaxPoint: Vector2D) {
         }
 
         minpoint.set(min.x, min.y)
-
         maxpoint.set(max.x, max.y)
     }
 
@@ -114,7 +112,6 @@ class BoundingBox2D(newMinPoint: Vector2D, newMaxPoint: Vector2D) {
         }
         searchMinMax()
         setUpBBPoints()
-
     }
 
     fun transformByRotate(rotationAngle: Float) {
@@ -134,7 +131,6 @@ class BoundingBox2D(newMinPoint: Vector2D, newMaxPoint: Vector2D) {
     }
 
     fun draw(renderer: MyGLRenderer) {
-        // TODO: Try out the bounding box!!!
         if (!mEnabled){
             return
         }

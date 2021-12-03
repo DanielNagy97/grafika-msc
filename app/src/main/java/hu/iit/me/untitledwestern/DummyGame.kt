@@ -6,6 +6,8 @@ import hu.iit.me.untitledwestern.engine.math.Vector2D
 import hu.iit.me.untitledwestern.engine.util.TextUtil
 import org.json.JSONObject
 import org.json.JSONTokener
+import java.util.*
+import kotlin.collections.ArrayList
 
 class DummyGame(private var context: Context, var renderer: MyGLRenderer, private val scale: Float) {
 
@@ -17,6 +19,8 @@ class DummyGame(private var context: Context, var renderer: MyGLRenderer, privat
 
     lateinit var platforms: List<BoundingBox2D>
     private var layers: ArrayList<C2DGraphicsLayer> = ArrayList()
+
+    lateinit var debugBoxes: List<BoundingBox2D>
 
     var idle = true
     var shooting = false
@@ -35,7 +39,7 @@ class DummyGame(private var context: Context, var renderer: MyGLRenderer, privat
     private var horizon: Float = -21f
 
     fun init(){
-        val sceneModel = JSONTokener(TextUtil.readFile(context, "sceneJson/scene01.json")).nextValue() as JSONObject
+        val sceneModel = JSONTokener(TextUtil.readFile(context, "scenes/scene01.json")).nextValue() as JSONObject
 
         mPlayerObject = makeGameObject(sceneModel.getJSONObject("player"))
         mPistolObject = makeGameObject(sceneModel.getJSONObject("player").getJSONObject("pistol"))
@@ -59,11 +63,24 @@ class DummyGame(private var context: Context, var renderer: MyGLRenderer, privat
 
         platforms = listOf(BoundingBox2D(Vector2D(-60f, -50f), Vector2D(0f, -40f)),
             BoundingBox2D(Vector2D(0f, -10f), Vector2D(60f, 0f)),
-            BoundingBox2D(Vector2D(-180f, -10f), Vector2D(-120f, 0f)))
+            BoundingBox2D(Vector2D(-180f, -10f), Vector2D(-120f, 0f))
+        )
+
+        debugBoxes = listOf(BoundingBox2D(Vector2D(-146f, -82f), Vector2D(146f, 82f)),
+            BoundingBox2D(Vector2D(-146f, -82f), Vector2D(146f, 82f)),
+            BoundingBox2D(Vector2D(-146f, -82f), Vector2D(146f, 82f)),
+            BoundingBox2D(Vector2D(-146f, -82f), Vector2D(146f, 82f)),
+            BoundingBox2D(Vector2D(-146f, -82f), Vector2D(146f, 82f)),
+            BoundingBox2D(Vector2D(-146f, -82f), Vector2D(146f, 82f)),
+            BoundingBox2D(Vector2D(-146f, -82f), Vector2D(146f, 82f)),
+            BoundingBox2D(Vector2D(-146f, -82f), Vector2D(146f, 82f)))
 
         for(plat in platforms){
             plat.mEnabled = true
         }
+
+        debugBoxes.last().mEnabled = true
+
     }
 
     private fun makeLayer(jsonObject: JSONObject): C2DGraphicsLayer{
@@ -78,7 +95,7 @@ class DummyGame(private var context: Context, var renderer: MyGLRenderer, privat
             val newObj = makeGameObject(layerGameObjects.getJSONObject(i))
             newLayer.addGameObject(newObj)
         }
-        newLayer.setCamera(CCamera2D(0f, 0f, 11))
+        newLayer.setCamera(CCamera2D(0f, 0f, 0))
 
         return newLayer
     }
@@ -107,13 +124,31 @@ class DummyGame(private var context: Context, var renderer: MyGLRenderer, privat
     fun updateCameras(){
         for (i in 0 until layers.size-1){
             layers[i].mCamera!!.moveLeft(xdir * speedX * layers[i].cameraSpeed)
+            if(i >= 4){
+                debugBoxes[i-4].minpoint.x += xdir * speedX * layers[i].cameraSpeed
+                debugBoxes[i-4].maxpoint.x += xdir * speedX * layers[i].cameraSpeed
+            }
         }
-        layers.last().mCamera!!.mPosition = Vector2D(mPlayerObject.position.x + 80f, 0f)
+        debugBoxes.last().minpoint.x += xdir * speedX
+        debugBoxes.last().maxpoint.x += xdir * speedX
+        layers.last().mCamera!!.mPosition = Vector2D(mPlayerObject.position.x+90, 0f)
     }
 
     fun updatePositions(){
         calcPlayerPosition()
         calcPistolPosition()
+
+        // Infinite grounds
+        for (i in 4 until layers.size){
+            if(debugBoxes[i-4].maxpoint.x > layers[i].mObjectList[0].getBoundingBox().maxpoint.x){
+                layers[i].mObjectList[1].position.x = layers[i].mObjectList[0].getBoundingBox().maxpoint.x
+                Collections.swap(layers[i].mObjectList, 1, 0)
+            }
+            else if(debugBoxes[i-4].minpoint.x < layers[i].mObjectList[0].getBoundingBox().minpoint.x){
+                layers[i].mObjectList[1].position.x = layers[i].mObjectList[0].getBoundingBox().minpoint.x-400f
+                Collections.swap(layers[i].mObjectList, 1, 0)
+            }
+        }
     }
 
     private fun calcPlayerPosition() {
