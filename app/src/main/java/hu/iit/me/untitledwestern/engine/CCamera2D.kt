@@ -8,8 +8,12 @@ class CCamera2D(x: Float, y: Float, id: Int) {
     var mId: Int = id
     private val transformationMatrix: FloatArray = FloatArray(16)
 
+    val viewPort = BoundingBox2D(Vector2D(-146f, -82f), Vector2D(146f, 82f))
+
     fun moveLeft(value: Float){
         mPosition.x += value
+        viewPort.minpoint.x += value
+        viewPort.maxpoint.x += value
     }
 
     fun moveRight(value: Float){

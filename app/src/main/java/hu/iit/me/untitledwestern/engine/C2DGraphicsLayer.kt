@@ -43,7 +43,7 @@ class C2DGraphicsLayer(var mName: String, var mID: Int, var cameraSpeed: Float) 
         }
 
         for(gameObject in mObjectList){
-            if (!gameObject.visible){
+            if (!gameObject.visible || !mCamera!!.viewPort.checkOverlapping(gameObject.getBoundingBox())){
                 continue
             }
             gameObject.draw(renderer)

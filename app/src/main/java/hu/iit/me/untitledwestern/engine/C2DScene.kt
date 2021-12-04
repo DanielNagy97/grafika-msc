@@ -3,7 +3,7 @@ package hu.iit.me.untitledwestern.engine
 import hu.iit.me.untitledwestern.MyGLRenderer
 
 class C2DScene {
-    private var mLayers: ArrayList<C2DGraphicsLayer> = ArrayList()
+    var mLayers: ArrayList<C2DGraphicsLayer> = ArrayList()
     private var mName: String = ""
     private var mVisible: Boolean
 

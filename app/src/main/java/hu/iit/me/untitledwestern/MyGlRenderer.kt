@@ -54,13 +54,9 @@ class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
         dummygame.updateCameras()
 
         dummygame.sceneManager.render(this)
-        for(plat in dummygame.platforms){
-            plat.draw(this)
-        }
 
-        for(plat in dummygame.debugBoxes){
-            plat.draw(this)
-        }
+        dummygame.sceneManager.mScenes.last().mLayers.last().mCamera!!.viewPort.draw(this)
+
     }
 
     override fun onSurfaceChanged(unused: GL10, width: Int, height: Int) {
@@ -69,7 +65,7 @@ class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
 
         //Matrix.orthoM(projectionMatrix,0, 0f, width.toFloat(), height.toFloat(),0f, 1f, 10000f)
 
-        Matrix.frustumM(projectionMatrix, 0, -ratio, ratio, -1f, 1f, 1f, 10000f)
+        Matrix.frustumM(projectionMatrix, 0, -ratio, ratio, -1f, 1f, 0.6f, 10000f)
     }
 
     fun cleanup() {

@@ -1,6 +1,6 @@
 {
   "player": {
-    "position": ["-90.0", "-20.0"],
+    "positions": [["-90.0", "-20.0"]],
     "velocity": 1.5,
     "sprites": [
       {
@@ -25,7 +25,7 @@
       }
     ],
     "pistol": {
-      "position": ["0.0", "0.0"],
+      "positions": [["0.0", "0.0"]],
       "sprites": [
         {
           "fileName": "sprites/hero/pistol/pistol1.png",
@@ -42,13 +42,42 @@
   },
   "ground": -75.0,
   "horizon": -21.0,
+  "coins": {
+    "sprites": [
+      {
+        "fileName": "sprites/coin",
+        "numberOfFrames": 8,
+        "Fps": 12
+      }
+    ],
+    "positions":
+    [
+      [0.0, 5.0],
+      [40.0, 5.0],
+      [80.0, 5.0]
+    ]
+  },
+  "platforms": {
+    "positions": [
+      ["0.0", "-10.0"],
+      ["-50.0", "-50.0"],
+      ["-180.0", "-10.0"]
+    ],
+    "sprites": [
+      {
+        "fileName": "sprites/platform/platform.png",
+        "numberOfFrames": 1,
+        "Fps": 0
+      }
+    ]
+  },
   "layers": [
     {
       "name": "sky-layer",
       "cameraSpeed": 0.0,
       "gameObjects": [
         {
-          "position": ["-200.0", "horizon"],
+          "positions": [["-200.0", "horizon"]],
           "sprites": [
             {
               "fileName": "sprites/sky/sky1.png",
@@ -64,7 +93,7 @@
       "cameraSpeed": 0.05,
       "gameObjects": [
         {
-          "position": ["-90.0", "horizon"],
+          "positions": [["-90.0", "horizon"]],
           "sprites": [
             {
               "fileName": "sprites/mountains/mountains2.png",
@@ -74,7 +103,7 @@
           ]
         },
         {
-          "position": ["10.0", "horizon"],
+          "positions": [["10.0", "horizon"]],
           "sprites": [
             {
               "fileName": "sprites/mountains/mountains3.png",
@@ -90,7 +119,7 @@
       "cameraSpeed": 0.09,
       "gameObjects": [
         {
-          "position": ["80.0", "horizon"],
+          "positions": [["80.0", "horizon"]],
           "sprites": [
             {
               "fileName": "sprites/rocks/rocks2.png",
@@ -106,7 +135,7 @@
       "cameraSpeed": 0.1,
       "gameObjects": [
         {
-          "position": ["-280.0", "horizon"],
+          "positions": [["-280.0", "horizon"]],
           "sprites": [
             {
               "fileName": "sprites/dunes/dunes1.png",
@@ -122,7 +151,10 @@
       "cameraSpeed": 0.2,
       "gameObjects": [
         {
-        "position": ["-600.0", "-22"],
+        "positions": [
+          ["-600.0", "-22"],
+          ["-200.0", "-22"]
+        ],
         "sprites": [
           {
             "fileName": "sprites/ground/ground8.png",
@@ -130,35 +162,17 @@
             "Fps": 0
           }
         ]
-      },
-        {
-          "position": ["-200.0", "-22"],
-          "sprites": [
-            {
-              "fileName": "sprites/ground/ground8.png",
-              "numberOfFrames": 1,
-              "Fps": 0
-            }
-          ]
-        }
-      ]
+      }]
     },
     {
       "name": "ground-layer6",
       "cameraSpeed": 0.3,
       "gameObjects": [
         {
-          "position": ["-600.0", "-23"],
-          "sprites": [
-            {
-              "fileName": "sprites/ground/ground7.png",
-              "numberOfFrames": 1,
-              "Fps": 0
-            }
-          ]
-        },
-        {
-          "position": ["-200.0", "-23"],
+          "positions": [
+            ["-600.0", "-23"],
+            ["-200.0", "-23"]
+          ],
           "sprites": [
             {
               "fileName": "sprites/ground/ground7.png",
@@ -174,17 +188,10 @@
       "cameraSpeed": 0.4,
       "gameObjects": [
         {
-          "position": ["-600.0", "-25"],
-          "sprites": [
-            {
-              "fileName": "sprites/ground/ground6.png",
-              "numberOfFrames": 1,
-              "Fps": 0
-            }
-          ]
-        },
-        {
-          "position": ["-200.0", "-25"],
+          "positions": [
+            ["-600.0", "-25"],
+            ["-200.0", "-25"]
+          ],
           "sprites": [
             {
               "fileName": "sprites/ground/ground6.png",
@@ -200,17 +207,10 @@
       "cameraSpeed": 0.5,
       "gameObjects": [
         {
-          "position": ["-600.0", "-28"],
-          "sprites": [
-            {
-              "fileName": "sprites/ground/ground5.png",
-              "numberOfFrames": 1,
-              "Fps": 0
-            }
-          ]
-        },
-        {
-          "position": ["-200.0", "-28"],
+          "positions": [
+            ["-600.0", "-28"],
+            ["-200.0", "-28"]
+          ],
           "sprites": [
             {
               "fileName": "sprites/ground/ground5.png",
@@ -226,17 +226,10 @@
       "cameraSpeed": 0.6,
       "gameObjects": [
         {
-          "position": ["-600.0", "-33"],
-          "sprites": [
-            {
-              "fileName": "sprites/ground/ground3.png",
-              "numberOfFrames": 1,
-              "Fps": 0
-            }
-          ]
-        },
-        {
-          "position": ["-200.0", "-33"],
+          "positions": [
+            ["-600.0", "-33"],
+            ["-200.0", "-33"]
+          ],
           "sprites": [
             {
               "fileName": "sprites/ground/ground4.png",
@@ -252,17 +245,10 @@
       "cameraSpeed": 0.7,
       "gameObjects": [
         {
-          "position": ["-600.0", "-44"],
-          "sprites": [
-            {
-              "fileName": "sprites/ground/ground3.png",
-              "numberOfFrames": 1,
-              "Fps": 0
-            }
-          ]
-        },
-        {
-          "position": ["-200.0", "-44"],
+          "positions": [
+            ["-600.0", "-44"],
+            ["-200.0", "-44"]
+          ],
           "sprites": [
             {
               "fileName": "sprites/ground/ground3.png",
@@ -278,7 +264,10 @@
       "cameraSpeed": 0.8,
       "gameObjects": [
         {
-          "position": ["-600.0", "-68.0"],
+          "positions": [
+            ["-600.0", "-68.0"],
+            ["-200.0", "-68.0"]
+          ],
           "sprites": [
             {
               "fileName": "sprites/ground/ground2.png",
@@ -288,17 +277,7 @@
           ]
         },
         {
-          "position": ["-200.0", "-68.0"],
-          "sprites": [
-            {
-              "fileName": "sprites/ground/ground2.png",
-              "numberOfFrames": 1,
-              "Fps": 0
-            }
-          ]
-        },
-        {
-          "position": ["-120.0", "-60.0"],
+          "positions": [["-120.0", "-60.0"]],
           "sprites": [
             {
               "fileName": "sprites/vulture",
@@ -314,17 +293,10 @@
       "cameraSpeed": 0.0,
       "gameObjects": [
         {
-          "position": ["-200.0", "-82.0"],
-          "sprites": [
-            {
-              "fileName": "sprites/ground/ground1.png",
-              "numberOfFrames": 1,
-              "Fps": 0
-            }
-          ]
-        },
-        {
-          "position": ["-600.0", "-82.0"],
+          "positions": [
+            ["-200.0", "-82.0"],
+            ["-600.0", "-82.0"]
+          ],
           "sprites": [
             {
               "fileName": "sprites/ground/ground1.png",

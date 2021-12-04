@@ -1,6 +1,7 @@
 package hu.iit.me.untitledwestern
 
 import android.content.Context
+import android.util.Log
 import hu.iit.me.untitledwestern.engine.*
 import hu.iit.me.untitledwestern.engine.math.Vector2D
 import hu.iit.me.untitledwestern.engine.util.TextUtil
@@ -17,16 +18,16 @@ class DummyGame(private var context: Context, var renderer: MyGLRenderer, privat
     private lateinit var mPlayerObject: GameObject
     private lateinit var mPistolObject: GameObject
 
-    lateinit var platforms: List<BoundingBox2D>
+    lateinit var platforms: List<GameObject>
     private var layers: ArrayList<C2DGraphicsLayer> = ArrayList()
 
-    lateinit var debugBoxes: List<BoundingBox2D>
+    lateinit var coins: List<GameObject>
 
     var idle = true
     var shooting = false
     var jumping = false
     var falling = true
-    private var onPlatform : BoundingBox2D? = null
+    private var onPlatform : GameObject? = null
 
     var velocity = 1.5f
 
@@ -41,8 +42,13 @@ class DummyGame(private var context: Context, var renderer: MyGLRenderer, privat
     fun init(){
         val sceneModel = JSONTokener(TextUtil.readFile(context, "scenes/scene01.json")).nextValue() as JSONObject
 
-        mPlayerObject = makeGameObject(sceneModel.getJSONObject("player"))
-        mPistolObject = makeGameObject(sceneModel.getJSONObject("player").getJSONObject("pistol"))
+        mPlayerObject = makeGameObjects(sceneModel.getJSONObject("player"))[0]
+        mPistolObject = makeGameObjects(sceneModel.getJSONObject("player").getJSONObject("pistol"))[0]
+
+        coins = makeGameObjects(sceneModel.getJSONObject("coins"))
+
+        platforms = makeGameObjects(sceneModel.getJSONObject("platforms"))
+
 
         horizon = sceneModel.getDouble("horizon").toString().toFloat()
         ground = sceneModel.getDouble("ground").toString().toFloat()
@@ -52,35 +58,22 @@ class DummyGame(private var context: Context, var renderer: MyGLRenderer, privat
             layers.add(makeLayer(layerModels.getJSONObject(i)))
         }
 
+        for (coin in coins){
+            layers.last().addGameObject(coin)
+        }
+        for (plat in platforms){
+            layers.last().addGameObject(plat)
+        }
+
         layers.last().addGameObject(mPlayerObject)
         layers.last().addGameObject(mPistolObject)
+
+        layers.last().mCamera!!.viewPort.mEnabled = true
 
         for(layer in layers){
             scene.registerLayer(layer)
         }
         sceneManager.registerScene(scene)
-
-
-        platforms = listOf(BoundingBox2D(Vector2D(-60f, -50f), Vector2D(0f, -40f)),
-            BoundingBox2D(Vector2D(0f, -10f), Vector2D(60f, 0f)),
-            BoundingBox2D(Vector2D(-180f, -10f), Vector2D(-120f, 0f))
-        )
-
-        debugBoxes = listOf(BoundingBox2D(Vector2D(-146f, -82f), Vector2D(146f, 82f)),
-            BoundingBox2D(Vector2D(-146f, -82f), Vector2D(146f, 82f)),
-            BoundingBox2D(Vector2D(-146f, -82f), Vector2D(146f, 82f)),
-            BoundingBox2D(Vector2D(-146f, -82f), Vector2D(146f, 82f)),
-            BoundingBox2D(Vector2D(-146f, -82f), Vector2D(146f, 82f)),
-            BoundingBox2D(Vector2D(-146f, -82f), Vector2D(146f, 82f)),
-            BoundingBox2D(Vector2D(-146f, -82f), Vector2D(146f, 82f)),
-            BoundingBox2D(Vector2D(-146f, -82f), Vector2D(146f, 82f)))
-
-        for(plat in platforms){
-            plat.mEnabled = true
-        }
-
-        debugBoxes.last().mEnabled = true
-
     }
 
     private fun makeLayer(jsonObject: JSONObject): C2DGraphicsLayer{
@@ -92,46 +85,50 @@ class DummyGame(private var context: Context, var renderer: MyGLRenderer, privat
 
         val layerGameObjects = jsonObject.getJSONArray("gameObjects")
         for (i in 0 until layerGameObjects.length()) {
-            val newObj = makeGameObject(layerGameObjects.getJSONObject(i))
-            newLayer.addGameObject(newObj)
+            val newObjs = makeGameObjects(layerGameObjects.getJSONObject(i))
+            for (gameObj in newObjs) {
+                newLayer.addGameObject(gameObj)
+            }
         }
         newLayer.setCamera(CCamera2D(0f, 0f, 0))
 
         return newLayer
     }
 
-    private fun makeGameObject(jsonObject: JSONObject): GameObject{
-        var newGameObject: GameObject
-        val pPosition = jsonObject.getJSONArray("position")
+    private fun makeGameObjects(jsonObject: JSONObject): List<GameObject>{
+        var gameObjects: ArrayList<GameObject> = ArrayList()
+        val pPositions = jsonObject.getJSONArray("positions")
+
         val pSprites = jsonObject.getJSONArray("sprites")
 
-        var posY = if(pPosition[1].toString() == "horizon"){
-            horizon
-        } else{
-            pPosition[1].toString().toFloat()
+        for (i in 0 until pPositions.length()) {
+            val pPosition = pPositions.getJSONArray(i)
+            var posY = if(pPosition[1].toString() == "horizon"){
+                horizon
+            } else{
+                pPosition[1].toString().toFloat()
+            }
+
+            var newGameObject = GameObject(context, pPosition[0].toString().toFloat(), posY, scale)
+            for (i in 0 until pSprites.length()) {
+                val spriteName = pSprites.getJSONObject(i).getString("fileName")
+                val numberOfFrames = pSprites.getJSONObject(i).getInt("numberOfFrames")
+                val Fps = pSprites.getJSONObject(i).getInt("Fps")
+                newGameObject.addSprite(spriteName, numberOfFrames, Fps)
+            }
+            gameObjects.add(newGameObject)
         }
 
-        newGameObject = GameObject(context, pPosition[0].toString().toFloat(), posY, scale)
-        for (i in 0 until pSprites.length()) {
-            val spriteName = pSprites.getJSONObject(i).getString("fileName")
-            val numberOfFrames = pSprites.getJSONObject(i).getInt("numberOfFrames")
-            val Fps = pSprites.getJSONObject(i).getInt("Fps")
-            newGameObject.addSprite(spriteName, numberOfFrames, Fps)
-        }
-        return newGameObject
+        return gameObjects
     }
 
     fun updateCameras(){
         for (i in 0 until layers.size-1){
             layers[i].mCamera!!.moveLeft(xdir * speedX * layers[i].cameraSpeed)
-            if(i >= 4){
-                debugBoxes[i-4].minpoint.x += xdir * speedX * layers[i].cameraSpeed
-                debugBoxes[i-4].maxpoint.x += xdir * speedX * layers[i].cameraSpeed
-            }
         }
-        debugBoxes.last().minpoint.x += xdir * speedX
-        debugBoxes.last().maxpoint.x += xdir * speedX
         layers.last().mCamera!!.mPosition = Vector2D(mPlayerObject.position.x+90, 0f)
+        layers.last().mCamera!!.viewPort.minpoint.x += xdir * speedX
+        layers.last().mCamera!!.viewPort.maxpoint.x += xdir * speedX
     }
 
     fun updatePositions(){
@@ -140,11 +137,12 @@ class DummyGame(private var context: Context, var renderer: MyGLRenderer, privat
 
         // Infinite grounds
         for (i in 4 until layers.size){
-            if(debugBoxes[i-4].maxpoint.x > layers[i].mObjectList[0].getBoundingBox().maxpoint.x){
+            val viewPort = layers[i].mCamera!!.viewPort
+            if(viewPort.maxpoint.x > layers[i].mObjectList[0].getBoundingBox().maxpoint.x){
                 layers[i].mObjectList[1].position.x = layers[i].mObjectList[0].getBoundingBox().maxpoint.x
                 Collections.swap(layers[i].mObjectList, 1, 0)
             }
-            else if(debugBoxes[i-4].minpoint.x < layers[i].mObjectList[0].getBoundingBox().minpoint.x){
+            else if(viewPort.minpoint.x < layers[i].mObjectList[0].getBoundingBox().minpoint.x){
                 layers[i].mObjectList[1].position.x = layers[i].mObjectList[0].getBoundingBox().minpoint.x-400f
                 Collections.swap(layers[i].mObjectList, 1, 0)
             }
@@ -195,7 +193,7 @@ class DummyGame(private var context: Context, var renderer: MyGLRenderer, privat
 
         // Falling from the platform
         if(onPlatform != null){
-            if((mPlayerObject.getBoundingBox().maxpoint.x <= onPlatform!!.minpoint.x || mPlayerObject.getBoundingBox().minpoint.x >= onPlatform!!.maxpoint.x) && !jumping){
+            if((mPlayerObject.getBoundingBox().maxpoint.x <= onPlatform!!.getBoundingBox().minpoint.x || mPlayerObject.getBoundingBox().minpoint.x >= onPlatform!!.getBoundingBox().maxpoint.x) && !jumping){
                 onPlatform = null
                 falling = true
             }
@@ -206,10 +204,10 @@ class DummyGame(private var context: Context, var renderer: MyGLRenderer, privat
         val eps = 5f
         //mPlayerObject.getBoundingBox().mEnabled = true
         for(plat in platforms){
-            if (mPlayerObject.getBoundingBox().checkOverlapping(plat)) {
-                if (falling && mPlayerObject.getBoundingBox().minpoint.y > plat.maxpoint.y - eps) {
+            if (mPlayerObject.getBoundingBox().checkOverlapping(plat.getBoundingBox())) {
+                if (falling && mPlayerObject.getBoundingBox().minpoint.y > plat.getBoundingBox().maxpoint.y - eps) {
                     onPlatform = plat
-                    mPlayerObject.position.y = plat.maxpoint.y
+                    mPlayerObject.position.y = plat.getBoundingBox().maxpoint.y
                     falling = false
                     speedY = 0f
                     if (speedX > 0) {

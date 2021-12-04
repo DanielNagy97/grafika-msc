@@ -3,7 +3,7 @@ package hu.iit.me.untitledwestern.engine
 import hu.iit.me.untitledwestern.MyGLRenderer
 
 class C2DSceneManager {
-    private var mScenes: ArrayList<C2DScene> = ArrayList()
+    var mScenes: ArrayList<C2DScene> = ArrayList()
 
     fun registerScene(scene: C2DScene){
         mScenes.add(scene)
