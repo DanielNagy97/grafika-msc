@@ -1,5 +1,6 @@
 {
   "player": {
+    "type": "once",
     "positions": [["-90.0", "-20.0"]],
     "velocity": 1.5,
     "sprites": [
@@ -25,6 +26,7 @@
       }
     ],
     "pistol": {
+      "type": "once",
       "positions": [["0.0", "0.0"]],
       "sprites": [
         {
@@ -50,6 +52,7 @@
         "Fps": 12
       }
     ],
+    "type": "once",
     "positions":
     [
       [0.0, 5.0],
@@ -58,10 +61,14 @@
     ]
   },
   "platforms": {
+    "type": "repeating",
+    "interval": "10.0",
+    "minY": "-70",
+    "maxY": "10",
     "positions": [
       ["0.0", "-10.0"],
-      ["-50.0", "-50.0"],
-      ["-180.0", "-10.0"]
+      ["-70.0", "-50.0"],
+      ["-200.0", "-10.0"]
     ],
     "sprites": [
       {
@@ -77,6 +84,7 @@
       "cameraSpeed": 0.0,
       "gameObjects": [
         {
+          "type": "once",
           "positions": [["-200.0", "horizon"]],
           "sprites": [
             {
@@ -93,6 +101,10 @@
       "cameraSpeed": 0.05,
       "gameObjects": [
         {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "horizon",
+          "maxY": "horizon",
           "positions": [["-90.0", "horizon"]],
           "sprites": [
             {
@@ -103,10 +115,42 @@
           ]
         },
         {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "horizon",
+          "maxY": "horizon",
           "positions": [["10.0", "horizon"]],
           "sprites": [
             {
               "fileName": "sprites/mountains/mountains3.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "horizon",
+          "maxY": "horizon",
+          "positions": [["300.0", "horizon"]],
+          "sprites": [
+            {
+              "fileName": "sprites/mountains/mountains1.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "horizon",
+          "maxY": "horizon",
+          "positions": [["100.0", "horizon"]],
+          "sprites": [
+            {
+              "fileName": "sprites/mountains/mountains4.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -119,10 +163,42 @@
       "cameraSpeed": 0.09,
       "gameObjects": [
         {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "horizon",
+          "maxY": "horizon",
           "positions": [["80.0", "horizon"]],
           "sprites": [
             {
               "fileName": "sprites/rocks/rocks2.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "horizon",
+          "maxY": "horizon",
+          "positions": [["300.0", "horizon"]],
+          "sprites": [
+            {
+              "fileName": "sprites/rocks/rocks1.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "horizon",
+          "maxY": "horizon",
+          "positions": [["600.0", "horizon"]],
+          "sprites": [
+            {
+              "fileName": "sprites/rocks/rocks3.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -135,10 +211,28 @@
       "cameraSpeed": 0.1,
       "gameObjects": [
         {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "horizon",
+          "maxY": "horizon",
           "positions": [["-280.0", "horizon"]],
           "sprites": [
             {
               "fileName": "sprites/dunes/dunes1.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "horizon",
+          "maxY": "horizon",
+          "positions": [["300.0", "horizon"]],
+          "sprites": [
+            {
+              "fileName": "sprites/dunes/dunes2.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -151,6 +245,7 @@
       "cameraSpeed": 0.2,
       "gameObjects": [
         {
+          "type": "ground",
         "positions": [
           ["-600.0", "-22"],
           ["-200.0", "-22"]
@@ -169,6 +264,7 @@
       "cameraSpeed": 0.3,
       "gameObjects": [
         {
+          "type": "ground",
           "positions": [
             ["-600.0", "-23"],
             ["-200.0", "-23"]
@@ -188,6 +284,7 @@
       "cameraSpeed": 0.4,
       "gameObjects": [
         {
+          "type": "ground",
           "positions": [
             ["-600.0", "-25"],
             ["-200.0", "-25"]
@@ -195,6 +292,22 @@
           "sprites": [
             {
               "fileName": "sprites/ground/ground6.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "-25.0",
+          "maxY": "-24.0",
+          "positions": [["20.0", "-70.0"],
+            ["120.0", "-82.0"],
+            ["-50.0", "-75.0"]],
+          "sprites": [
+            {
+              "fileName": "sprites/stones/stone6.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -207,6 +320,7 @@
       "cameraSpeed": 0.5,
       "gameObjects": [
         {
+          "type": "ground",
           "positions": [
             ["-600.0", "-28"],
             ["-200.0", "-28"]
@@ -214,6 +328,36 @@
           "sprites": [
             {
               "fileName": "sprites/ground/ground5.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
+          "type": "repeating",
+          "interval": "200.0",
+          "minY": "-28.0",
+          "maxY": "-26.0",
+          "positions": [["00.0", "-28.0"]],
+          "sprites": [
+            {
+              "fileName": "sprites/cactus/cactus3.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "-28.0",
+          "maxY": "-26.0",
+          "positions": [["20.0", "-70.0"],
+            ["120.0", "-82.0"],
+            ["-50.0", "-75.0"]],
+          "sprites": [
+            {
+              "fileName": "sprites/stones/stone4.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -226,6 +370,7 @@
       "cameraSpeed": 0.6,
       "gameObjects": [
         {
+          "type": "ground",
           "positions": [
             ["-600.0", "-33"],
             ["-200.0", "-33"]
@@ -233,6 +378,34 @@
           "sprites": [
             {
               "fileName": "sprites/ground/ground4.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
+          "type": "repeating",
+          "interval": "200.0",
+          "minY": "-33.0",
+          "maxY": "-29.0",
+          "positions": [["00.0", "-33.0"]],
+          "sprites": [
+            {
+              "fileName": "sprites/cactus/cactus1.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "-33.0",
+          "maxY": "-29.0",
+          "positions": [["20.0", "-70.0"]],
+          "sprites": [
+            {
+              "fileName": "sprites/grass/medium/grass4.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -245,6 +418,7 @@
       "cameraSpeed": 0.7,
       "gameObjects": [
         {
+          "type": "ground",
           "positions": [
             ["-600.0", "-44"],
             ["-200.0", "-44"]
@@ -252,6 +426,64 @@
           "sprites": [
             {
               "fileName": "sprites/ground/ground3.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "-44.0",
+          "maxY": "-34.0",
+          "positions": [["00.0", "-44.0"]],
+          "sprites": [
+            {
+              "fileName": "sprites/cactus/cactus2.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "-44.0",
+          "maxY": "-34.0",
+          "positions": [["20.0", "-70.0"],
+            ["120.0", "-82.0"],
+            ["-50.0", "-75.0"]],
+          "sprites": [
+            {
+              "fileName": "sprites/stones/stone5.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "-44.0",
+          "maxY": "-34.0",
+          "positions": [["20.0", "-70.0"]],
+          "sprites": [
+            {
+              "fileName": "sprites/grass/medium/grass1.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "-44.0",
+          "maxY": "-34.0",
+          "positions": [["20.0", "-70.0"]],
+          "sprites": [
+            {
+              "fileName": "sprites/grass/medium/grass2.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -264,6 +496,7 @@
       "cameraSpeed": 0.8,
       "gameObjects": [
         {
+          "type": "ground",
           "positions": [
             ["-600.0", "-68.0"],
             ["-200.0", "-68.0"]
@@ -277,12 +510,104 @@
           ]
         },
         {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "-65.0",
+          "maxY": "-60.0",
           "positions": [["-120.0", "-60.0"]],
           "sprites": [
             {
               "fileName": "sprites/vulture",
               "numberOfFrames": 8,
               "Fps": 3
+            }
+          ]
+        },
+        {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "-68.0",
+          "maxY": "-43.0",
+          "positions": [["00.0", "-50.0"]],
+          "sprites": [
+            {
+              "fileName": "sprites/cactus/cactus4.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "-68.0",
+          "maxY": "-50.0",
+          "positions": [["20.0", "-50.0"]],
+          "sprites": [
+            {
+              "fileName": "sprites/skull/skull.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "-68.0",
+          "maxY": "-50.0",
+          "positions": [["20.0", "-70.0"],
+            ["120.0", "-82.0"],
+            ["-50.0", "-75.0"]],
+          "sprites": [
+            {
+              "fileName": "sprites/stones/stone2.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "-68.0",
+          "maxY": "-50.0",
+          "positions": [["20.0", "-70.0"],
+            ["120.0", "-82.0"],
+            ["-50.0", "-75.0"]],
+          "sprites": [
+            {
+              "fileName": "sprites/stones/stone3.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "-68.0",
+          "maxY": "-50.0",
+          "positions": [["20.0", "-70.0"]],
+          "sprites": [
+            {
+              "fileName": "sprites/grass/large/grass3.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "-68.0",
+          "maxY": "-50.0",
+          "positions": [["20.0", "-70.0"]],
+          "sprites": [
+            {
+              "fileName": "sprites/grass/large/grass4.png",
+              "numberOfFrames": 1,
+              "Fps": 0
             }
           ]
         }
@@ -293,6 +618,7 @@
       "cameraSpeed": 0.0,
       "gameObjects": [
         {
+          "type": "ground",
           "positions": [
             ["-200.0", "-82.0"],
             ["-600.0", "-82.0"]
@@ -300,6 +626,66 @@
           "sprites": [
             {
               "fileName": "sprites/ground/ground1.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "-82.0",
+          "maxY": "-70.0",
+          "positions": [["20.0", "-70.0"],
+            ["120.0", "-82.0"],
+            ["-50.0", "-75.0"]],
+          "sprites": [
+            {
+              "fileName": "sprites/stones/stone1.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "-82.0",
+          "maxY": "-70.0",
+          "positions": [["20.0", "-70.0"],
+            ["120.0", "-82.0"],
+            ["-50.0", "-75.0"]],
+          "sprites": [
+            {
+              "fileName": "sprites/stones/stone2.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "-82.0",
+          "maxY": "-70.0",
+          "positions": [["20.0", "-70.0"]],
+          "sprites": [
+            {
+              "fileName": "sprites/grass/large/grass1.png",
+              "numberOfFrames": 1,
+              "Fps": 0
+            }
+          ]
+        },
+        {
+          "type": "repeating",
+          "interval": "100.0",
+          "minY": "-82.0",
+          "maxY": "-70.0",
+          "positions": [["20.0", "-70.0"]],
+          "sprites": [
+            {
+              "fileName": "sprites/grass/large/grass2.png",
               "numberOfFrames": 1,
               "Fps": 0
             }

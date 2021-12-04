@@ -65,7 +65,7 @@ class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
 
         //Matrix.orthoM(projectionMatrix,0, 0f, width.toFloat(), height.toFloat(),0f, 1f, 10000f)
 
-        Matrix.frustumM(projectionMatrix, 0, -ratio, ratio, -1f, 1f, 0.6f, 10000f)
+        Matrix.frustumM(projectionMatrix, 0, -ratio, ratio, -1f, 1f, 1f, 10000f)
     }
 
     fun cleanup() {

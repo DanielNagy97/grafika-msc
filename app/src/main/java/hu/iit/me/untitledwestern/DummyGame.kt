@@ -101,15 +101,35 @@ class DummyGame(private var context: Context, var renderer: MyGLRenderer, privat
 
         val pSprites = jsonObject.getJSONArray("sprites")
 
+        val type = jsonObject.getString("type")
+        var interval = 0.0f
+
+        var minY = 0.0f
+        var maxY = 0.0f
+
+        if(type == "repeating"){
+            interval = jsonObject.getString("interval").toFloat()
+            minY = if(jsonObject.getString("minY") == "horizon"){
+                horizon
+            } else {
+                jsonObject.getString("minY").toFloat()
+            }
+            maxY = if(jsonObject.getString("maxY") == "horizon"){
+                horizon
+            } else {
+                jsonObject.getString("maxY").toFloat()
+            }
+        }
+
         for (i in 0 until pPositions.length()) {
             val pPosition = pPositions.getJSONArray(i)
             var posY = if(pPosition[1].toString() == "horizon"){
                 horizon
-            } else{
+            } else {
                 pPosition[1].toString().toFloat()
             }
 
-            var newGameObject = GameObject(context, pPosition[0].toString().toFloat(), posY, scale)
+            var newGameObject = GameObject(context, pPosition[0].toString().toFloat(), posY, scale, interval, minY, maxY)
             for (i in 0 until pSprites.length()) {
                 val spriteName = pSprites.getJSONObject(i).getString("fileName")
                 val numberOfFrames = pSprites.getJSONObject(i).getInt("numberOfFrames")
