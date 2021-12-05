@@ -21,21 +21,21 @@ class Character (
     var xdir = 1f
     private var ydir = -1f
 
-    private fun calcPlayerPosition(ground: Float, platforms: List<GameObject>) {
+    private fun calcPlayerPosition(ground: Float, platforms: List<GameObject>, dt:Float) {
         // Position handling
-        body.position.x += xdir * speedX
-        body.position.y += ydir * speedY
+        body.position.x += xdir * (speedX * dt)
+        body.position.y += ydir * (speedY * dt)
 
         if (falling) {
             if (speedY == 0f) {
-                speedY = 0.5f
+                speedY = velocity / 3f
             }
 
             //max speed
-            if (speedY < 5f) {
-                speedY *= 1.2f
+            if (speedY < velocity * 4f) {
+                speedY *= 1.2f * (1 + dt)
             } else {
-                speedY = 5f
+                speedY = velocity * 4f
             }
 
             //checking ground
@@ -50,10 +50,10 @@ class Character (
         } else if (jumping) {
             if (speedY <= 0f) {
                 ydir = 1f
-                speedY = 5f
-            } else if (speedY >= 0.3f && ydir == 1f) {
-                speedY *= 0.9f
-            } else if (speedY < 0.3f) {
+                speedY = velocity * 4f
+            } else if (speedY >= velocity/5f && ydir == 1f) {
+                speedY *= 0.9f * (1 - dt)
+            } else if (speedY < velocity/5f) {
                 //falling begins
                 jumping = false
                 falling = true
@@ -74,7 +74,7 @@ class Character (
     }
 
     private fun checkPlatforms(platforms: List<GameObject>) {
-        val eps = 5f
+        val eps = 11f
         //mPlayerObject.getBoundingBox().mEnabled = true
         for(plat in platforms){
             if (body.getBoundingBox().checkOverlapping(plat.getBoundingBox())) {
@@ -102,9 +102,18 @@ class Character (
         }
     }
 
-    fun updatePosition(ground: Float, platforms: List<GameObject>) {
-        calcPlayerPosition(ground, platforms)
+    fun checkCoins(coins: List<GameObject>){
+        for(coin in coins){
+            if (body.getBoundingBox().checkOverlapping(coin.getBoundingBox())) {
+                coin.position.x += 1000f
+            }
+        }
+    }
+
+    fun updatePosition(ground: Float, platforms: List<GameObject>, coins: List<GameObject>, dt: Float) {
+        calcPlayerPosition(ground, platforms, dt)
         calcPistolPosition()
+        checkCoins(coins)
     }
 
     fun updateAnimations(){

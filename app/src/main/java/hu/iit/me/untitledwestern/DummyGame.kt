@@ -42,7 +42,7 @@ class DummyGame(private var context: Context,
                 .getJSONObject("pistol"),
                 context, scale, horizon)[0]
 
-        mPlayer = Character(mPlayerObject, mPistolObject, 1.5f)
+        mPlayer = Character(mPlayerObject, mPistolObject, 100f)
 
         coins = JsonParserUtil.makeGameObjects(sceneModel.getJSONObject("coins"),
                                                context, scale, horizon)
@@ -77,15 +77,15 @@ class DummyGame(private var context: Context,
         mPlayer.updateAnimations()
     }
 
-    fun updateCameras(){
+    fun updateCameras(dt: Float){
         for (i in 0 until layers.size-1){
-            layers[i].mCamera!!.moveLeft(mPlayer.xdir * mPlayer.speedX * layers[i].cameraSpeed)
+            layers[i].mCamera!!.moveLeft(mPlayer.xdir * mPlayer.speedX * layers[i].cameraSpeed *dt)
         }
         layers.last().mCamera!!.setMPosition(Vector2D(mPlayer.body.position.x+90, 0f))
     }
 
-    fun updatePositions(){
-        mPlayer.updatePosition(ground, platforms)
+    fun updatePositions(dt: Float){
+        mPlayer.updatePosition(ground, platforms, coins, dt)
 
         // Infinite grounds
         for (i in 4 until layers.size){
@@ -95,7 +95,8 @@ class DummyGame(private var context: Context,
                 Collections.swap(layers[i].mObjectList, 1, 0)
             }
             else if(viewPort.minpoint.x < layers[i].mObjectList[0].getBoundingBox().minpoint.x){
-                layers[i].mObjectList[1].position.x = layers[i].mObjectList[0].getBoundingBox().minpoint.x-400f
+                layers[i].mObjectList[1].position.x =
+                    layers[i].mObjectList[0].getBoundingBox().minpoint.x - (layers[i].mObjectList[0].getBoundingBox().maxpoint.x -layers[i].mObjectList[0].getBoundingBox().minpoint.x)
                 Collections.swap(layers[i].mObjectList, 1, 0)
             }
         }

@@ -16,7 +16,8 @@ class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
     val projectionMatrix = FloatArray(16)
     var viewMatrix = FloatArray(16)
 
-    var ratio: Float = 0.0f
+    private var myStartTime: Long = System.nanoTime()
+    var ratio: Float = 16f/9f
 
     var dummygame = DummyGame(context, this, 1f)
 
@@ -41,15 +42,19 @@ class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
         lineShader.createUniform("projectionMatrix")
         lineShader.createUniform("modelMatrix")
         lineShader.createUniform("vColor")
+        dummygame.init()
     }
 
     override fun onDrawFrame(gl: GL10) {
+        val dt: Float = (System.nanoTime() - myStartTime) / 1000000000.0f
+        myStartTime = System.nanoTime()
+
         GLES32.glClear(GLES32.GL_COLOR_BUFFER_BIT)
 
         //TODO: Make a better gameloop!!
-        dummygame.updatePositions()
+        dummygame.updatePositions(dt)
         dummygame.updateAnimations()
-        dummygame.updateCameras()
+        dummygame.updateCameras(dt)
 
         dummygame.sceneManager.render(this)
 
@@ -60,8 +65,6 @@ class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
     override fun onSurfaceChanged(unused: GL10, width: Int, height: Int) {
         GLES32.glViewport(0, 0, width, height)
         ratio = width.toFloat() / height.toFloat()
-
-        dummygame.init()
 
         //Matrix.orthoM(projectionMatrix,0, 0f, width.toFloat(), height.toFloat(),0f, 1f, 10000f)
 
