@@ -14,14 +14,14 @@ class Character (
     var shooting = false
     var jumping = false
     var falling = true
-    private var onPlatform : BoundingBox2D? = null
+    private var onPlatform : GameObject? = null
 
     var speedX = 0f
     private var speedY: Float = 0f
     var xdir = 1f
     private var ydir = -1f
 
-    private fun calcPlayerPosition(ground: Float, platforms: List<BoundingBox2D>) {
+    private fun calcPlayerPosition(ground: Float, platforms: List<GameObject>) {
         // Position handling
         body.position.x += xdir * speedX
         body.position.y += ydir * speedY
@@ -65,24 +65,22 @@ class Character (
 
         // Falling from the platform
         if(onPlatform != null){
-            if((body.getBoundingBox().maxpoint.x <= onPlatform!!.minpoint.x ||
-                        body.getBoundingBox().minpoint.x >= onPlatform!!.maxpoint.x) && !jumping){
+            if((body.getBoundingBox().maxpoint.x <= onPlatform!!.getBoundingBox().minpoint.x
+                        || body.getBoundingBox().minpoint.x >= onPlatform!!.getBoundingBox().maxpoint.x) && !jumping){
                 onPlatform = null
                 falling = true
             }
         }
-
-        calcPistolPosition()
     }
 
-    private fun checkPlatforms(platforms: List<BoundingBox2D>) {
+    private fun checkPlatforms(platforms: List<GameObject>) {
         val eps = 5f
         //mPlayerObject.getBoundingBox().mEnabled = true
         for(plat in platforms){
-            if (body.getBoundingBox().checkOverlapping(plat)) {
-                if (falling && body.getBoundingBox().minpoint.y > plat.maxpoint.y - eps) {
+            if (body.getBoundingBox().checkOverlapping(plat.getBoundingBox())) {
+                if (falling && body.getBoundingBox().minpoint.y > plat.getBoundingBox().maxpoint.y - eps) {
                     onPlatform = plat
-                    body.position.y = plat.maxpoint.y
+                    body.position.y = plat.getBoundingBox().maxpoint.y
                     falling = false
                     speedY = 0f
                     if (speedX > 0) {
@@ -94,18 +92,19 @@ class Character (
     }
 
     private fun calcPistolPosition() {
-        pistol.position.y =
-            body.getBoundingBox().minpoint.y +
-                    (body.getBoundingBox().maxpoint.y - body.getBoundingBox().minpoint.y)/3
+        pistol.position.y = body.getBoundingBox().minpoint.y + (body.getBoundingBox().maxpoint.y-body.getBoundingBox().minpoint.y)/3
 
         if(xdir == 1f){
             pistol.position.x = body.getBoundingBox().maxpoint.x
         }
         else{
-            pistol.position.x =
-                body.getBoundingBox().minpoint.x -
-                        (pistol.getBoundingBox().maxpoint.x - pistol.getBoundingBox().minpoint.x)
+            pistol.position.x = body.getBoundingBox().minpoint.x - (pistol.getBoundingBox().maxpoint.x-pistol.getBoundingBox().minpoint.x)
         }
+    }
+
+    fun updatePosition(ground: Float, platforms: List<GameObject>) {
+        calcPlayerPosition(ground, platforms)
+        calcPistolPosition()
     }
 
     fun updateAnimations(){
@@ -135,6 +134,4 @@ class Character (
         }
         pistol.mSprites[pistol.currSprite].toFlip = xdir != 1f
     }
-
-
 }

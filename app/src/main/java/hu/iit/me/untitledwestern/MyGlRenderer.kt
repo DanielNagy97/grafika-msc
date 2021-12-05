@@ -41,8 +41,6 @@ class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
         lineShader.createUniform("projectionMatrix")
         lineShader.createUniform("modelMatrix")
         lineShader.createUniform("vColor")
-
-        dummygame.init()
     }
 
     override fun onDrawFrame(gl: GL10) {
@@ -62,6 +60,8 @@ class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
     override fun onSurfaceChanged(unused: GL10, width: Int, height: Int) {
         GLES32.glViewport(0, 0, width, height)
         ratio = width.toFloat() / height.toFloat()
+
+        dummygame.init()
 
         //Matrix.orthoM(projectionMatrix,0, 0f, width.toFloat(), height.toFloat(),0f, 1f, 10000f)
 

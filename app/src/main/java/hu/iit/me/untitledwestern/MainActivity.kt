@@ -11,8 +11,6 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
         gLView = MyGLSurfaceView(this)
         setContentView(gLView)
-
-
     }
 
     override fun onPause() {

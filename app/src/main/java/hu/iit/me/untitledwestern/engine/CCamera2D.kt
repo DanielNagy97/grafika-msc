@@ -3,18 +3,24 @@ package hu.iit.me.untitledwestern.engine
 import android.opengl.Matrix
 import hu.iit.me.untitledwestern.engine.math.Vector2D
 
-class CCamera2D(x: Float, y: Float, id: Int) {
+class CCamera2D(x: Float, y: Float, var id: Int, var aspect: Float) {
     var mPosition: Vector2D = Vector2D(x, y)
-    var mId: Int = id
     private val transformationMatrix: FloatArray = FloatArray(16)
-    val aspect = 3120f / 1440f
+    //val aspect = 3120f / 1440f
 
     val viewPort = BoundingBox2D(Vector2D(-82f * aspect, -82f), Vector2D(82f * aspect, 82f))
 
     fun moveLeft(value: Float){
         mPosition.x += value
-        viewPort.minpoint.x += value
-        viewPort.maxpoint.x += value
+        viewPort.setPoints(Vector2D(mPosition.x - 82f * aspect, -82f),
+                           Vector2D(mPosition.x + 82f * aspect, 82f))
+    }
+
+    @JvmName("setMPosition1")
+    fun setMPosition(newPos: Vector2D){
+        mPosition = newPos
+        viewPort.setPoints(Vector2D(mPosition.x - 82f * aspect, -82f),
+                            Vector2D(mPosition.x + 82f * aspect, 82f))
     }
 
     fun moveRight(value: Float){

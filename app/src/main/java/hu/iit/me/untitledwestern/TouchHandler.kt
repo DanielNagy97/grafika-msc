@@ -9,32 +9,32 @@ class TouchHandler {
 
         if(e.action == MotionEvent.ACTION_DOWN ) {
             if(x < width / 2){
-                dummyGame.speedX = dummyGame.velocity
+                dummyGame.mPlayer.speedX = dummyGame.mPlayer.velocity
                 if(x < width / 4){
-                    dummyGame.xdir = -1f
+                    dummyGame.mPlayer.xdir = -1f
                 }
                 else{
-                    dummyGame.xdir = 1f
+                    dummyGame.mPlayer.xdir = 1f
                 }
-                if (!dummyGame.jumping && !dummyGame.falling){
-                    dummyGame.idle = false
+                if (!dummyGame.mPlayer.jumping && !dummyGame.mPlayer.falling){
+                    dummyGame.mPlayer.idle = false
                 }
             }
             else{
-                if(y < height / 2 && !dummyGame.jumping && !dummyGame.falling){
-                    dummyGame.jumping = true
+                if(y < height / 2 && !dummyGame.mPlayer.jumping && !dummyGame.mPlayer.falling){
+                    dummyGame.mPlayer.jumping = true
                 }
                 if(y > height / 2){
-                    dummyGame.shooting = true
+                    dummyGame.mPlayer.shooting = true
                 }
             }
         }
 
         if(e.action == MotionEvent.ACTION_UP) {
             if(x < width / 2){
-                dummyGame.speedX = 0f
+                dummyGame.mPlayer.speedX = 0f
             }
-            dummyGame.idle = true
+            dummyGame.mPlayer.idle = true
         }
     }
 }
