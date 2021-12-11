@@ -4,12 +4,12 @@ import android.content.Context
 import hu.iit.me.untitledwestern.MyGLRenderer
 import hu.iit.me.untitledwestern.engine.math.Vector2D
 
-class GameObject(private val context: Context,
-                 posX: Float, posY: Float,
-                 private var scale: Float,
-                 var repeatingInterval: Float,
-                 var minRepeatY: Float = 0f,
-                 var maxRepeatY: Float = 0f) {
+open class GameObject(private val context: Context,
+                      posX: Float, posY: Float,
+                      private var scale: Float,
+                      var repeatingInterval: Float,
+                      var minRepeatY: Float = 0f,
+                      var maxRepeatY: Float = 0f) {
     var mSprites: ArrayList<Sprite> = ArrayList()
     var currSprite: Int = 0
     var position: Vector2D = Vector2D(posX, posY)

@@ -1,9 +1,6 @@
 package hu.iit.me.untitledwestern.game
 
-import hu.iit.me.untitledwestern.MyGLRenderer
-import hu.iit.me.untitledwestern.engine.BoundingBox2D
 import hu.iit.me.untitledwestern.engine.GameObject
-import hu.iit.me.untitledwestern.engine.math.Vector2D
 
 class Character (
     var body: GameObject,
@@ -102,7 +99,7 @@ class Character (
         }
     }
 
-    fun checkCoins(coins: List<GameObject>){
+    fun checkCoins(coins: List<Coin>){
         for(coin in coins){
             if (body.getBoundingBox().checkOverlapping(coin.getBoundingBox())) {
                 coin.position.x += 1000f
@@ -110,7 +107,7 @@ class Character (
         }
     }
 
-    fun updatePosition(ground: Float, platforms: List<GameObject>, coins: List<GameObject>, dt: Float) {
+    fun updatePosition(ground: Float, platforms: List<GameObject>, coins: List<Coin>, dt: Float) {
         calcPlayerPosition(ground, platforms, dt)
         calcPistolPosition()
         checkCoins(coins)

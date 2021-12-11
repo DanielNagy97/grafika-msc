@@ -4,6 +4,7 @@ import android.content.Context
 import android.opengl.GLES32
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix
+import hu.iit.me.untitledwestern.engine.Timer
 import hu.iit.me.untitledwestern.engine.graph.ShaderProgram
 import hu.iit.me.untitledwestern.engine.util.TextUtil
 import javax.microedition.khronos.egl.EGLConfig
@@ -18,6 +19,7 @@ class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
 
     private var myStartTime: Long = System.nanoTime()
     var ratio: Float = 16f/9f
+    var timer: Timer = Timer()
 
     var dummygame = DummyGame(context, this, 1f)
 
@@ -46,12 +48,11 @@ class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
     }
 
     override fun onDrawFrame(gl: GL10) {
-        val dt: Float = (System.nanoTime() - myStartTime) / 1000000000.0f
-        myStartTime = System.nanoTime()
+        val dt: Float = timer.getElapsedTime()
 
         GLES32.glClear(GLES32.GL_COLOR_BUFFER_BIT)
+        GLES32.glClear(GLES32.GL_DEPTH_BUFFER_BIT)
 
-        //TODO: Make a better gameloop!!
         dummygame.updatePositions(dt)
         dummygame.updateAnimations()
         dummygame.updateCameras(dt)

@@ -3,17 +3,17 @@ package hu.iit.me.untitledwestern
 import android.content.Context
 import hu.iit.me.untitledwestern.engine.*
 import hu.iit.me.untitledwestern.engine.math.Vector2D
-import hu.iit.me.untitledwestern.engine.util.JsonParserUtil
-import hu.iit.me.untitledwestern.engine.util.TextUtil
 import hu.iit.me.untitledwestern.game.Character
-import org.json.JSONObject
-import org.json.JSONTokener
+import hu.iit.me.untitledwestern.game.Coin
+import hu.iit.me.untitledwestern.game.utils.SceneLoader
 import java.util.*
 import kotlin.collections.ArrayList
 
-class DummyGame(private var context: Context,
-                var renderer: MyGLRenderer,
-                private val scale: Float) {
+class DummyGame(
+    private var context: Context,
+    var renderer: MyGLRenderer,
+    private val scale: Float
+    ) {
     var sceneManager: C2DSceneManager = C2DSceneManager()
     private var scene: C2DScene = C2DScene()
 
@@ -22,38 +22,22 @@ class DummyGame(private var context: Context,
     lateinit var platforms: List<GameObject>
     private var layers: ArrayList<C2DGraphicsLayer> = ArrayList()
 
-    lateinit var coins: List<GameObject>
+    var coins: ArrayList<Coin> = ArrayList()
 
     private var ground: Float = -75f
     private var horizon: Float = -21f
 
     fun init(){
-        val sceneModel = JSONTokener(TextUtil.readFile(context,
-            "scenes/scene01.json")).nextValue() as JSONObject
+        var sceneLoader = SceneLoader("scenes/scene01.json", context, scale, horizon, renderer.ratio)
 
-        horizon = sceneModel.getDouble("horizon").toString().toFloat()
-        ground = sceneModel.getDouble("ground").toString().toFloat()
+        horizon = sceneLoader.loadHorizon()
+        ground = sceneLoader.loadGround()
 
-        var mPlayerObject =
-            JsonParserUtil.makeGameObjects(sceneModel.getJSONObject("player"),
-                                           context, scale, horizon)[0]
-        var mPistolObject =
-            JsonParserUtil.makeGameObjects(sceneModel.getJSONObject("player")
-                .getJSONObject("pistol"),
-                context, scale, horizon)[0]
+        mPlayer = sceneLoader.loadPlayer()
+        coins = sceneLoader.loadCoins()
+        platforms = sceneLoader.loadPlatforms()
 
-        mPlayer = Character(mPlayerObject, mPistolObject, 100f)
-
-        coins = JsonParserUtil.makeGameObjects(sceneModel.getJSONObject("coins"),
-                                               context, scale, horizon)
-        platforms = JsonParserUtil.makeGameObjects(sceneModel.getJSONObject("platforms"),
-                                                   context, scale, horizon)
-
-        val layerModels = sceneModel.getJSONArray("layers")
-        for (i in 0 until layerModels.length()){
-            layers.add(JsonParserUtil.makeLayer(layerModels.getJSONObject(i),
-                                                context, scale, horizon, renderer.ratio))
-        }
+        layers = sceneLoader.loadLayers()
 
         for (coin in coins){
             layers.last().addGameObject(coin)
@@ -62,8 +46,8 @@ class DummyGame(private var context: Context,
             layers.last().addGameObject(plat)
         }
 
-        layers.last().addGameObject(mPlayerObject)
-        layers.last().addGameObject(mPistolObject)
+        layers.last().addGameObject(mPlayer.body)
+        layers.last().addGameObject(mPlayer.pistol)
 
         layers.last().mCamera!!.viewPort.mEnabled = true
 

@@ -45,6 +45,7 @@
   "ground": -75.0,
   "horizon": -21.0,
   "coins": {
+    "value": 100,
     "sprites": [
       {
         "fileName": "sprites/coin",
