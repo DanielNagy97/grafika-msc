@@ -1,10 +1,12 @@
 package hu.iit.me.untitledwestern
 
 import android.content.Context
+import android.util.Log
 import hu.iit.me.untitledwestern.engine.*
 import hu.iit.me.untitledwestern.engine.math.Vector2D
-import hu.iit.me.untitledwestern.game.Character
+import hu.iit.me.untitledwestern.game.Bullet
 import hu.iit.me.untitledwestern.game.Coin
+import hu.iit.me.untitledwestern.game.Player
 import hu.iit.me.untitledwestern.game.utils.SceneLoader
 import java.util.*
 import kotlin.collections.ArrayList
@@ -17,7 +19,7 @@ class DummyGame(
     var sceneManager: C2DSceneManager = C2DSceneManager()
     private var scene: C2DScene = C2DScene()
 
-    lateinit var mPlayer: Character
+    lateinit var mPlayer: Player
 
     lateinit var platforms: List<GameObject>
     private var layers: ArrayList<C2DGraphicsLayer> = ArrayList()
@@ -34,6 +36,12 @@ class DummyGame(
         ground = sceneLoader.loadGround()
 
         mPlayer = sceneLoader.loadPlayer()
+
+        for (i in 0 until 3){
+            mPlayer.bullets.add(Bullet(context, 0f,0f, scale, 0f, 0f, 0f))
+            mPlayer.bullets.last().addSprite("sprites/bullet/bullet.png", 1, 0)
+        }
+
         coins = sceneLoader.loadCoins()
         platforms = sceneLoader.loadPlatforms()
 
@@ -48,6 +56,10 @@ class DummyGame(
 
         layers.last().addGameObject(mPlayer.body)
         layers.last().addGameObject(mPlayer.pistol)
+        for (bullet in mPlayer.bullets){
+            layers.last().addGameObject(bullet)
+        }
+
 
         layers.last().mCamera!!.viewPort.mEnabled = true
 
@@ -57,19 +69,31 @@ class DummyGame(
         sceneManager.registerScene(scene)
     }
 
-    fun updateAnimations(){
+    fun update(dt: Float) {
+        mPlayer.checkCoins(coins)
+        updatePositions(dt)
+        updateAnimations()
+        updateCameras(dt)
+    }
+
+    private fun updateAnimations(){
         mPlayer.updateAnimations()
     }
 
-    fun updateCameras(dt: Float){
+    private fun updateCameras(dt: Float){
         for (i in 0 until layers.size-1){
-            layers[i].mCamera!!.moveLeft(mPlayer.xdir * mPlayer.speedX * layers[i].cameraSpeed *dt)
+            layers[i].mCamera!!.moveLeft(mPlayer.xdir * mPlayer.speedX * layers[i].cameraSpeed * dt)
         }
-        layers.last().mCamera!!.setMPosition(Vector2D(mPlayer.body.position.x+90, 0f))
+        layers.last().mCamera!!.setMPosition(Vector2D(mPlayer.body.position.x + 90, 0f))
     }
 
-    fun updatePositions(dt: Float){
-        mPlayer.updatePosition(ground, platforms, coins, dt)
+    private fun updatePositions(dt: Float){
+        mPlayer.updatePosition(ground, platforms, dt)
+
+        for (i in 0 until mPlayer.bullets.size){
+            mPlayer.bullets[i].updatePosition(dt)
+        }
+
 
         // Infinite grounds
         for (i in 4 until layers.size){
@@ -82,6 +106,18 @@ class DummyGame(
                 layers[i].mObjectList[1].position.x =
                     layers[i].mObjectList[0].getBoundingBox().minpoint.x - (layers[i].mObjectList[0].getBoundingBox().maxpoint.x -layers[i].mObjectList[0].getBoundingBox().minpoint.x)
                 Collections.swap(layers[i].mObjectList, 1, 0)
+            }
+
+            if(i == layers.size-1){
+                for (i in 0 until mPlayer.bullets.size){
+                    if(mPlayer.bullets[i].visible){
+                        if(mPlayer.bullets[i].getBoundingBox().minpoint.x > viewPort.maxpoint.x
+                            || mPlayer.bullets[i].getBoundingBox().maxpoint.x < viewPort.minpoint.x){
+                            mPlayer.bullets[i].isFired = false
+                            mPlayer.bullets[i].visible = false
+                        }
+                    }
+                }
             }
         }
     }

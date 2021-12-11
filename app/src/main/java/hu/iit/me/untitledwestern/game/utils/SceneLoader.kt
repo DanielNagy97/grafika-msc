@@ -4,8 +4,8 @@ import android.content.Context
 import hu.iit.me.untitledwestern.engine.C2DGraphicsLayer
 import hu.iit.me.untitledwestern.engine.GameObject
 import hu.iit.me.untitledwestern.engine.util.*
-import hu.iit.me.untitledwestern.game.Character
 import hu.iit.me.untitledwestern.game.Coin
+import hu.iit.me.untitledwestern.game.Player
 import org.json.JSONObject
 import org.json.JSONTokener
 
@@ -33,11 +33,11 @@ class SceneLoader(
         return coinLoader.makeObjects(sceneModel.getJSONObject("coins"), context, scale, horizon)
     }
 
-    fun loadPlayer(): Character {
+    fun loadPlayer(): Player {
         val mPlayerObject = gameObjectLoader.makeObject(sceneModel.getJSONObject("player"), context, scale, horizon)
         val mPistolObject = gameObjectLoader.makeObject(sceneModel.getJSONObject("player").getJSONObject("pistol"), context, scale, horizon)
 
-        return Character(mPlayerObject, mPistolObject, 100f)
+        return Player(mPlayerObject, mPistolObject, 100f)
     }
 
     fun loadPlatforms(): List<GameObject> {

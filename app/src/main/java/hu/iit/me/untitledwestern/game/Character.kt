@@ -2,7 +2,7 @@ package hu.iit.me.untitledwestern.game
 
 import hu.iit.me.untitledwestern.engine.GameObject
 
-class Character (
+open class Character (
     var body: GameObject,
     var pistol: GameObject,
     var velocity: Float
@@ -15,10 +15,12 @@ class Character (
 
     var speedX = 0f
     private var speedY: Float = 0f
-    var xdir = 1f
-    private var ydir = -1f
+    var xdir = 1
+    private var ydir = -1
 
-    private fun calcPlayerPosition(ground: Float, platforms: List<GameObject>, dt:Float) {
+    val bullets: ArrayList<Bullet> = ArrayList()
+
+    private fun calcPosition(ground: Float, platforms: List<GameObject>, dt:Float) {
         // Position handling
         body.position.x += xdir * (speedX * dt)
         body.position.y += ydir * (speedY * dt)
@@ -46,15 +48,15 @@ class Character (
             }
         } else if (jumping) {
             if (speedY <= 0f) {
-                ydir = 1f
+                ydir = 1
                 speedY = velocity * 4f
-            } else if (speedY >= velocity/5f && ydir == 1f) {
+            } else if (speedY >= velocity/5f && ydir == 1) {
                 speedY *= 0.9f * (1 - dt)
             } else if (speedY < velocity/5f) {
                 //falling begins
                 jumping = false
                 falling = true
-                ydir = -1f
+                ydir = -1
             }
         }
 
@@ -91,7 +93,7 @@ class Character (
     private fun calcPistolPosition() {
         pistol.position.y = body.getBoundingBox().minpoint.y + (body.getBoundingBox().maxpoint.y-body.getBoundingBox().minpoint.y)/3
 
-        if(xdir == 1f){
+        if(xdir == 1){
             pistol.position.x = body.getBoundingBox().maxpoint.x
         }
         else{
@@ -99,18 +101,9 @@ class Character (
         }
     }
 
-    fun checkCoins(coins: List<Coin>){
-        for(coin in coins){
-            if (body.getBoundingBox().checkOverlapping(coin.getBoundingBox())) {
-                coin.position.x += 1000f
-            }
-        }
-    }
-
-    fun updatePosition(ground: Float, platforms: List<GameObject>, coins: List<Coin>, dt: Float) {
-        calcPlayerPosition(ground, platforms, dt)
+    fun updatePosition(ground: Float, platforms: List<GameObject>, dt: Float) {
+        calcPosition(ground, platforms, dt)
         calcPistolPosition()
-        checkCoins(coins)
     }
 
     fun updateAnimations(){
@@ -125,7 +118,7 @@ class Character (
             body.currSprite = 1
         }
 
-        body.mSprites[body.currSprite].toFlip = xdir != 1f
+        body.mSprites[body.currSprite].toFlip = xdir != 1
 
         // Pistol Animation
         if (shooting) {
@@ -138,6 +131,20 @@ class Character (
             pistol.mSprites[1].miActualFrame = 0
             pistol.currSprite = 0
         }
-        pistol.mSprites[pistol.currSprite].toFlip = xdir != 1f
+        pistol.mSprites[pistol.currSprite].toFlip = xdir != 1
+    }
+
+    fun shootABullet(){
+        for (i in 0 until bullets.size){
+            if(!bullets[i].isFired){
+                bullets[i].isFired = true
+                bullets[i].visible = true
+                bullets[i].position.x = pistol.getBoundingBox().maxpoint.x - 19f
+                bullets[i].position.y = pistol.getBoundingBox().maxpoint.y - 17f
+                bullets[i].xDir = xdir
+                bullets[i].mSprites[bullets[i].currSprite].toFlip = xdir != 1
+                break
+            }
+        }
     }
 }

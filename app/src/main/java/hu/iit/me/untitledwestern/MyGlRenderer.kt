@@ -52,15 +52,10 @@ class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
 
         GLES32.glClear(GLES32.GL_COLOR_BUFFER_BIT)
         GLES32.glClear(GLES32.GL_DEPTH_BUFFER_BIT)
-
-        dummygame.updatePositions(dt)
-        dummygame.updateAnimations()
-        dummygame.updateCameras(dt)
-
         dummygame.sceneManager.render(this)
-
         dummygame.sceneManager.mScenes.last().mLayers.last().mCamera!!.viewPort.draw(this)
 
+        dummygame.update(dt)
     }
 
     override fun onSurfaceChanged(unused: GL10, width: Int, height: Int) {

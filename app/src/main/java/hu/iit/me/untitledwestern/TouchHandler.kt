@@ -11,10 +11,10 @@ class TouchHandler {
             if(x < width / 2){
                 dummyGame.mPlayer.speedX = dummyGame.mPlayer.velocity
                 if(x < width / 4){
-                    dummyGame.mPlayer.xdir = -1f
+                    dummyGame.mPlayer.xdir = -1
                 }
                 else{
-                    dummyGame.mPlayer.xdir = 1f
+                    dummyGame.mPlayer.xdir = 1
                 }
                 if (!dummyGame.mPlayer.jumping && !dummyGame.mPlayer.falling){
                     dummyGame.mPlayer.idle = false
@@ -26,6 +26,7 @@ class TouchHandler {
                 }
                 if(y > height / 2){
                     dummyGame.mPlayer.shooting = true
+                    dummyGame.mPlayer.shootABullet()
                 }
             }
         }
