@@ -10,11 +10,15 @@ class Player(
     velocity: Float
 ): Character(body, pistol, velocity) {
 
-    fun checkCoins(coins: List<Coin>){
+    fun checkCoins(coins: List<Coin>): Int{
+        var score = 0
         for(coin in coins){
             if (body.getBoundingBox().checkOverlapping(coin.getBoundingBox())) {
+                score += coin.value
                 coin.position.x += 1000f
             }
         }
+
+        return score
     }
 }

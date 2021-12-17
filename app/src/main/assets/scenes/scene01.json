@@ -45,7 +45,7 @@
   "ground": -75.0,
   "horizon": -21.0,
   "coins": {
-    "value": 100,
+    "value": 13,
     "sprites": [
       {
         "fileName": "sprites/coin",
@@ -81,6 +81,71 @@
     "sprites": [
       {
         "fileName": "sprites/platform/platform.png",
+        "numberOfFrames": 1,
+        "Fps": 0
+      }
+    ]
+  },
+  "scoreNumbers": {
+    "n": 6,
+    "sprites": [
+      {
+        "fileName": "sprites/numbers/0.png",
+        "numberOfFrames": 1,
+        "Fps": 0
+      },
+      {
+        "fileName": "sprites/numbers/1.png",
+        "numberOfFrames": 1,
+        "Fps": 0
+      },
+      {
+        "fileName": "sprites/numbers/2.png",
+        "numberOfFrames": 1,
+        "Fps": 0
+      },
+      {
+        "fileName": "sprites/numbers/3.png",
+        "numberOfFrames": 1,
+        "Fps": 0
+      },
+      {
+        "fileName": "sprites/numbers/4.png",
+        "numberOfFrames": 1,
+        "Fps": 0
+      },
+      {
+        "fileName": "sprites/numbers/5.png",
+        "numberOfFrames": 1,
+        "Fps": 0
+      },
+      {
+        "fileName": "sprites/numbers/6.png",
+        "numberOfFrames": 1,
+        "Fps": 0
+      },
+      {
+        "fileName": "sprites/numbers/7.png",
+        "numberOfFrames": 1,
+        "Fps": 0
+      },
+      {
+        "fileName": "sprites/numbers/8.png",
+        "numberOfFrames": 1,
+        "Fps": 0
+      },
+      {
+        "fileName": "sprites/numbers/9.png",
+        "numberOfFrames": 1,
+        "Fps": 0
+      }
+    ]
+  },
+  "hearts": {
+    "n": 4,
+    "sprites": [
+      {
+        "fileName": "sprites/heart/heart.png",
         "numberOfFrames": 1,
         "Fps": 0
       }

@@ -2,6 +2,7 @@ package hu.iit.me.untitledwestern.game.utils
 
 import android.content.Context
 import hu.iit.me.untitledwestern.engine.C2DGraphicsLayer
+import hu.iit.me.untitledwestern.engine.CCamera2D
 import hu.iit.me.untitledwestern.engine.GameObject
 import hu.iit.me.untitledwestern.engine.util.*
 import hu.iit.me.untitledwestern.game.Coin
@@ -20,6 +21,7 @@ class SceneLoader(
     private val layerLoader = LayerLoader()
     private val gameObjectLoader = GameObjectLoader()
     private val coinLoader = CoinLoader()
+    private val scoreNumberLoader = ScoreNumberLoader()
 
     fun loadHorizon(): Float {
         return loadFloat("horizon", sceneModel)
@@ -31,6 +33,14 @@ class SceneLoader(
 
     fun loadCoins(): ArrayList<Coin> {
         return coinLoader.makeObjects(sceneModel.getJSONObject("coins"), context, scale, horizon)
+    }
+
+    fun loadScoreNumbers(): ArrayList<GameObject> {
+        return scoreNumberLoader.makeObjects(sceneModel.getJSONObject("scoreNumbers"), context, scale, horizon)
+    }
+
+    fun loadHearts(): ArrayList<GameObject> {
+        return scoreNumberLoader.makeObjects(sceneModel.getJSONObject("hearts"), context, scale, horizon)
     }
 
     fun loadPlayer(): Player {
@@ -52,6 +62,9 @@ class SceneLoader(
                 layerLoader.makeLayer(layerModels.getJSONObject(i),
                 context, scale, horizon, ratio, gameObjectLoader))
         }
+        //Hub-layer
+        layers.add(C2DGraphicsLayer("hub-layer", 0, 0.0f))
+        layers.last().setCamera(CCamera2D(0f, 0f, 0, 16f/9f))
         return layers
     }
 }
