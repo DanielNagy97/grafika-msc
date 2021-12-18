@@ -3,7 +3,7 @@ package hu.iit.me.untitledwestern.game
 import android.content.Context
 import hu.iit.me.untitledwestern.engine.GameObject
 
-class Coin (
+class Collectible (
     context: Context,
     posX: Float,
     posY:Float,

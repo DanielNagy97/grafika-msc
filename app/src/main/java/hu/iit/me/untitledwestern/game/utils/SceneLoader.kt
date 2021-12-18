@@ -5,7 +5,7 @@ import hu.iit.me.untitledwestern.engine.C2DGraphicsLayer
 import hu.iit.me.untitledwestern.engine.CCamera2D
 import hu.iit.me.untitledwestern.engine.GameObject
 import hu.iit.me.untitledwestern.engine.util.*
-import hu.iit.me.untitledwestern.game.Coin
+import hu.iit.me.untitledwestern.game.Collectible
 import hu.iit.me.untitledwestern.game.Player
 import org.json.JSONObject
 import org.json.JSONTokener
@@ -20,7 +20,7 @@ class SceneLoader(
     private val sceneModel: JSONObject = JSONTokener(TextUtil.readFile(context, sceneFileName)).nextValue() as JSONObject
     private val layerLoader = LayerLoader()
     private val gameObjectLoader = GameObjectLoader()
-    private val coinLoader = CoinLoader()
+    private val collectibleLoader = CollectibleLoader()
     private val scoreNumberLoader = ScoreNumberLoader()
 
     fun loadHorizon(): Float {
@@ -31,8 +31,15 @@ class SceneLoader(
         return loadFloat("ground", sceneModel)
     }
 
-    fun loadCoins(): ArrayList<Coin> {
-        return coinLoader.makeObjects(sceneModel.getJSONObject("coins"), context, scale, horizon)
+    fun loadCollectibles(): ArrayList<Collectible> {
+        val coins = collectibleLoader.makeObjects(sceneModel.getJSONObject("coins"), context, scale, horizon)
+        val cards = collectibleLoader.makeObjects(sceneModel.getJSONObject("cards"), context, scale, horizon)
+        val bottles = collectibleLoader.makeObjects(sceneModel.getJSONObject("bottles"), context, scale, horizon)
+        var result : ArrayList<Collectible> = ArrayList()
+        result.addAll(coins)
+        result.addAll(cards)
+        result.addAll(bottles)
+        return result
     }
 
     fun loadScoreNumbers(): ArrayList<GameObject> {

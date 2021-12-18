@@ -1,11 +1,10 @@
 package hu.iit.me.untitledwestern
 
 import android.content.Context
-import android.util.Log
 import hu.iit.me.untitledwestern.engine.*
 import hu.iit.me.untitledwestern.engine.math.Vector2D
 import hu.iit.me.untitledwestern.game.Bullet
-import hu.iit.me.untitledwestern.game.Coin
+import hu.iit.me.untitledwestern.game.Collectible
 import hu.iit.me.untitledwestern.game.Player
 import hu.iit.me.untitledwestern.game.utils.SceneLoader
 import java.util.*
@@ -30,7 +29,7 @@ class DummyGame(
     private lateinit var gameLayer: C2DGraphicsLayer
     private lateinit var hubLayer: C2DGraphicsLayer
 
-    var coins: ArrayList<Coin> = ArrayList()
+    var collectibles: ArrayList<Collectible> = ArrayList()
 
     var scoreNumbers: ArrayList<GameObject> = ArrayList()
 
@@ -38,7 +37,6 @@ class DummyGame(
     private var horizon: Float = -21f
 
     var score: Int = 0
-
     var hearts: ArrayList<GameObject> = ArrayList()
 
     fun init(){
@@ -54,7 +52,7 @@ class DummyGame(
             mPlayer.bullets.last().addSprite("sprites/bullet/bullet.png", 1, 0)
         }
 
-        coins = sceneLoader.loadCoins()
+        collectibles = sceneLoader.loadCollectibles()
         platforms = sceneLoader.loadPlatforms()
 
         scoreNumbers = sceneLoader.loadScoreNumbers()
@@ -78,7 +76,7 @@ class DummyGame(
 
         // x position
         hearts[0].position.x = hubLayer.mCamera!!.viewPort.maxpoint.x - (hearts[0].getBoundingBox().maxpoint.x-hearts[0].getBoundingBox().minpoint.x) - 2 * scale
-        for (i in 1..hearts.size-1){
+        for (i in 1 until hearts.size){
             hearts[i].position.x = hearts[i-1].getBoundingBox().minpoint.x - (hearts[i].getBoundingBox().maxpoint.x-hearts[i].getBoundingBox().minpoint.x) - 2 * scale
         }
         // y position
@@ -89,13 +87,11 @@ class DummyGame(
 
 
 
-
-
-        for (coin in coins){
-            gameLayer.addGameObject(coin)
-        }
         for (plat in platforms){
             gameLayer.addGameObject(plat)
+        }
+        for (coin in collectibles){
+            gameLayer.addGameObject(coin)
         }
 
         for (num in scoreNumbers){
@@ -122,7 +118,7 @@ class DummyGame(
     }
 
     fun update(dt: Float) {
-        score += mPlayer.checkCoins(coins)
+        score += mPlayer.checkCollectibles(collectibles)
         updatePositions(dt)
         updateAnimations()
         updateCameras(dt)
@@ -161,6 +157,7 @@ class DummyGame(
                 Collections.swap(layers[i].mObjectList, 1, 0)
             }
 
+            // Bullet handling
             if(i == layers.size-2){
                 for (i in 0 until mPlayer.bullets.size){
                     if(mPlayer.bullets[i].visible){

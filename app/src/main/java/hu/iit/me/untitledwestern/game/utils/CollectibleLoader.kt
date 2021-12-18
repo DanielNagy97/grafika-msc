@@ -1,16 +1,16 @@
 package hu.iit.me.untitledwestern.game.utils
 
 import android.content.Context
-import hu.iit.me.untitledwestern.game.Coin
+import hu.iit.me.untitledwestern.game.Collectible
 import org.json.JSONObject
 
-class CoinLoader: GameObjectLoader() {
+class CollectibleLoader: GameObjectLoader() {
     override fun makeObjects(jsonObject: JSONObject,
                              context: Context,
                              scale: Float,
                              horizon: Float
-    ): ArrayList<Coin> {
-        var coins: ArrayList<Coin> = ArrayList()
+    ): ArrayList<Collectible> {
+        var collectibles: ArrayList<Collectible> = ArrayList()
 
         val positions = loadPositions(jsonObject, horizon)
         val type = loadType(jsonObject)
@@ -20,12 +20,12 @@ class CoinLoader: GameObjectLoader() {
         val value = loadInt("value", jsonObject)
 
         for (position in positions){
-            var newCoin = Coin(context, position.x, position.y,
+            var newCoin = Collectible(context, position.x, position.y,
                 scale, interval, minY, maxY, value)
             loadSpritesToGameObject(jsonObject, newCoin)
 
-            coins.add(newCoin)
+            collectibles.add(newCoin)
         }
-        return coins
+        return collectibles
     }
 }
