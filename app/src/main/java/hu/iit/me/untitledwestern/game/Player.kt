@@ -5,8 +5,9 @@ import hu.iit.me.untitledwestern.engine.GameObject
 class Player(
     body: GameObject,
     pistol: GameObject,
-    velocity: Float
-): Character(body, pistol, velocity) {
+    velocity: Float,
+    lives: Int
+): Character(body, pistol, velocity, lives) {
 
     fun checkCollectibles(collectibles: List<Collectible>): Int{
         var score = 0
@@ -16,7 +17,8 @@ class Player(
                 coin.position.x += 1000f
             }
         }
-
         return score
     }
+
+
 }

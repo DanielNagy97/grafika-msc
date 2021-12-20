@@ -5,13 +5,15 @@ import hu.iit.me.untitledwestern.engine.GameObject
 open class Character (
     var body: GameObject,
     var pistol: GameObject,
-    var velocity: Float
+    var velocity: Float,
+    var lives: Int
     ){
     var idle = true
     var shooting = false
     var jumping = false
     var falling = true
     private var onPlatform : GameObject? = null
+    var inHole = false
 
     var speedX = 0f
     private var speedY: Float = 0f
@@ -20,7 +22,7 @@ open class Character (
 
     val bullets: ArrayList<Bullet> = ArrayList()
 
-    private fun calcPosition(ground: Float, platforms: List<GameObject>, dt:Float) {
+    private fun calcPosition(ground: Float, platforms: List<GameObject>, holes: List<GameObject>, barrels: List<GameObject>, gameCameraOffset: Float, dt:Float): Float {
         // Position handling
         body.position.x += xdir * (speedX * dt)
         body.position.y += ydir * (speedY * dt)
@@ -37,15 +39,24 @@ open class Character (
                 speedY = velocity * 4f
             }
 
-            //checking ground
-            if (body.position.y < ground) {
-                falling = false
-                speedY = 0f
-                body.position.y = ground
-                if (speedX > 0) {
-                    idle = false
+            if(!inHole){
+                //checking ground
+                if (body.position.y < ground) {
+                    falling = false
+                    speedY = 0f
+                    body.position.y = ground
+                    if (speedX > 0) {
+                        idle = false
+                    }
                 }
             }
+            if(inHole){
+                if (body.getBoundingBox().maxpoint.y < ground){
+                    body.position.y = 282f
+                    inHole = false
+                }
+            }
+
         } else if (jumping) {
             if (speedY <= 0f) {
                 ydir = 1
@@ -60,7 +71,11 @@ open class Character (
             }
         }
 
+        checkHoles(holes)
+
         checkPlatforms(platforms)
+
+        var newOffset = checkBarrels(barrels, gameCameraOffset, dt)
 
         // Falling from the platform
         if(onPlatform != null){
@@ -70,6 +85,8 @@ open class Character (
                 falling = true
             }
         }
+
+        return newOffset
     }
 
     private fun checkPlatforms(platforms: List<GameObject>) {
@@ -90,6 +107,27 @@ open class Character (
         }
     }
 
+    private fun checkHoles(holes: List<GameObject>){
+        for (hole in holes) {
+            if (!inHole && (body.getBoundingBox().minpoint.x > hole.getBoundingBox().minpoint.x && body.getBoundingBox().maxpoint.x < hole.getBoundingBox().maxpoint.x) && body.getBoundingBox().minpoint.y < hole.getBoundingBox().maxpoint.y){
+                inHole = true
+                falling = true
+                lives--
+            }
+        }
+    }
+
+    private fun checkBarrels(barrels: List<GameObject>, gameCameraOffset: Float, dt: Float): Float{
+        var newOffset = gameCameraOffset
+        for (barrel in barrels){
+            if (barrel.getBoundingBox().checkOverlapping(body.getBoundingBox())){
+                body.position.x = barrel.position.x-(body.getBoundingBox().maxpoint.x-body.getBoundingBox().minpoint.x)
+                newOffset += xdir * (speedX) * dt
+            }
+        }
+        return newOffset
+    }
+
     private fun calcPistolPosition() {
         pistol.position.y = body.getBoundingBox().minpoint.y + (body.getBoundingBox().maxpoint.y-body.getBoundingBox().minpoint.y)/3
 
@@ -101,9 +139,10 @@ open class Character (
         }
     }
 
-    fun updatePosition(ground: Float, platforms: List<GameObject>, dt: Float) {
-        calcPosition(ground, platforms, dt)
+    fun updatePosition(ground: Float, platforms: List<GameObject>, holes: List<GameObject>, barrels: List<GameObject>, gameCameraOffset: Float, dt: Float): Float {
+        val newOffset: Float = calcPosition(ground, platforms, holes, barrels, gameCameraOffset, dt)
         calcPistolPosition()
+        return newOffset
     }
 
     fun updateAnimations(){

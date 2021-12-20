@@ -49,13 +49,12 @@ class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
 
     override fun onDrawFrame(gl: GL10) {
         val dt: Float = timer.getElapsedTime()
+        dummygame.update(dt)
 
         GLES32.glClear(GLES32.GL_COLOR_BUFFER_BIT)
         GLES32.glClear(GLES32.GL_DEPTH_BUFFER_BIT)
         dummygame.sceneManager.render(this)
         dummygame.sceneManager.mScenes.last().mLayers.last().mCamera!!.viewPort.draw(this)
-
-        dummygame.update(dt)
     }
 
     override fun onSurfaceChanged(unused: GL10, width: Int, height: Int) {

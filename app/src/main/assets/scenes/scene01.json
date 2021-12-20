@@ -44,69 +44,71 @@
   },
   "ground": -75.0,
   "horizon": -21.0,
-  "coins": {
-    "value": 10,
-    "sprites": [
-      {
-        "fileName": "sprites/coin",
-        "numberOfFrames": 8,
-        "Fps": 12
-      }
-    ],
-    "type": "repeating",
-    "interval": "300.0",
-    "minY": "-70",
-    "maxY": "10",
-    "positions":
-    [
-      [0.0, 5.0],
-      [40.0, 5.0],
-      [80.0, 5.0],
-      [100.0, -70.0],
-      [140.0, -70.0],
-      [180.0, -70.0]
-    ]
-  },
-  "cards": {
-    "value": 5,
-    "sprites": [
-      {
-        "fileName": "sprites/card",
-        "numberOfFrames": 12,
-        "Fps": 12
-      }
-    ],
-    "type": "repeating",
-    "interval": "300.0",
-    "minY": "-70",
-    "maxY": "10",
-    "positions":
-    [
-      [0.0, -25.0],
-      [100.0, 5.0],
-      [440.0, -60.0]
-    ]
-  },
-  "bottles": {
-    "value": 1,
-    "sprites": [
-      {
-        "fileName": "sprites/bottle",
-        "numberOfFrames": 8,
-        "Fps": 10
-      }
-    ],
-    "type": "repeating",
-    "interval": "300.0",
-    "minY": "-70",
-    "maxY": "10",
-    "positions":
-    [
-      [60.0, -25.0],
-      [200.0, 10.0],
-      [400.0, -70.0]
-    ]
-  },
+  "collectibles": [
+    {
+      "value": 10,
+      "sprites": [
+        {
+          "fileName": "sprites/coin",
+          "numberOfFrames": 8,
+          "Fps": 12
+        }
+      ],
+      "type": "repeating",
+      "interval": "300.0",
+      "minY": "-70",
+      "maxY": "10",
+      "positions":
+      [
+        [0.0, 5.0],
+        [40.0, 5.0],
+        [80.0, 5.0],
+        [100.0, -70.0],
+        [140.0, -70.0],
+        [180.0, -70.0]
+      ]
+    },
+    {
+      "value": 5,
+      "sprites": [
+        {
+          "fileName": "sprites/card",
+          "numberOfFrames": 12,
+          "Fps": 12
+        }
+      ],
+      "type": "repeating",
+      "interval": "300.0",
+      "minY": "-70",
+      "maxY": "10",
+      "positions":
+      [
+        [0.0, -25.0],
+        [100.0, 5.0],
+        [440.0, -60.0]
+      ]
+    },
+    {
+      "value": 1,
+      "sprites": [
+        {
+          "fileName": "sprites/bottle",
+          "numberOfFrames": 8,
+          "Fps": 10
+        }
+      ],
+      "type": "repeating",
+      "interval": "300.0",
+      "minY": "-70",
+      "maxY": "10",
+      "positions":
+      [
+        [60.0, -25.0],
+        [200.0, 10.0],
+        [400.0, -70.0]
+      ]
+    }
+  ],
   "platforms": {
     "type": "repeating",
     "interval": "60.0",
@@ -121,6 +123,38 @@
     "sprites": [
       {
         "fileName": "sprites/platform/platform.png",
+        "numberOfFrames": 1,
+        "Fps": 0
+      }
+    ]
+  },
+  "holes": {
+    "type": "repeating",
+    "interval": "300.0",
+    "minY": "-82",
+    "maxY": "-82",
+    "positions": [
+      ["40.0", "-82.0"]
+    ],
+    "sprites": [
+      {
+        "fileName": "sprites/hole/hole.png",
+        "numberOfFrames": 1,
+        "Fps": 0
+      }
+    ]
+  },
+  "barrels": {
+    "type": "repeating",
+    "interval": "300.0",
+    "minY": "-76",
+    "maxY": "-76",
+    "positions": [
+      ["0.0", "-76.0"]
+    ],
+    "sprites": [
+      {
+        "fileName": "sprites/barrel/barrel.png",
         "numberOfFrames": 1,
         "Fps": 0
       }

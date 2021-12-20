@@ -3,12 +3,12 @@ package hu.iit.me.untitledwestern
 import android.content.Context
 import hu.iit.me.untitledwestern.engine.*
 import hu.iit.me.untitledwestern.engine.math.Vector2D
-import hu.iit.me.untitledwestern.game.Bullet
 import hu.iit.me.untitledwestern.game.Collectible
 import hu.iit.me.untitledwestern.game.Player
 import hu.iit.me.untitledwestern.game.utils.SceneLoader
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.abs
 import kotlin.math.floor
 import kotlin.math.log10
 import kotlin.math.pow
@@ -23,21 +23,27 @@ class DummyGame(
 
     lateinit var mPlayer: Player
 
-    lateinit var platforms: List<GameObject>
-    private var layers: ArrayList<C2DGraphicsLayer> = ArrayList()
-
-    private lateinit var gameLayer: C2DGraphicsLayer
-    private lateinit var hubLayer: C2DGraphicsLayer
+    private lateinit var platforms: List<GameObject>
+    private lateinit var holes: List<GameObject>
+    private lateinit var barrels: List<GameObject>
 
     var collectibles: ArrayList<Collectible> = ArrayList()
-
-    var scoreNumbers: ArrayList<GameObject> = ArrayList()
 
     private var ground: Float = -75f
     private var horizon: Float = -21f
 
+    private var layers: ArrayList<C2DGraphicsLayer> = ArrayList()
+    private lateinit var gameLayer: C2DGraphicsLayer
+    private lateinit var hubLayer: C2DGraphicsLayer
+
     var score: Int = 0
+    var scoreNumbers: ArrayList<GameObject> = ArrayList()
     var hearts: ArrayList<GameObject> = ArrayList()
+
+    var gameCameraLastXPos = 0f
+
+    private val gameCameraBaseOffset: Float = 80f
+    private var gameCameraOffset: Float = gameCameraBaseOffset
 
     fun init(){
         var sceneLoader = SceneLoader("scenes/scene01.json", context, scale, horizon, renderer.ratio)
@@ -45,24 +51,22 @@ class DummyGame(
         horizon = sceneLoader.loadHorizon()
         ground = sceneLoader.loadGround()
 
-        mPlayer = sceneLoader.loadPlayer()
+        scoreNumbers = sceneLoader.loadScoreNumbers()
+        hearts = sceneLoader.loadHearts()
 
-        for (i in 0 until 3){
-            mPlayer.bullets.add(Bullet(context, 0f,0f, scale, 0f, 0f, 0f))
-            mPlayer.bullets.last().addSprite("sprites/bullet/bullet.png", 1, 0)
-        }
+        mPlayer = sceneLoader.loadPlayer(hearts.size)
 
         collectibles = sceneLoader.loadCollectibles()
         platforms = sceneLoader.loadPlatforms()
-
-        scoreNumbers = sceneLoader.loadScoreNumbers()
-
-        hearts = sceneLoader.loadHearts()
+        holes = sceneLoader.loadHoles()
+        barrels = sceneLoader.loadBarrels()
 
         layers = sceneLoader.loadLayers()
 
         gameLayer = layers[layers.size-2]
         hubLayer = layers[layers.size-1]
+
+        gameCameraLastXPos = gameLayer.mCamera!!.mPosition.x
 
         // x position
         scoreNumbers.last().position.x = hubLayer.mCamera!!.viewPort.minpoint.x + 2 * scale
@@ -86,9 +90,14 @@ class DummyGame(
         }
 
 
-
+        for (hole in holes){
+            gameLayer.addGameObject(hole)
+        }
         for (plat in platforms){
             gameLayer.addGameObject(plat)
+        }
+        for (barrel in barrels){
+            gameLayer.addGameObject(barrel)
         }
         for (coin in collectibles){
             gameLayer.addGameObject(coin)
@@ -109,7 +118,7 @@ class DummyGame(
         }
 
 
-        gameLayer.mCamera!!.viewPort.mEnabled = true
+        hubLayer.mCamera!!.viewPort.mEnabled = true
 
         for(layer in layers){
             scene.registerLayer(layer)
@@ -121,28 +130,37 @@ class DummyGame(
         score += mPlayer.checkCollectibles(collectibles)
         updatePositions(dt)
         updateAnimations()
-        updateCameras(dt)
+        updateCameras()
         updateScoreBoard()
+        updateHearts()
     }
 
     private fun updateAnimations(){
         mPlayer.updateAnimations()
     }
 
-    private fun updateCameras(dt: Float){
+    private fun updateCameras(){
+        gameLayer.mCamera!!.setMPosition(Vector2D(mPlayer.body.position.x + gameCameraOffset, 0f))
         for (i in 0 until layers.size-2){
-            layers[i].mCamera!!.moveLeft(mPlayer.xdir * mPlayer.speedX * layers[i].cameraSpeed * dt)
+            layers[i].mCamera!!.moveLeft((gameLayer.mCamera!!.mPosition.x - gameCameraLastXPos) * layers[i].cameraSpeed)
         }
-        gameLayer.mCamera!!.setMPosition(Vector2D(mPlayer.body.position.x + 90, 0f))
+        gameCameraLastXPos = gameLayer.mCamera!!.mPosition.x
     }
 
     private fun updatePositions(dt: Float){
-        mPlayer.updatePosition(ground, platforms, dt)
+        gameCameraOffset = mPlayer.updatePosition(ground, platforms, holes, barrels, gameCameraOffset, dt)
+        if(gameCameraOffset>gameCameraBaseOffset){
+            gameCameraOffset -=  mPlayer.speedX*0.5f * dt
+        }
+        if(mPlayer.body.getBoundingBox().maxpoint.x<gameLayer.mCamera!!.viewPort.minpoint.x){
+            mPlayer.falling = true
+            mPlayer.body.position.y = 282f
+            mPlayer.lives--
+        }
 
         for (i in 0 until mPlayer.bullets.size){
             mPlayer.bullets[i].updatePosition(dt)
         }
-
 
         // Infinite grounds
         for (i in 4 until layers.size-1){
@@ -159,7 +177,7 @@ class DummyGame(
 
             // Bullet handling
             if(i == layers.size-2){
-                for (i in 0 until mPlayer.bullets.size){
+                for (i: Int in 0 until mPlayer.bullets.size){
                     if(mPlayer.bullets[i].visible){
                         if(mPlayer.bullets[i].getBoundingBox().minpoint.x > viewPort.maxpoint.x
                             || mPlayer.bullets[i].getBoundingBox().maxpoint.x < viewPort.minpoint.x){
@@ -180,6 +198,12 @@ class DummyGame(
         for(i in 1..nDigits){
             val nthNumber: Int = floor(score / 10.0.pow((i - 1).toDouble()) % 10).toInt()
             hubLayer.mObjectList[i-1].currSprite = nthNumber
+        }
+    }
+
+    private fun updateHearts() {
+        for (i in 0 until hearts.size){
+            hearts[i].visible = i < mPlayer.lives
         }
     }
 
