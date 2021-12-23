@@ -16,16 +16,16 @@ class TouchHandler {
                 else{
                     dummyGame.mPlayer.xdir = 1
                 }
-                if (!dummyGame.mPlayer.jumping && !dummyGame.mPlayer.falling){
-                    dummyGame.mPlayer.idle = false
+                if (!dummyGame.mPlayer.state.jumping && !dummyGame.mPlayer.state.falling){
+                    dummyGame.mPlayer.state.idle = false
                 }
             }
             else{
-                if(y < height / 2 && !dummyGame.mPlayer.jumping && !dummyGame.mPlayer.falling){
-                    dummyGame.mPlayer.jumping = true
+                if(y < height / 2 && !dummyGame.mPlayer.state.jumping && !dummyGame.mPlayer.state.falling){
+                    dummyGame.mPlayer.state.jumping = true
                 }
                 if(y > height / 2){
-                    dummyGame.mPlayer.shooting = true
+                    dummyGame.mPlayer.state.shooting = true
                     dummyGame.mPlayer.shootABullet()
                 }
             }
@@ -35,7 +35,7 @@ class TouchHandler {
             if(x < width / 2){
                 dummyGame.mPlayer.speedX = 0f
             }
-            dummyGame.mPlayer.idle = true
+            dummyGame.mPlayer.state.idle = true
         }
     }
 }

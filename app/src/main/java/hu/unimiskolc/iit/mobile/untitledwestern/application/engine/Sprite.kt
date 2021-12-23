@@ -36,7 +36,7 @@ class Sprite(
 
             tex.createTexture(bitmap)
 
-            val newFrame = SpriteFrame(tex, "Frame_1")
+            val newFrame = SpriteFrame(tex)
             newFrame.addBoundingBox(Vector2D(0.0f, 0.0f), Vector2D(tex.width.toFloat(), tex.height.toFloat()))
             mvFrames.add(newFrame)
         }
@@ -50,7 +50,7 @@ class Sprite(
 
                 tex.createTexture(bitmap)
 
-                val newFrame = SpriteFrame(tex, "Frame_$i")
+                val newFrame = SpriteFrame(tex)
                 newFrame.addBoundingBox(Vector2D(0.0f, 0.0f), Vector2D(tex.width.toFloat(), tex.height.toFloat()))
                 mvFrames.add(newFrame)
             }

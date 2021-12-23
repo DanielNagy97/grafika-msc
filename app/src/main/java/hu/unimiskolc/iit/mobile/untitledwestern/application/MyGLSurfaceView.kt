@@ -24,9 +24,9 @@ class MyGLSurfaceView(context: Context) : GLSurfaceView(context) {
         touchHandler = TouchHandler()
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+    //@SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(e: MotionEvent): Boolean {
-        systemUiVisibility = (SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+        //systemUiVisibility = (SYSTEM_UI_FLAG_HIDE_NAVIGATION)
         touchHandler.handleInput(e, renderer.dummygame, width, height)
         return true
     }

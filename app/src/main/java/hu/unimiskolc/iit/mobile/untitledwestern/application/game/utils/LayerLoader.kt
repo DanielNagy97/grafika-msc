@@ -17,7 +17,7 @@ class LayerLoader: JsonLoader() {
 
         val name = loadString("name", jsonObject)
         val cameraSpeed = loadFloat("cameraSpeed", jsonObject)
-        newLayer = C2DGraphicsLayer(name, 0, cameraSpeed)
+        newLayer = C2DGraphicsLayer(cameraSpeed)
 
         val layerGameObjects = loadArray("gameObjects", jsonObject)
         for (i in 0 until layerGameObjects.length()) {
@@ -29,7 +29,7 @@ class LayerLoader: JsonLoader() {
                 newLayer.addGameObject(gameObj)
             }
         }
-        newLayer.setCamera(CCamera2D(0f, 0f, 0, aspect))
+        newLayer.setCamera(CCamera2D(0f, 0f, aspect))
 
         return newLayer
     }

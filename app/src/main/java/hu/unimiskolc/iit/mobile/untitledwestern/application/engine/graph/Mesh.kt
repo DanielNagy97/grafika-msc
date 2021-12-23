@@ -33,7 +33,6 @@ class Mesh
     private var vboIdList: ArrayList<Int> = ArrayList()
 
     init {
-        //GLES20.glGetAttribLocation(shaderProgram.programId, "a_TexCoordinate").also{
         vaoId = createVao()
         glBindVertexArray(vaoId)
 

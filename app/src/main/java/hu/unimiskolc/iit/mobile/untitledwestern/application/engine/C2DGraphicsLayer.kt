@@ -3,7 +3,7 @@ package hu.unimiskolc.iit.mobile.untitledwestern.application.engine
 import hu.unimiskolc.iit.mobile.untitledwestern.application.MyGLRenderer
 import java.util.Random
 
-class C2DGraphicsLayer(var mName: String, var mID: Int, var cameraSpeed: Float) {
+class C2DGraphicsLayer(var cameraSpeed: Float) {
     var mObjectList: ArrayList<GameObject> = ArrayList()
     private var mTextures: ArrayList<Texture2D> = ArrayList()
 
@@ -19,15 +19,14 @@ class C2DGraphicsLayer(var mName: String, var mID: Int, var cameraSpeed: Float) 
         mObjectList.add(gameObject)
     }
 
-    fun addTexture(texture: Texture2D){
-        mTextures.add(texture)
+    fun addGameObjects(gameObjects: List<GameObject>) {
+        for (gameObject in gameObjects) {
+            addGameObject(gameObject)
+        }
     }
 
-    fun getTexture(index: Int): Texture2D?{
-        if (index > -1 && index < mTextures.size){
-            return mTextures[index]
-        }
-        return null
+    fun addTexture(texture: Texture2D){
+        mTextures.add(texture)
     }
 
     fun render(renderer: MyGLRenderer) {
@@ -60,22 +59,6 @@ class C2DGraphicsLayer(var mName: String, var mID: Int, var cameraSpeed: Float) 
 
     fun setCamera(camera: CCamera2D){
         mCamera = camera
-    }
-
-    fun getObjectByID(id: Int){
-
-    }
-
-    fun getObjectByName(name: String){
-
-    }
-
-    fun removeGameObjectByID(id: Int){
-
-    }
-
-    fun sortByZIndex(){
-
     }
 
     fun clear() {

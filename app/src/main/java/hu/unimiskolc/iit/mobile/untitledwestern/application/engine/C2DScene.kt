@@ -26,10 +26,4 @@ class C2DScene {
         }
     }
 
-    fun sortByZIndex(){
-        for(layer in mLayers){
-            layer.sortByZIndex()
-        }
-    }
-
 }

@@ -2,7 +2,7 @@ package hu.unimiskolc.iit.mobile.untitledwestern.application.engine
 
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.math.Vector2D
 
-class SpriteFrame(var mFrame: Texture2D, private var name: String) {
+class SpriteFrame(var mFrame: Texture2D) {
     lateinit var mBBoxOriginal: BoundingBox2D
     lateinit var mBBoxTransformed: BoundingBox2D
 

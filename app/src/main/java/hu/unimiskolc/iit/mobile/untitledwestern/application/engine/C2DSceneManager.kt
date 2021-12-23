@@ -4,21 +4,17 @@ import hu.unimiskolc.iit.mobile.untitledwestern.application.MyGLRenderer
 
 class C2DSceneManager {
     var mScenes: ArrayList<C2DScene> = ArrayList()
+    var currentScene: Int = 0
 
     fun registerScene(scene: C2DScene){
         mScenes.add(scene)
     }
 
-    fun render(renderer: MyGLRenderer) {
-        for(scene in mScenes){
-            scene.render(renderer)
-        }
+    fun getCurrentScene(): C2DScene {
+        return mScenes[currentScene]
     }
 
-    fun getSceneById(Id: Int): C2DScene?{
-        if (Id < mScenes.size) {
-            return mScenes[Id]
-        }
-        return null
+    fun render(renderer: MyGLRenderer) {
+        mScenes[currentScene].render(renderer)
     }
 }

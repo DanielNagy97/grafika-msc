@@ -84,8 +84,8 @@ class SceneLoader(
                 context, scale, horizon, ratio, gameObjectLoader))
         }
         //Hub-layer
-        layers.add(C2DGraphicsLayer("hub-layer", 0, 0.0f))
-        layers.last().setCamera(CCamera2D(0f, 0f, 0, 16f/9f))
+        layers.add(C2DGraphicsLayer(0.0f))
+        layers.last().setCamera(CCamera2D(0f, 0f, ratio))
         return layers
     }
 }

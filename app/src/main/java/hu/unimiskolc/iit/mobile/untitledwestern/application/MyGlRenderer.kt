@@ -57,14 +57,18 @@ class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
         glClear(GL_COLOR_BUFFER_BIT)
         glClear(GL_DEPTH_BUFFER_BIT)
         dummygame.sceneManager.render(this)
-        dummygame.sceneManager.mScenes.last().mLayers.last().mCamera!!.viewPort.draw(this)
+        //dummygame.hub.hubLayer.mCamera!!.viewPort.draw(this)
     }
 
     override fun onSurfaceChanged(unused: GL10, width: Int, height: Int) {
         glViewport(0, 0, width, height)
         ratio = width.toFloat() / height.toFloat()
 
-        //Matrix.orthoM(projectionMatrix,0, 0f, width.toFloat(), height.toFloat(),0f, 1f, 10000f)
+        for(layer in dummygame.sceneManager.mScenes[0].mLayers) {
+            layer.mCamera!!.aspect = ratio
+            layer.mCamera!!.recalculateViewPort()
+            dummygame.hub.calculateLayout()
+        }
 
         Matrix.frustumM(projectionMatrix, 0, -ratio, ratio, -1f, 1f, 1f, 10000f)
     }
@@ -73,5 +77,4 @@ class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
         shaderProgram.cleanup()
         lineShader.cleanup()
     }
-
 }

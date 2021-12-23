@@ -11,7 +11,6 @@ class ImageUtil {
             var ins = context.assets.open(fileName)
             var bitmap =  BitmapFactory.decodeStream(ins)
 
-            // Flipping the bitmap??
             var flip = Matrix()
             flip.postScale(1f, -1f)
 

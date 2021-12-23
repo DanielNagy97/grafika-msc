@@ -1,6 +1,7 @@
 package hu.unimiskolc.iit.mobile.untitledwestern.application.game
 
 import android.content.Context
+import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.BoundingBox2D
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.GameObject
 
 class Bullet (
@@ -20,9 +21,20 @@ class Bullet (
         visible = false
     }
 
-    fun updatePosition(dt: Float){
+    fun updatePosition(dt: Float, viewPort: BoundingBox2D){
         if(isFired){
             position.x += xDir * (speed * dt)
+            checkViewPort(viewPort)
+        }
+    }
+
+    fun checkViewPort(viewPort: BoundingBox2D) {
+        if(visible) {
+            if(getBoundingBox().minpoint.x > viewPort.maxpoint.x
+                || getBoundingBox().maxpoint.x < viewPort.minpoint.x) {
+                isFired = false
+                visible = false
+            }
         }
     }
 }
