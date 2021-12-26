@@ -9,6 +9,7 @@ import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.math.Vector2D
 import hu.unimiskolc.iit.mobile.untitledwestern.application.game.Collectible
 import hu.unimiskolc.iit.mobile.untitledwestern.application.game.Player
 import hu.unimiskolc.iit.mobile.untitledwestern.application.game.Hub
+import hu.unimiskolc.iit.mobile.untitledwestern.application.game.states.MovementState
 import hu.unimiskolc.iit.mobile.untitledwestern.application.game.utils.SceneLoader
 import java.util.Collections
 import kotlin.collections.ArrayList
@@ -109,10 +110,10 @@ class DummyGame(
     private fun updatePositions(dt: Float){
         gameCameraOffset = mPlayer.updatePosition(ground, platforms, holes, barrels, gameCameraOffset, dt)
         if(gameCameraOffset>gameCameraBaseOffset){
-            gameCameraOffset -=  mPlayer.speedX * 0.5f * dt
+            gameCameraOffset -=  mPlayer.movement.y.speed * 0.5f * dt
         }
         if(mPlayer.body.getBoundingBox().maxpoint.x<gameLayer.mCamera!!.viewPort.minpoint.x){
-            mPlayer.state.falling = true
+            mPlayer.movementState = MovementState.FALLING
             mPlayer.body.position.y = 282f
             mPlayer.lives--
         }

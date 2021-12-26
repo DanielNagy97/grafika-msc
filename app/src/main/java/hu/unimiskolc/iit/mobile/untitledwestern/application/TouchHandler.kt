@@ -1,6 +1,7 @@
 package hu.unimiskolc.iit.mobile.untitledwestern.application
 
 import android.view.MotionEvent
+import hu.unimiskolc.iit.mobile.untitledwestern.application.game.states.MovementState
 
 class TouchHandler {
     fun handleInput(e:MotionEvent, dummyGame: DummyGame, width:Int, height:Int){
@@ -9,20 +10,20 @@ class TouchHandler {
 
         if(e.action == MotionEvent.ACTION_DOWN ) {
             if(x < width / 2){
-                dummyGame.mPlayer.speedX = dummyGame.mPlayer.velocity
+                dummyGame.mPlayer.movement.x.speed = dummyGame.mPlayer.velocity
                 if(x < width / 4){
-                    dummyGame.mPlayer.xdir = -1
+                    dummyGame.mPlayer.movement.x.direction = -1
                 }
                 else{
-                    dummyGame.mPlayer.xdir = 1
+                    dummyGame.mPlayer.movement.x.direction = 1
                 }
-                if (!dummyGame.mPlayer.state.jumping && !dummyGame.mPlayer.state.falling){
-                    dummyGame.mPlayer.state.idle = false
+                if (dummyGame.mPlayer.movementState == MovementState.IDLE){
+                    dummyGame.mPlayer.movementState = MovementState.WALKING
                 }
             }
             else{
-                if(y < height / 2 && !dummyGame.mPlayer.state.jumping && !dummyGame.mPlayer.state.falling){
-                    dummyGame.mPlayer.state.jumping = true
+                if(y < height / 2 && (dummyGame.mPlayer.movementState == MovementState.IDLE || dummyGame.mPlayer.movementState == MovementState.WALKING)){
+                    dummyGame.mPlayer.movementState = MovementState.JUMPING
                 }
                 if(y > height / 2){
                     dummyGame.mPlayer.state.shooting = true
@@ -33,9 +34,10 @@ class TouchHandler {
 
         if(e.action == MotionEvent.ACTION_UP) {
             if(x < width / 2){
-                dummyGame.mPlayer.speedX = 0f
+                dummyGame.mPlayer.movement.x.speed = 0f
             }
-            dummyGame.mPlayer.state.idle = true
+            if(dummyGame.mPlayer.movementState == MovementState.WALKING && !dummyGame.mPlayer.state.shooting)
+            dummyGame.mPlayer.movementState = MovementState.IDLE
         }
     }
 }
