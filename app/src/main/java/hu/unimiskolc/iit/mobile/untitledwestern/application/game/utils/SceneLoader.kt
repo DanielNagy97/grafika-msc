@@ -5,6 +5,7 @@ import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.C2DGraphicsLa
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.CCamera2D
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.GameObject
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.util.*
+import hu.unimiskolc.iit.mobile.untitledwestern.application.game.Bandit
 import hu.unimiskolc.iit.mobile.untitledwestern.application.game.Bullet
 import hu.unimiskolc.iit.mobile.untitledwestern.application.game.Collectible
 import hu.unimiskolc.iit.mobile.untitledwestern.application.game.Player
@@ -56,11 +57,23 @@ class SceneLoader(
         val mPistolObject = gameObjectLoader.makeObject(sceneModel.getJSONObject("player").getJSONObject("pistol"), context, scale, horizon)
         val mPlayer = Player(mPlayerObject, mPistolObject, velocity, lives)
 
-        for (i in 0 until 3){
+        for (i in 0 until 6){
             mPlayer.bullets.add(Bullet(context, 0f,0f, scale, 0f, 0f, 0f))
             mPlayer.bullets.last().addSprite("sprites/bullet/bullet.png", 1, 0)
         }
         return mPlayer
+    }
+
+    fun loadBandits(lives: Int, velocity: Float = 100f): Bandit {
+        val mBodyObject = gameObjectLoader.makeObject(sceneModel.getJSONObject("bandits"), context, scale, horizon)
+        val mPistolObject = gameObjectLoader.makeObject(sceneModel.getJSONObject("bandits").getJSONObject("pistol"), context, scale, horizon)
+        val mBandit = Bandit(mBodyObject, mPistolObject, velocity, lives)
+
+        for (i in 0 until 1){
+            mBandit.bullets.add(Bullet(context, 0f,0f, scale, 0f, 0f, 0f))
+            mBandit.bullets.last().addSprite("sprites/bullet/bullet.png", 1, 0)
+        }
+        return mBandit
     }
 
     fun loadPlatforms(): List<GameObject> {

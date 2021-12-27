@@ -160,6 +160,56 @@
       }
     ]
   },
+  "bandits": {
+    "type": "repeating",
+    "interval": "60.0",
+    "minY": "-70",
+    "maxY": "280",
+    "positions": [
+      ["40.0", "-10.0"],
+      ["-70.0", "-50.0"],
+      ["-200.0", "-10.0"],
+      ["200.0", "-10.0"]
+    ],
+    "sprites": [
+      {
+        "fileName": "sprites/hero/idle",
+        "numberOfFrames": 5,
+        "Fps": 8
+      },
+      {
+        "fileName": "sprites/hero/walk",
+        "numberOfFrames": 8,
+        "Fps": 12
+      },
+      {
+        "fileName": "sprites/hero/jump/jump3.png",
+        "numberOfFrames": 1,
+        "Fps": 0
+      },
+      {
+        "fileName": "sprites/hero/fall/fall3.png",
+        "numberOfFrames": 1,
+        "Fps": 0
+      }
+    ],
+    "pistol": {
+      "type": "once",
+      "positions": [["0.0", "0.0"]],
+      "sprites": [
+        {
+          "fileName": "sprites/hero/pistol/pistol1.png",
+          "numberOfFrames": 1,
+          "Fps": 0
+        },
+        {
+          "fileName": "sprites/hero/pistol",
+          "numberOfFrames": 6,
+          "Fps": 20
+        }
+      ]
+    }
+  },
   "scoreNumbers": {
     "n": 6,
     "sprites": [

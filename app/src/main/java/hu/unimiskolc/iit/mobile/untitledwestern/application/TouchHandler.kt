@@ -26,7 +26,6 @@ class TouchHandler {
                     dummyGame.mPlayer.movementState = MovementState.JUMPING
                 }
                 if(y > height / 2){
-                    dummyGame.mPlayer.state.shooting = true
                     dummyGame.mPlayer.shootABullet()
                 }
             }

@@ -3,6 +3,7 @@ package hu.unimiskolc.iit.mobile.untitledwestern.application.game
 import android.content.Context
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.BoundingBox2D
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.GameObject
+import hu.unimiskolc.iit.mobile.untitledwestern.application.game.movement.Movement
 
 class Bullet (
     context: Context,
@@ -14,8 +15,7 @@ class Bullet (
     maxRepeatX: Float
 ) : GameObject(context, posX, posY, scale, repeatingInterval, minRepeatY, maxRepeatX){
     var isFired: Boolean = false
-    var xDir: Int = 1
-    var speed: Float = 250f
+    var movement: Movement = Movement(250f, 1)
 
     init {
         visible = false
@@ -23,18 +23,27 @@ class Bullet (
 
     fun updatePosition(dt: Float, viewPort: BoundingBox2D){
         if(isFired){
-            position.x += xDir * (speed * dt)
+            position.x += movement.direction * (movement.speed * dt)
             checkViewPort(viewPort)
         }
     }
 
-    fun checkViewPort(viewPort: BoundingBox2D) {
+    private fun checkViewPort(viewPort: BoundingBox2D) {
         if(visible) {
             if(getBoundingBox().minpoint.x > viewPort.maxpoint.x
                 || getBoundingBox().maxpoint.x < viewPort.minpoint.x) {
                 isFired = false
                 visible = false
             }
+        }
+    }
+
+    fun checkOpponent(opponent: Character){
+        if(isFired && getBoundingBox().checkOverlapping(opponent.body.getBoundingBox())){
+            isFired = false
+            visible = false
+            opponent.lives--
+            opponent.state.isInjured = true
         }
     }
 }

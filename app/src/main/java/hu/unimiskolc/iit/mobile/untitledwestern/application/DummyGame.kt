@@ -6,6 +6,7 @@ import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.C2DScene
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.GameObject
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.C2DGraphicsLayer
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.math.Vector2D
+import hu.unimiskolc.iit.mobile.untitledwestern.application.game.Bandit
 import hu.unimiskolc.iit.mobile.untitledwestern.application.game.Collectible
 import hu.unimiskolc.iit.mobile.untitledwestern.application.game.Player
 import hu.unimiskolc.iit.mobile.untitledwestern.application.game.Hub
@@ -27,6 +28,7 @@ class DummyGame(
     private lateinit var platforms: List<GameObject>
     private lateinit var holes: List<GameObject>
     private lateinit var barrels: List<GameObject>
+    private lateinit var mBandit: Bandit
 
     var collectibles: ArrayList<Collectible> = ArrayList()
 
@@ -41,7 +43,7 @@ class DummyGame(
     lateinit var hub: Hub
 
     var gameCameraLastXPos = 0f
-    private val gameCameraBaseOffset: Float = 80f
+    private val gameCameraBaseOffset: Float = 100f
     private var gameCameraOffset: Float = gameCameraBaseOffset
 
     fun init(){
@@ -67,6 +69,8 @@ class DummyGame(
         hub = Hub(layers[layers.size-1],sceneLoader.loadScoreNumbers(), sceneLoader.loadHearts(), scale)
         mPlayer = sceneLoader.loadPlayer(hub.hearts.size)
 
+        mBandit = sceneLoader.loadBandits(1)
+
         gameLayer.addGameObjects(holes)
         gameLayer.addGameObjects(platforms)
         gameLayer.addGameObjects(barrels)
@@ -75,6 +79,10 @@ class DummyGame(
         gameLayer.addGameObject(mPlayer.body)
         gameLayer.addGameObject(mPlayer.pistol)
         gameLayer.addGameObjects(mPlayer.bullets)
+
+        gameLayer.addGameObject(mBandit.body)
+        gameLayer.addGameObject(mBandit.pistol)
+        gameLayer.addGameObjects(mBandit.bullets)
 
         hub.hubLayer.addGameObjects(hub.scoreNumbers)
         hub.hubLayer.addGameObjects(hub.hearts)
@@ -87,16 +95,22 @@ class DummyGame(
     }
 
     fun update(dt: Float) {
-        score += mPlayer.checkCollectibles(collectibles)
         updatePositions(dt)
         updateAnimations()
         updateCameras()
+
+        mBandit.shootPlayer(mPlayer)
+        score += mPlayer.checkCollectibles(collectibles)
+
+        mPlayer.updateInvincible(dt)
+
         hub.updateScoreBoard(score)
         hub.updateHearts(mPlayer.lives)
     }
 
     private fun updateAnimations(){
         mPlayer.updateAnimations()
+        mBandit.updateAnimations()
     }
 
     private fun updateCameras(){
@@ -108,19 +122,32 @@ class DummyGame(
     }
 
     private fun updatePositions(dt: Float){
-        gameCameraOffset = mPlayer.updatePosition(ground, platforms, holes, barrels, gameCameraOffset, dt)
+        mPlayer.updatePosition(ground, dt)
+        mPlayer.checkPlatforms(platforms)
+        mPlayer.updateBullet(dt, gameLayer.mCamera!!.viewPort, mBandit)
+        if(!mPlayer.state.isInjured){
+            mPlayer.checkHoles(holes)
+            gameCameraOffset = mPlayer.checkBarrels(barrels, gameCameraOffset, dt)
+        }
+
         if(gameCameraOffset>gameCameraBaseOffset){
-            gameCameraOffset -=  mPlayer.movement.y.speed * 0.5f * dt
+            gameCameraOffset -=  mPlayer.movement.x.speed * 0.5f * dt
         }
         if(mPlayer.body.getBoundingBox().maxpoint.x<gameLayer.mCamera!!.viewPort.minpoint.x){
             mPlayer.movementState = MovementState.FALLING
             mPlayer.body.position.y = 282f
             mPlayer.lives--
+            mPlayer.state.isInjured = true
         }
 
-        for (bullet in mPlayer.bullets){
-            bullet.updatePosition(dt, gameLayer.mCamera!!.viewPort)
+        mBandit.updatePosition(ground, dt)
+        mBandit.checkPlatforms(platforms)
+        if(!mBandit.body.getBoundingBox().checkOverlapping(gameLayer.mCamera!!.viewPort)){
+            mBandit.movementState = MovementState.FALLING
         }
+        mBandit.checkHoles(holes)
+        mBandit.updateBullet(dt, gameLayer.mCamera!!.viewPort, mPlayer)
+        score += mBandit.updateLives()
 
         // Infinite grounds
         for (groundLayer in groundLayers){
