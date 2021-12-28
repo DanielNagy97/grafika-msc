@@ -42,8 +42,6 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
     def projectDeps = rootProject.ext.project
     def appDeps = rootProject.ext.app
     def testDeps = rootProject.ext.test
@@ -51,12 +49,15 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
 
     implementation projectDeps.koin
-    //implementation project(':framework')
     implementation projectDeps.koinCore
+    implementation project(':framework')
     implementation appDeps.material
-    //implementation appDeps.navFragment
+    implementation appDeps.navFragment
     testImplementation testDeps.junit
     androidTestImplementation testDeps.ext_junit
     androidTestImplementation testDeps.espresso

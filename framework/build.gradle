@@ -10,8 +10,6 @@ android {
     defaultConfig {
         minSdk rootProject.ext.min_sdk_version
         targetSdk rootProject.ext.target_sdk_version
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -33,7 +31,6 @@ android {
 }
 
 dependencies {
-    implementation 'com.google.android.material:material:1.4.0'
     def projectDeps = rootProject.ext.project
     def frameworkDeps = rootProject.ext.framework
     def testDeps = rootProject.ext.test
@@ -45,7 +42,6 @@ dependencies {
     kapt frameworkDeps.room_compiler
     implementation frameworkDeps.room_ktx
     implementation projectDeps.koinCore
-
 
     testImplementation testDeps.junit
     androidTestImplementation testDeps.ext_junit
