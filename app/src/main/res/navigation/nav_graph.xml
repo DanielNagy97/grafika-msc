@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/startGameFragment">
+
+    <fragment
+        android:id="@+id/startGameFragment"
+        android:name="hu.unimiskolc.iit.mobile.untitledwestern.application.fragment.StartGameFragment"
+        android:label="StartGameFragment" >
+        <action
+            android:id="@+id/action_startGameFragment_to_mainGameFragment"
+            app:destination="@id/mainGameFragment" />
+        <action
+            android:id="@+id/action_startGameFragment_to_highScoreFragment"
+            app:destination="@id/highScoreFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainGameFragment"
+        android:name="hu.unimiskolc.iit.mobile.untitledwestern.application.fragment.MainGameFragment"
+        android:label="MainGameFragment" >
+        <action
+            android:id="@+id/action_mainGameFragment_to_endGameFragment"
+            app:destination="@id/endGameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/endGameFragment"
+        android:name="hu.unimiskolc.iit.mobile.untitledwestern.application.fragment.EndGameFragment"
+        android:label="EndGameFragment" >
+        <action
+            android:id="@+id/action_endGameFragment_to_startGameFragment"
+            app:destination="@id/startGameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/highScoreFragment"
+        android:name="hu.unimiskolc.iit.mobile.untitledwestern.application.fragment.HighScoreFragment"
+        android:label="HighScoreFragment" >
+        <action
+            android:id="@+id/action_highScoreFragment_to_startGameFragment"
+            app:destination="@id/startGameFragment" />
+    </fragment>
+</navigation>
