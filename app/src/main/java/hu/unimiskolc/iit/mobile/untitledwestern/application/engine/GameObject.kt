@@ -40,5 +40,6 @@ open class GameObject(private val context: Context,
         for(sprite in mSprites){
             sprite.cleanup()
         }
+        mSprites.clear()
     }
 }

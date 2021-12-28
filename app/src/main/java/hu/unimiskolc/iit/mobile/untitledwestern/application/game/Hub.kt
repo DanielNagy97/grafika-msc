@@ -6,7 +6,7 @@ import kotlin.math.floor
 import kotlin.math.log10
 import kotlin.math.pow
 
-class Hub (var hubLayer: C2DGraphicsLayer,var scoreNumbers: ArrayList<GameObject>,var hearts: ArrayList<GameObject>, var scale: Float){
+class Hub (var hubLayer: C2DGraphicsLayer,var scoreNumbers: ArrayList<GameObject>,var hearts: ArrayList<GameObject>, var gameOverText: GameObject, var scale: Float){
     init {
         calculateLayout()
     }
@@ -31,6 +31,10 @@ class Hub (var hubLayer: C2DGraphicsLayer,var scoreNumbers: ArrayList<GameObject
         for (heart in hearts){
             heart.position.y = hubLayer.mCamera!!.viewPort.maxpoint.y - (heart.getBoundingBox().maxpoint.y-heart.getBoundingBox().minpoint.y) - 2 * scale
         }
+
+        gameOverText.position.x = 0f-(gameOverText.getBoundingBox().maxpoint.x-gameOverText.getBoundingBox().minpoint.x)/2
+        gameOverText.position.y = 0f-(gameOverText.getBoundingBox().maxpoint.y-gameOverText.getBoundingBox().minpoint.y)/2
+        gameOverText.visible = false
     }
 
     fun updateScoreBoard(score: Int) {

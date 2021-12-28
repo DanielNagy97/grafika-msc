@@ -17,4 +17,11 @@ class C2DSceneManager {
     fun render(renderer: MyGLRenderer) {
         mScenes[currentScene].render(renderer)
     }
+
+    fun cleanup(){
+        for(scene in mScenes){
+            scene.cleanup()
+        }
+        mScenes.clear()
+    }
 }

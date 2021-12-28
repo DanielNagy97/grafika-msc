@@ -26,4 +26,11 @@ class C2DScene {
         }
     }
 
+    fun cleanup() {
+        for(layer in mLayers) {
+            layer.cleanup()
+        }
+        mLayers.clear()
+    }
+
 }

@@ -5,7 +5,6 @@ import java.util.Random
 
 class C2DGraphicsLayer(var cameraSpeed: Float) {
     var mObjectList: ArrayList<GameObject> = ArrayList()
-    private var mTextures: ArrayList<Texture2D> = ArrayList()
 
     private var mVisible: Boolean = true
 
@@ -25,10 +24,6 @@ class C2DGraphicsLayer(var cameraSpeed: Float) {
         }
     }
 
-    fun addTexture(texture: Texture2D){
-        mTextures.add(texture)
-    }
-
     fun render(renderer: MyGLRenderer) {
         if (!mVisible) {
             return
@@ -36,10 +31,6 @@ class C2DGraphicsLayer(var cameraSpeed: Float) {
 
         if(mCamera != null){
              mCamera!!.setViewMatrix(renderer.viewMatrix)
-        }
-
-        for(texture in mTextures){
-            texture.draw(renderer)
         }
 
         for(gameObject in mObjectList){
@@ -61,8 +52,11 @@ class C2DGraphicsLayer(var cameraSpeed: Float) {
         mCamera = camera
     }
 
-    fun clear() {
-        //TODO: Make clear functions!
+    fun cleanup() {
+        for (gameObject in mObjectList){
+            gameObject.cleanup()
+        }
+        mObjectList.clear()
     }
 
     fun rand(from: Float, to: Float) : Float{

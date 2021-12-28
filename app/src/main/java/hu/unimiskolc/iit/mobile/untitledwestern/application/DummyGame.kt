@@ -1,16 +1,11 @@
 package hu.unimiskolc.iit.mobile.untitledwestern.application
 
-import android.app.Activity
 import android.content.Context
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.findFragment
-import androidx.navigation.fragment.findNavController
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.C2DSceneManager
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.C2DScene
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.GameObject
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.C2DGraphicsLayer
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.math.Vector2D
-import hu.unimiskolc.iit.mobile.untitledwestern.application.fragment.MainGameFragment
 import hu.unimiskolc.iit.mobile.untitledwestern.application.game.Bandit
 import hu.unimiskolc.iit.mobile.untitledwestern.application.game.Collectible
 import hu.unimiskolc.iit.mobile.untitledwestern.application.game.Player
@@ -51,6 +46,7 @@ class DummyGame(
     private val gameCameraBaseOffset: Float = 100f
     private var gameCameraOffset: Float = gameCameraBaseOffset
     var gameEnded = false
+    var elapsedAfterDeath = 0f
 
     fun init(){
         var sceneLoader = SceneLoader("scenes/scene01.json", context, scale, horizon, renderer.ratio)
@@ -72,7 +68,7 @@ class DummyGame(
         gameLayer = layers[layers.size-2]
         gameCameraLastXPos = gameLayer.mCamera!!.mPosition.x
 
-        hub = Hub(layers[layers.size-1],sceneLoader.loadScoreNumbers(), sceneLoader.loadHearts(), scale)
+        hub = Hub(layers[layers.size-1],sceneLoader.loadScoreNumbers(), sceneLoader.loadHearts(), sceneLoader.loadGameOverText(), scale)
         mPlayer = sceneLoader.loadPlayer(hub.hearts.size)
 
         mBandit = sceneLoader.loadBandits(1)
@@ -92,7 +88,7 @@ class DummyGame(
 
         hub.hubLayer.addGameObjects(hub.scoreNumbers)
         hub.hubLayer.addGameObjects(hub.hearts)
-        //hub.hubLayer.mCamera!!.viewPort.mEnabled = true
+        hub.hubLayer.addGameObject(hub.gameOverText)
 
         for(layer in layers){
             scene.registerLayer(layer)
@@ -113,10 +109,16 @@ class DummyGame(
 
             hub.updateScoreBoard(score)
             hub.updateHearts(mPlayer.lives)
+            if(mPlayer.lives <= 0){
+                gameEnded = true
+                hub.gameOverText.visible = true
+            }
         }
-
-        if(mPlayer.lives <= 0){
-            gameEnded = true
+        else{
+            elapsedAfterDeath += dt
+            if(elapsedAfterDeath > 3){
+                renderer.view.endGame()
+            }
         }
     }
 
@@ -177,6 +179,6 @@ class DummyGame(
     }
 
     fun cleanup() {
-        renderer.cleanup()
+        sceneManager.cleanup()
     }
 }

@@ -162,5 +162,9 @@ class Texture2D {
         val names = IntArray(1)
         names[0] = textureId
         glDeleteTextures(1, names, 0)
+
+        mesh.cleanup()
+
+
     }
 }

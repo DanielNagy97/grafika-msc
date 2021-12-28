@@ -16,7 +16,7 @@ class MyGLSurfaceView(context: Context) : GLSurfaceView(context) {
         // Create an OpenGL ES 3.0 context
         setEGLContextClientVersion(3)
 
-        renderer = MyGLRenderer(context)
+        renderer = MyGLRenderer(context, this)
 
         // Hiding the navigationbar
         systemUiVisibility = (SYSTEM_UI_FLAG_HIDE_NAVIGATION)
@@ -29,7 +29,7 @@ class MyGLSurfaceView(context: Context) : GLSurfaceView(context) {
 
     override fun onTouchEvent(e: MotionEvent): Boolean {
         if(renderer.dummygame.gameEnded){
-            endGame()
+            //endGame()
         }
         else{
             touchHandler.handleInput(e, renderer.dummygame, width, height)
@@ -37,9 +37,8 @@ class MyGLSurfaceView(context: Context) : GLSurfaceView(context) {
         return true
     }
 
-    private fun endGame(){
+    fun endGame(){
         // Switching to manual render mode
-        renderer.cleanup()
         renderMode = 0
 
         (context as Activity).runOnUiThread() {

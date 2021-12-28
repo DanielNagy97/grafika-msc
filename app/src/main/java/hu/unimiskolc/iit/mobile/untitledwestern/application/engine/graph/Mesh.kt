@@ -1,23 +1,7 @@
 package hu.unimiskolc.iit.mobile.untitledwestern.application.engine.graph
 
-import android.opengl.GLES32.glBindVertexArray
-import android.opengl.GLES32.glGenVertexArrays
-import android.opengl.GLES32.glGenBuffers
-import android.opengl.GLES32.glBindBuffer
-import android.opengl.GLES32.glBufferData
-import android.opengl.GLES32.glVertexAttribPointer
-import android.opengl.GLES32.glGetAttribLocation
-import android.opengl.GLES32.glActiveTexture
-import android.opengl.GLES32.glBindTexture
-import android.opengl.GLES32.glEnableVertexAttribArray
-import android.opengl.GLES32.glDrawArrays
-import android.opengl.GLES32.glDisableVertexAttribArray
-import android.opengl.GLES32.GL_ARRAY_BUFFER
-import android.opengl.GLES32.GL_STATIC_DRAW
-import android.opengl.GLES32.GL_FLOAT
-import android.opengl.GLES32.GL_TEXTURE0
-import android.opengl.GLES32.GL_TEXTURE_2D
-import android.opengl.GLES32.GL_TRIANGLES
+import android.opengl.GLES30
+import android.opengl.GLES32.*
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.Texture2D
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.util.BufferUtil
 import java.nio.FloatBuffer
@@ -87,5 +71,18 @@ class Mesh
         glDisableVertexAttribArray(textAttrib)
         glDisableVertexAttribArray(posAttrib)
         glBindVertexArray(0)
+    }
+
+    fun cleanup() {
+        glDisableVertexAttribArray(0)
+
+        // Delete the VBOs
+        glBindBuffer(GL_ARRAY_BUFFER, 0)
+        glDeleteBuffers(vboIdList.size, vboIdList.toIntArray(), 0)
+        vboIdList.clear()
+
+        // Delete the VAO
+        glBindVertexArray(0)
+        glDeleteVertexArrays(1, intArrayOf(vaoId), 0)
     }
 }

@@ -166,10 +166,7 @@
     "minY": "-70",
     "maxY": "280",
     "positions": [
-      ["40.0", "-10.0"],
-      ["-70.0", "-50.0"],
-      ["-200.0", "-10.0"],
-      ["200.0", "-10.0"]
+      ["40.0", "-10.0"]
     ],
     "sprites": [
       {
@@ -270,6 +267,17 @@
     "sprites": [
       {
         "fileName": "sprites/heart/heart.png",
+        "numberOfFrames": 1,
+        "Fps": 0
+      }
+    ]
+  },
+  "gameOver": {
+    "type": "once",
+    "positions": [["0.0", "0.0"]],
+    "sprites": [
+      {
+        "fileName": "sprites/gameOver/gameOver.png",
         "numberOfFrames": 1,
         "Fps": 0
       }

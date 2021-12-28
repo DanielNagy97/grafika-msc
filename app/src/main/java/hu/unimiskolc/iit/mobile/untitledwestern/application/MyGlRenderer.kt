@@ -18,7 +18,7 @@ import hu.unimiskolc.iit.mobile.untitledwestern.application.fragment.MainGameFra
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
-class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
+class MyGLRenderer(private val context: Context, val view: MyGLSurfaceView) : GLSurfaceView.Renderer {
     lateinit var shaderProgram: ShaderProgram
     lateinit var lineShader: ShaderProgram
 
@@ -55,13 +55,14 @@ class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
     }
 
     override fun onDrawFrame(gl: GL10) {
+
         val dt: Float = timer.getElapsedTime()
         dummygame.update(dt)
 
         glClear(GL_COLOR_BUFFER_BIT)
         glClear(GL_DEPTH_BUFFER_BIT)
         dummygame.sceneManager.render(this)
-       //dummygame.hub.hubLayer.mCamera!!.viewPort.draw(this)
+
     }
 
     override fun onSurfaceChanged(unused: GL10, width: Int, height: Int) {

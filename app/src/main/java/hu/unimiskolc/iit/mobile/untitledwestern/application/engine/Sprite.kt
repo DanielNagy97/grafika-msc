@@ -91,6 +91,7 @@ class Sprite(
             val tex = frame.mFrame
             tex.cleanup()
         }
+        mvFrames.clear()
     }
 
 }
