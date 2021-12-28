@@ -1,6 +1,8 @@
 package hu.unimiskolc.iit.mobile.untitledwestern.application
 
+import android.app.Activity
 import android.content.Context
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.findFragment
 import androidx.navigation.fragment.findNavController
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.C2DSceneManager
@@ -48,6 +50,7 @@ class DummyGame(
     var gameCameraLastXPos = 0f
     private val gameCameraBaseOffset: Float = 100f
     private var gameCameraOffset: Float = gameCameraBaseOffset
+    var gameEnded = false
 
     fun init(){
         var sceneLoader = SceneLoader("scenes/scene01.json", context, scale, horizon, renderer.ratio)
@@ -98,17 +101,23 @@ class DummyGame(
     }
 
     fun update(dt: Float) {
-        updatePositions(dt)
-        updateAnimations()
-        updateCameras()
+        if(!gameEnded){
+            updatePositions(dt)
+            updateAnimations()
+            updateCameras()
 
-        mBandit.shootPlayer(mPlayer)
-        score += mPlayer.checkCollectibles(collectibles)
+            mBandit.shootPlayer(mPlayer)
+            score += mPlayer.checkCollectibles(collectibles)
 
-        mPlayer.updateInvincible(dt)
+            mPlayer.updateInvincible(dt)
 
-        hub.updateScoreBoard(score)
-        hub.updateHearts(mPlayer.lives)
+            hub.updateScoreBoard(score)
+            hub.updateHearts(mPlayer.lives)
+        }
+
+        if(mPlayer.lives <= 0){
+            gameEnded = true
+        }
     }
 
     private fun updateAnimations(){

@@ -1,5 +1,6 @@
 package hu.unimiskolc.iit.mobile.untitledwestern.application
 
+import android.app.Activity
 import android.content.Context
 import android.opengl.GLSurfaceView
 import android.view.MotionEvent
@@ -27,16 +28,22 @@ class MyGLSurfaceView(context: Context) : GLSurfaceView(context) {
     }
 
     override fun onTouchEvent(e: MotionEvent): Boolean {
-        if(renderer.dummygame.mPlayer.lives<4){
+        if(renderer.dummygame.gameEnded){
             endGame()
         }
-        touchHandler.handleInput(e, renderer.dummygame, width, height)
+        else{
+            touchHandler.handleInput(e, renderer.dummygame, width, height)
+        }
         return true
     }
 
     private fun endGame(){
         // Switching to manual render mode
+        renderer.cleanup()
         renderMode = 0
-        findFragment<MainGameFragment>().findNavController().navigate(R.id.highScoreFragment)
+
+        (context as Activity).runOnUiThread() {
+            findFragment<MainGameFragment>().findNavController().navigate(R.id.highScoreFragment)
+        }
     }
 }
