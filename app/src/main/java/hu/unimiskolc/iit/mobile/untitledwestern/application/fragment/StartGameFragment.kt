@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import hu.unimiskolc.iit.mobile.untitledwestern.application.R
 import hu.unimiskolc.iit.mobile.untitledwestern.application.databinding.StartGameFragmentBinding
 
@@ -34,8 +35,7 @@ class StartGameFragment : Fragment(R.layout.start_game_fragment){
         viewModel = ViewModelProvider(this).get(StartGameViewModel::class.java)
 
         binding?.startGameButton?.setOnClickListener {
-            // FindNavController findNavController().navigate(R.id.action_startGameFragment_to_categoryPickerFragment)
-            Log.d("start", "startGameButton clicked")
+            findNavController().navigate(R.id.mainGameFragment)
         }
     }
 

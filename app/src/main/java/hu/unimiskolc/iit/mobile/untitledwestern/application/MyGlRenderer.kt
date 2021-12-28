@@ -8,9 +8,13 @@ import android.opengl.GLES32.GL_COLOR_BUFFER_BIT
 import android.opengl.GLES32.GL_DEPTH_BUFFER_BIT
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.findFragment
+import androidx.navigation.fragment.findNavController
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.Timer
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.graph.ShaderProgram
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.util.TextUtil
+import hu.unimiskolc.iit.mobile.untitledwestern.application.fragment.MainGameFragment
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
@@ -57,7 +61,7 @@ class MyGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
         glClear(GL_COLOR_BUFFER_BIT)
         glClear(GL_DEPTH_BUFFER_BIT)
         dummygame.sceneManager.render(this)
-        //dummygame.hub.hubLayer.mCamera!!.viewPort.draw(this)
+       //dummygame.hub.hubLayer.mCamera!!.viewPort.draw(this)
     }
 
     override fun onSurfaceChanged(unused: GL10, width: Int, height: Int) {

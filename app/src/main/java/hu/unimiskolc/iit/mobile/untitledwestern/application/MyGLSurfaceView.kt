@@ -1,9 +1,11 @@
 package hu.unimiskolc.iit.mobile.untitledwestern.application
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.opengl.GLSurfaceView
 import android.view.MotionEvent
+import androidx.fragment.app.findFragment
+import androidx.navigation.fragment.findNavController
+import hu.unimiskolc.iit.mobile.untitledwestern.application.fragment.MainGameFragment
 
 class MyGLSurfaceView(context: Context) : GLSurfaceView(context) {
     private val renderer: MyGLRenderer
@@ -24,10 +26,17 @@ class MyGLSurfaceView(context: Context) : GLSurfaceView(context) {
         touchHandler = TouchHandler()
     }
 
-    //@SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(e: MotionEvent): Boolean {
-        //systemUiVisibility = (SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+        if(renderer.dummygame.mPlayer.lives<4){
+            endGame()
+        }
         touchHandler.handleInput(e, renderer.dummygame, width, height)
         return true
+    }
+
+    private fun endGame(){
+        // Switching to manual render mode
+        renderMode = 0
+        findFragment<MainGameFragment>().findNavController().navigate(R.id.highScoreFragment)
     }
 }

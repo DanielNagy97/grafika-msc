@@ -1,24 +1,12 @@
 package hu.unimiskolc.iit.mobile.untitledwestern.application
 
-import android.app.Activity
-import android.opengl.GLSurfaceView
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
-class MainActivity : Activity() {
-    private lateinit var gLView: GLSurfaceView
-    public override fun onCreate(savedInstanceState: Bundle?) {
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        gLView = MyGLSurfaceView(this)
-        setContentView(gLView)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        gLView.onPause()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        gLView.onResume()
+        setContentView(R.layout.activity_main)
     }
 }
+

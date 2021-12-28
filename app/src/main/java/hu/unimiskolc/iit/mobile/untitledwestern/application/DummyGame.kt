@@ -1,11 +1,14 @@
 package hu.unimiskolc.iit.mobile.untitledwestern.application
 
 import android.content.Context
+import androidx.fragment.app.findFragment
+import androidx.navigation.fragment.findNavController
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.C2DSceneManager
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.C2DScene
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.GameObject
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.C2DGraphicsLayer
 import hu.unimiskolc.iit.mobile.untitledwestern.application.engine.math.Vector2D
+import hu.unimiskolc.iit.mobile.untitledwestern.application.fragment.MainGameFragment
 import hu.unimiskolc.iit.mobile.untitledwestern.application.game.Bandit
 import hu.unimiskolc.iit.mobile.untitledwestern.application.game.Collectible
 import hu.unimiskolc.iit.mobile.untitledwestern.application.game.Player
