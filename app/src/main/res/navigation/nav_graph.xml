@@ -24,14 +24,6 @@
             app:destination="@id/endGameFragment" />
     </fragment>
     <fragment
-        android:id="@+id/endGameFragment"
-        android:name="hu.unimiskolc.iit.mobile.untitledwestern.application.fragment.EndGameFragment"
-        android:label="EndGameFragment" >
-        <action
-            android:id="@+id/action_endGameFragment_to_startGameFragment"
-            app:destination="@id/startGameFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/highScoreFragment"
         android:name="hu.unimiskolc.iit.mobile.untitledwestern.application.fragment.HighScoreFragment"
         android:label="HighScoreFragment" >
@@ -39,4 +31,8 @@
             android:id="@+id/action_highScoreFragment_to_startGameFragment"
             app:destination="@id/startGameFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/endGameFragment"
+        android:name="hu.unimiskolc.iit.mobile.untitledwestern.application.fragment.EndGameFragment"
+        android:label="EndGameFragment" />
 </navigation>

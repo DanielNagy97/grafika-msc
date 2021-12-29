@@ -8,41 +8,74 @@
     android:background="@color/background">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/right_answer_guide"
+        android:id="@+id/buttons_guide"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.63" />
+        app:layout_constraintGuide_percent="0.6" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/buttons_guide_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.3" />
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="0dp"
+        android:id="@+id/backgroundImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
 
-        android:layout_height="0dp"
-        android:src="@drawable/ic_menu"
+        android:layout_alignParentTop="true"
+        android:scaleType="centerCrop"
+
+        android:src="@drawable/menu" />
+
+
+    <Button
+        android:id="@+id/hiScoreButton"
+        android:alpha="0.95"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:text="Hi-scores"
+        android:typeface="sans"
+        android:textStyle="bold"
+        android:textSize="26sp"
+        android:layout_margin="10dp"
+        android:background="@drawable/my_btn"
+        android:shadowColor="#000000"
+        android:shadowDx="2.5"
+        android:shadowDy="2.5"
+        android:shadowRadius="2.6"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/right_answer_guide"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/buttons_guide"
+        app:layout_constraintTop_toBottomOf="@+id/startGameButton" />
 
     <Button
         android:id="@+id/startGameButton"
         android:layout_width="0dp"
         android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:alpha="0.95"
+        android:background="@drawable/my_btn"
         android:text="Start Game"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:typeface="sans"
+        android:shadowColor="#000000"
+        android:shadowDx="2.5"
+        android:shadowDy="2.5"
+        android:shadowRadius="2.6"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/right_answer_guide"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/buttons_guide"
+        app:layout_constraintTop_toTopOf="@+id/buttons_guide_horizontal" />
 
-    <Button
-        android:id="@+id/hiScoreButton"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:text="Hi-scores"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/right_answer_guide"
-        app:layout_constraintTop_toBottomOf="@+id/startGameButton" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

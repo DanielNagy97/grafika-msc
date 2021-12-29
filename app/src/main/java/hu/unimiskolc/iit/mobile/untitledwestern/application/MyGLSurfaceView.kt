@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.opengl.GLSurfaceView
 import android.view.MotionEvent
+import androidx.core.os.bundleOf
 import androidx.fragment.app.findFragment
 import androidx.navigation.fragment.findNavController
 import hu.unimiskolc.iit.mobile.untitledwestern.application.fragment.MainGameFragment
@@ -42,7 +43,8 @@ class MyGLSurfaceView(context: Context) : GLSurfaceView(context) {
         renderMode = 0
 
         (context as Activity).runOnUiThread() {
-            findFragment<MainGameFragment>().findNavController().navigate(R.id.highScoreFragment)
+            val bundle = bundleOf("score" to renderer.dummygame.score)
+            findFragment<MainGameFragment>().findNavController().navigate(R.id.endGameFragment, bundle)
         }
     }
 }

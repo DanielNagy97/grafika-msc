@@ -37,6 +37,10 @@ class StartGameFragment : Fragment(R.layout.start_game_fragment){
         binding?.startGameButton?.setOnClickListener {
             findNavController().navigate(R.id.mainGameFragment)
         }
+
+        binding?.hiScoreButton?.setOnClickListener {
+            findNavController().navigate(R.id.highScoreFragment)
+        }
     }
 
     override fun onDestroyView() {

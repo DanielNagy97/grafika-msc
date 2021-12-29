@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import hu.unimiskolc.iit.mobile.untitledwestern.application.MyGLSurfaceView
+import hu.unimiskolc.iit.mobile.untitledwestern.application.databinding.MainGameFragmentBinding
+import org.koin.android.ext.android.inject
 
 class MainGameFragment: Fragment() {
     private lateinit var myGLSurfaceView: GLSurfaceView
@@ -16,7 +18,9 @@ class MainGameFragment: Fragment() {
         fun newInstance() = MainGameFragment()
     }
 
-    private lateinit var viewModel: MainGameViewModel
+    private var binding: MainGameFragmentBinding? = null
+
+    private val viewModel: MainGameViewModel by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,6 +33,7 @@ class MainGameFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainGameViewModel::class.java)
+        binding = MainGameFragmentBinding.bind(view)
+        //viewModel = ViewModelProvider(this).get(MainGameViewModel::class.java)
     }
 }

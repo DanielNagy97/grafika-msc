@@ -31,7 +31,6 @@ class EndGameFragment: Fragment() {
         binding?.vm = viewModel
         binding?.lifecycleOwner = this
 
-        //viewModel = ViewModelProvider(this).get(ResultViewModel::class.java)
         val score = arguments?.getInt("score")
         viewModel.setScore(score ?: 0)
     }
