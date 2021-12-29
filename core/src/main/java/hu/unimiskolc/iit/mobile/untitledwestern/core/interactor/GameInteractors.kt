@@ -1,3 +1,3 @@
 package hu.unimiskolc.iit.mobile.untitledwestern.core.interactor
 
-class GameInteractors (val startGame: StartGame, val endGame: EndGame)
+class GameInteractors (val startGame: StartGame, val endGame: EndGame, val getHighScores: GetHighScores)

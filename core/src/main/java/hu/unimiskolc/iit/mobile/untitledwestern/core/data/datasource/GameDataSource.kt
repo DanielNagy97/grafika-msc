@@ -8,4 +8,5 @@ interface GameDataSource {
     suspend fun remove(game: Game)
     suspend fun fetchById(id: Int) : Game?
     suspend fun fetchAll(): List<Game>
+    suspend fun fetchOrderByScore(limit: Int): List<Game>
 }

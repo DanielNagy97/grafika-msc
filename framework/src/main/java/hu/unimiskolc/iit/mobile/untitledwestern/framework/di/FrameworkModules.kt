@@ -4,6 +4,7 @@ import hu.unimiskolc.iit.mobile.untitledwestern.core.data.datasource.GameDataSou
 import hu.unimiskolc.iit.mobile.untitledwestern.core.data.repository.GameRepository
 import hu.unimiskolc.iit.mobile.untitledwestern.core.interactor.EndGame
 import hu.unimiskolc.iit.mobile.untitledwestern.core.interactor.GameInteractors
+import hu.unimiskolc.iit.mobile.untitledwestern.core.interactor.GetHighScores
 import hu.unimiskolc.iit.mobile.untitledwestern.core.interactor.StartGame
 import hu.unimiskolc.iit.mobile.untitledwestern.framework.db.WesternDatabase
 import hu.unimiskolc.iit.mobile.untitledwestern.framework.db.datasource.RoomGameDataSource
@@ -25,5 +26,6 @@ val repositoryModule = module {
 val interactorModule = module {
     single { StartGame(get()) }
     single { EndGame(get()) }
-    single { GameInteractors(get(), get()) }
+    single { GetHighScores(get())}
+    single { GameInteractors(get(), get(), get()) }
 }

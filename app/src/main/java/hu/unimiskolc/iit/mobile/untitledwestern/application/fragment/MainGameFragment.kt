@@ -2,6 +2,7 @@ package hu.unimiskolc.iit.mobile.untitledwestern.application.fragment
 
 import android.opengl.GLSurfaceView
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,22 +19,19 @@ class MainGameFragment: Fragment() {
         fun newInstance() = MainGameFragment()
     }
 
-    private var binding: MainGameFragmentBinding? = null
-
-    private val viewModel: MainGameViewModel by inject()
+    val viewModel: MainGameViewModel by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        myGLSurfaceView = MyGLSurfaceView(requireContext())
+        myGLSurfaceView = MyGLSurfaceView(requireContext(), this)
         return myGLSurfaceView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = MainGameFragmentBinding.bind(view)
-        //viewModel = ViewModelProvider(this).get(MainGameViewModel::class.java)
+        viewModel.startGame()
     }
 }

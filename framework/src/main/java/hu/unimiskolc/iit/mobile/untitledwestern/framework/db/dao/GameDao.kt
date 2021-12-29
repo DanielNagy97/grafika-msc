@@ -19,4 +19,7 @@ interface GameDao {
 
     @Query("SELECT * FROM game")
     suspend fun fetchAll() : List<GameEntity>
+
+    @Query("SELECT * FROM game ORDER BY score DESC LIMIT :limit")
+    suspend fun fetchOrderByScore(limit: Int) : List<GameEntity>
 }

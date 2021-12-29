@@ -1,6 +1,7 @@
 package hu.unimiskolc.iit.mobile.untitledwestern.application.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,5 +34,6 @@ class EndGameFragment: Fragment() {
 
         val score = arguments?.getInt("score")
         viewModel.setScore(score ?: 0)
+        viewModel.getHighScores()
     }
 }

@@ -16,4 +16,6 @@ class RoomGameDataSource(val dao: GameDao, val mapper: GameMapper): GameDataSour
     override suspend fun fetchById(id: Int): Game? = dao.fetchById(id)?.let {mapper.mapFromEntity(it)}
 
     override suspend fun fetchAll(): List<Game> = dao.fetchAll().map { mapper.mapFromEntity(it) }
+
+    override suspend fun fetchOrderByScore(limit: Int): List<Game> = dao.fetchOrderByScore(limit).map { mapper.mapFromEntity(it) }
 }

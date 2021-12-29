@@ -11,8 +11,8 @@ import org.koin.dsl.module
 val appModule = module {
     single { WesternDatabase.getInstance(androidContext()) }
 
-    viewModel { MainGameViewModel() }
-    viewModel { EndGameViewModel() }
+    viewModel { MainGameViewModel(get()) }
+    viewModel { EndGameViewModel(get()) }
     viewModel { HighScoreViewModel() }
     viewModel { StartGameViewModel() }
 }

@@ -8,8 +8,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.findFragment
 import androidx.navigation.fragment.findNavController
 import hu.unimiskolc.iit.mobile.untitledwestern.application.fragment.MainGameFragment
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MyGLSurfaceView(context: Context) : GLSurfaceView(context) {
+class MyGLSurfaceView(context: Context, private val mainGameFragment: MainGameFragment) : GLSurfaceView(context) {
     private val renderer: MyGLRenderer
     private val touchHandler: TouchHandler
 
@@ -42,9 +43,13 @@ class MyGLSurfaceView(context: Context) : GLSurfaceView(context) {
         // Switching to manual render mode
         renderMode = 0
 
+
+
         (context as Activity).runOnUiThread() {
             val bundle = bundleOf("score" to renderer.dummygame.score)
-            findFragment<MainGameFragment>().findNavController().navigate(R.id.endGameFragment, bundle)
+
+            mainGameFragment.viewModel.endGame(renderer.dummygame.score)
+            mainGameFragment.findNavController().navigate(R.id.endGameFragment, bundle)
         }
     }
 }
