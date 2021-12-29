@@ -18,7 +18,8 @@ import kotlin.collections.ArrayList
 class DummyGame(
     private var context: Context,
     var renderer: MyGLRenderer,
-    private val scale: Float
+    private val scale: Float,
+    var showBoundingBoxes: Boolean = false
     ) {
     var sceneManager: C2DSceneManager = C2DSceneManager()
     private var scene: C2DScene = C2DScene()
@@ -89,6 +90,12 @@ class DummyGame(
         hub.hubLayer.addGameObjects(hub.scoreNumbers)
         hub.hubLayer.addGameObjects(hub.hearts)
         hub.hubLayer.addGameObject(hub.gameOverText)
+
+        if(showBoundingBoxes){
+            for(gameObject in gameLayer.mObjectList){
+                gameObject.enableBoundingBoxesVisibility()
+            }
+        }
 
         for(layer in layers){
             scene.registerLayer(layer)

@@ -30,10 +30,7 @@ class MyGLSurfaceView(context: Context, private val mainGameFragment: MainGameFr
     }
 
     override fun onTouchEvent(e: MotionEvent): Boolean {
-        if(renderer.dummygame.gameEnded){
-            //endGame()
-        }
-        else{
+        if(!renderer.dummygame.gameEnded && renderer.dummygame.mPlayer != null){
             touchHandler.handleInput(e, renderer.dummygame, width, height)
         }
         return true
@@ -42,8 +39,6 @@ class MyGLSurfaceView(context: Context, private val mainGameFragment: MainGameFr
     fun endGame(){
         // Switching to manual render mode
         renderMode = 0
-
-
 
         (context as Activity).runOnUiThread() {
             val bundle = bundleOf("score" to renderer.dummygame.score)

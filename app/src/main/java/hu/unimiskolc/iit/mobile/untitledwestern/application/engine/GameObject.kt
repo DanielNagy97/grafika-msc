@@ -25,6 +25,14 @@ open class GameObject(private val context: Context,
         return mSprites[currSprite].getCurrentFrameTransformedBoundingBox()
     }
 
+    fun enableBoundingBoxesVisibility() {
+        for(sprite in mSprites){
+            for(spriteFrame in sprite.mvFrames){
+                spriteFrame.mBBoxTransformed.mEnabled = true
+            }
+        }
+    }
+
     fun draw(renderer: MyGLRenderer) {
         val sprite = mSprites[currSprite]
         sprite.position = position
