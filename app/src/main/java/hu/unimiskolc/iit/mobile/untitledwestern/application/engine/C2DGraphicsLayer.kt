@@ -9,6 +9,7 @@ class C2DGraphicsLayer(var cameraSpeed: Float) {
     private var mVisible: Boolean = true
 
     var mCamera: CCamera2D? = null
+    var color = floatArrayOf(1.0f, 1.0f, 1.0f, 1.0f)
 
     init {
         mCamera = null
@@ -34,6 +35,7 @@ class C2DGraphicsLayer(var cameraSpeed: Float) {
         }
 
         for(gameObject in mObjectList){
+            gameObject.color = color
             if(gameObject.repeatingInterval > 0.0f){
                 if(mCamera!!.viewPort.minpoint.x > gameObject.getBoundingBox().maxpoint.x){
                     gameObject.position.x = rand(mCamera!!.viewPort.maxpoint.x, mCamera!!.viewPort.maxpoint.x + gameObject.repeatingInterval*10)

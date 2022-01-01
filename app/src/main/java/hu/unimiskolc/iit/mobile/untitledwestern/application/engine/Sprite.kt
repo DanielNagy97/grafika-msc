@@ -18,6 +18,7 @@ class Sprite(
     private var miLastUpdate: Long
     var mRotationAngle: Float
     var toFlip: Boolean
+    var color = floatArrayOf(1.0f, 1.0f, 1.0f, 1.0f)
 
     init {
         this.miActualFrame = 0
@@ -73,7 +74,7 @@ class Sprite(
 
     fun draw(renderer: MyGLRenderer){
         val tex = mvFrames[miActualFrame].mFrame
-        tex.draw(renderer, position, mScale, mRotationAngle, toFlip)
+        tex.draw(renderer, position, mScale, mRotationAngle, toFlip, color)
         update()
     }
 

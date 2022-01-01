@@ -13,6 +13,7 @@ open class GameObject(private val context: Context,
     var mSprites: ArrayList<Sprite> = ArrayList()
     var currSprite: Int = 0
     var position: Vector2D = Vector2D(posX, posY)
+    var color = floatArrayOf(1.0f, 1.0f, 1.0f, 1.0f)
 
     private var rotationAngle: Float = 0f
     var visible: Boolean = true
@@ -38,6 +39,7 @@ open class GameObject(private val context: Context,
         sprite.position = position
         sprite.mRotationAngle = rotationAngle
         sprite.mScale = scale
+        sprite.color = color
 
         sprite.draw(renderer)
 

@@ -49,6 +49,10 @@ class DummyGame(
     var gameEnded = false
     var elapsedAfterDeath = 0f
 
+    private val nightColor = floatArrayOf(0.2f, 0.4f, 0.7f)
+    private var isDayLight: Boolean = true
+    private var lastScoreAtLightChange: Int = 0
+
     fun init(){
         var sceneLoader = SceneLoader("scenes/scene01.json", context, scale, horizon, renderer.ratio)
 
@@ -108,9 +112,15 @@ class DummyGame(
             updatePositions(dt)
             updateAnimations()
             updateCameras()
+            updateColors()
 
             mBandit.shootPlayer(mPlayer)
             score += mPlayer.checkCollectibles(collectibles)
+
+            if(score-lastScoreAtLightChange > 500 && score != lastScoreAtLightChange){
+                isDayLight = !isDayLight
+                lastScoreAtLightChange = score
+            }
 
             mPlayer.updateInvincible(dt)
 
@@ -125,6 +135,30 @@ class DummyGame(
             elapsedAfterDeath += dt
             if(elapsedAfterDeath > 3){
                 renderer.view.endGame()
+            }
+        }
+    }
+
+    private fun updateColors() {
+        if(isDayLight){
+            for(i in 0 until layers.size-1){
+                for(j in 0..2){
+                    if(layers[i].color[j]<1f){
+                        layers[i].color[j] += 0.01f
+                    }
+                    if(layers[i].color[j]>1f){
+                        layers[i].color[j]=1f
+                    }
+                }
+            }
+        }
+        else{
+            for(i in 0 until layers.size-1){
+                for(j in 0..2){
+                    if(layers[i].color[j]>nightColor[j]){
+                        layers[i].color[j] -= 0.01f
+                    }
+                }
             }
         }
     }

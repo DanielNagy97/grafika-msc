@@ -33,7 +33,7 @@ class Texture2D {
     private var scale: Float
     private var rotationAngle: Float
     private var toFlip: Boolean
-    private val color = floatArrayOf(1.0f, 1.0f, 1.0f, 1.0f)
+    var color = floatArrayOf(1.0f, 1.0f, 1.0f, 1.0f)
 
     init{
         textureId = -1
@@ -149,11 +149,12 @@ class Texture2D {
         renderer.shaderProgram.unbind()
     }
 
-    fun draw(renderer: MyGLRenderer, position: Vector2D, scale:Float, rotationAngle:Float, flip:Boolean){
+    fun draw(renderer: MyGLRenderer, position: Vector2D, scale:Float, rotationAngle:Float, flip:Boolean, color: FloatArray){
         this.position = position
         this.scale = scale
         this.rotationAngle = rotationAngle
         this.toFlip = flip
+        this.color = color
 
         this.draw(renderer)
     }
