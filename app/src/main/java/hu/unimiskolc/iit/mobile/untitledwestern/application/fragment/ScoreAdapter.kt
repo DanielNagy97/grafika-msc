@@ -1,28 +1,24 @@
 package hu.unimiskolc.iit.mobile.untitledwestern.application.fragment
 
 import android.content.Context
+import android.graphics.Color
 import android.icu.text.SimpleDateFormat
-import android.os.Parcel
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import androidx.lifecycle.LiveData
 import hu.unimiskolc.iit.mobile.untitledwestern.application.R
 import hu.unimiskolc.iit.mobile.untitledwestern.core.domain.Game
 import java.util.*
 
-class ScoreAdapter(context: Context, val resource: Int, objects: List<Game>) : ArrayAdapter<Game>(context, resource, objects) {
+class ScoreAdapter(context: Context, val resource: Int, objects: List<Game>, val gameId: Int = -1) : ArrayAdapter<Game>(context, resource, objects) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val id = getItem(position)?.id
         val ended = getItem(position)?.ended
         val score = getItem(position)?.score
         val started = getItem(position)?.started
-
-        //val newGame = Game(id!!, started!!, ended!!, score!!)
 
         val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         var newView: View =  inflater.inflate(resource, parent, false)
@@ -37,11 +33,14 @@ class ScoreAdapter(context: Context, val resource: Int, objects: List<Game>) : A
         scoreView.text = score.toString()
         startedView.text = formatDate(started!!)
 
+        if(id == gameId){
+            newView.setBackgroundColor(Color.parseColor("#7500aaff"))
+        }
         return newView
     }
 
     private fun formatDate(date: Date) : String {
-        val pattern = "yyyy-MM-dd"
+        val pattern = "yyyy-MM-dd HH:mm:ss"
         return SimpleDateFormat(pattern).format(date)
     }
 
@@ -49,7 +48,7 @@ class ScoreAdapter(context: Context, val resource: Int, objects: List<Game>) : A
         val milliSeconds = ended.time - started.time
         val minutes = (milliSeconds / 1000 ) / 60
         val seconds = (milliSeconds / 1000 ) % 60
-        return "$minutes:$seconds"
+        return String.format("%02d:%02d", minutes, seconds)
     }
 
 }

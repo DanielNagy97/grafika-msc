@@ -170,7 +170,7 @@
     ],
     "sprites": [
       {
-        "fileName": "sprites/hero/idle",
+        "fileName": "sprites/bandit/idle",
         "numberOfFrames": 5,
         "Fps": 8
       },
@@ -185,7 +185,7 @@
         "Fps": 0
       },
       {
-        "fileName": "sprites/hero/fall/fall3.png",
+        "fileName": "sprites/bandit/fall/fall.png",
         "numberOfFrames": 1,
         "Fps": 0
       }

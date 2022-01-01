@@ -2,6 +2,7 @@ package hu.unimiskolc.iit.mobile.untitledwestern.application.fragment
 
 import android.content.Context
 import android.util.Log
+import android.widget.ListView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -29,14 +30,14 @@ class EndGameViewModel(private val interactors: GameInteractors): ViewModel() {
         highScores.postValue(value)
     }
 
-    fun fetchHighScores(context: Context, binding: EndGameFragmentBinding) {
+    fun fetchHighScores(context: Context, listView: ListView, gameId: Int = -1) {
         viewModelScope.launch {
             val scores = interactors.getHighScores(4)
             highScores.postValue(scores)
 
             //val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, arrayListOf(1,2,3,4))
-            val scoreAdapter = ScoreAdapter(context, R.layout.adapter_view_layout, scores)
-            binding?.highScores.myListView.adapter = scoreAdapter
+            val scoreAdapter = ScoreAdapter(context, R.layout.adapter_view_layout, scores, gameId)
+            listView.adapter = scoreAdapter
         }
     }
 }

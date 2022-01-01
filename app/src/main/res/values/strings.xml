@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">UntitledWesternGame</string>
-    <string name="result_description">Az Ön pontszáma: %d</string>
+    <string name="result_description">Your score: %d</string>
 </resources>
