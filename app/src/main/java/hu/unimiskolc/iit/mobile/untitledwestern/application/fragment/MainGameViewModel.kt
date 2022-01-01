@@ -10,6 +10,10 @@ import java.util.*
 class MainGameViewModel(private val interactors: GameInteractors): ViewModel() {
     private lateinit var game: Game
 
+    fun getGame(): Game {
+        return game
+    }
+
     fun startGame() {
         viewModelScope.launch {
             game = interactors.startGame()

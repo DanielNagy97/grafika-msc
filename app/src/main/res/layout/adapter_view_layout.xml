@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="100">
+
+
+    <TextView
+        android:id="@+id/score_id"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:text="ID"
+        android:layout_weight="43.3"
+        />
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="23.3">
+
+        <TextView
+            android:id="@+id/score_date"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="score date"
+            />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+            <TextView
+                android:id="@+id/duration"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="duration:"
+                android:layout_marginEnd="5dp"
+                />
+            <TextView
+                android:id="@+id/score_duration"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="duration in seconds"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/score_value"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:text="100"
+        android:layout_weight="33.3"
+        />
+
+</LinearLayout>

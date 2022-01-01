@@ -31,6 +31,24 @@
 
         android:src="@drawable/menu" />
 
+    <CheckBox
+        android:id="@+id/bounding_box_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enable bounding boxes"
+        android:layout_margin="10dp"
+        android:typeface="sans"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:shadowColor="#000000"
+        android:shadowDx="2.5"
+        android:shadowDy="2.5"
+        android:shadowRadius="2.6"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+    />
 
     <Button
         android:id="@+id/hiScoreButton"
@@ -38,11 +56,11 @@
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:text="Hi-scores"
+        android:layout_margin="10dp"
+        android:background="@drawable/my_btn"
         android:typeface="sans"
         android:textStyle="bold"
         android:textSize="26sp"
-        android:layout_margin="10dp"
-        android:background="@drawable/my_btn"
         android:shadowColor="#000000"
         android:shadowDx="2.5"
         android:shadowDy="2.5"

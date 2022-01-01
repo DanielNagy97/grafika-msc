@@ -18,7 +18,7 @@ import hu.unimiskolc.iit.mobile.untitledwestern.application.fragment.MainGameFra
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
-class MyGLRenderer(private val context: Context, val view: MyGLSurfaceView) : GLSurfaceView.Renderer {
+class MyGLRenderer(private val context: Context, val view: MyGLSurfaceView, val isBBEnabled: Boolean = false) : GLSurfaceView.Renderer {
     lateinit var shaderProgram: ShaderProgram
     lateinit var lineShader: ShaderProgram
 
@@ -28,7 +28,7 @@ class MyGLRenderer(private val context: Context, val view: MyGLSurfaceView) : GL
     var ratio: Float = 16f/9f
     var timer: Timer = Timer()
 
-    var dummygame = DummyGame(context, this, 1f)
+    var dummygame = DummyGame(context, this, 1f, isBBEnabled)
 
     override fun onSurfaceCreated(unused: GL10, config: EGLConfig) {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f)

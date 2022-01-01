@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -35,11 +36,12 @@ class StartGameFragment : Fragment(R.layout.start_game_fragment){
         viewModel = ViewModelProvider(this).get(StartGameViewModel::class.java)
 
         binding?.startGameButton?.setOnClickListener {
-            findNavController().navigate(R.id.mainGameFragment)
+            val bundle = bundleOf("boundingBoxCheck" to binding?.boundingBoxCheck?.isChecked)
+            findNavController().navigate(R.id.mainGameFragment, bundle)
         }
 
         binding?.hiScoreButton?.setOnClickListener {
-            findNavController().navigate(R.id.highScoreFragment)
+            findNavController().navigate(R.id.endGameFragment)
         }
     }
 
