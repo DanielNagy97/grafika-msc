@@ -2,6 +2,8 @@ package hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.touchha
 
 import android.view.MotionEvent
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.DummyGame
+import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.Player
+import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.states.GameState
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.states.MovementState
 
 class TouchHandler {
@@ -10,19 +12,13 @@ class TouchHandler {
         val y: Float = e.y
 
         if(e.action == MotionEvent.ACTION_DOWN ) {
-            if(x < width / 2){
+
+            if(dummyGame.gameState == GameState.NOT_STARTED){
+                dummyGame.gameState = GameState.STARTED
+                dummyGame.mPlayer.movementState = MovementState.WALKING
                 dummyGame.mPlayer.movement.x.speed = dummyGame.mPlayer.velocity
-                if(x < width / 4){
-                    dummyGame.mPlayer.movement.x.direction = -1
-                }
-                else{
-                    dummyGame.mPlayer.movement.x.direction = 1
-                }
-                if (dummyGame.mPlayer.movementState == MovementState.IDLE){
-                    dummyGame.mPlayer.movementState = MovementState.WALKING
-                }
             }
-            else{
+            else if(dummyGame.gameState == GameState.STARTED){
                 if(y < height / 2 && (dummyGame.mPlayer.movementState == MovementState.IDLE || dummyGame.mPlayer.movementState == MovementState.WALKING)){
                     dummyGame.mPlayer.movementState = MovementState.JUMPING
                 }
@@ -30,14 +26,9 @@ class TouchHandler {
                     dummyGame.mPlayer.shootABullet()
                 }
             }
-        }
+            else if(dummyGame.gameState == GameState.ENDED){
 
-        if(e.action == MotionEvent.ACTION_UP) {
-            if(x < width / 2){
-                dummyGame.mPlayer.movement.x.speed = 0f
             }
-            if(dummyGame.mPlayer.movementState == MovementState.WALKING && !dummyGame.mPlayer.state.shooting)
-            dummyGame.mPlayer.movementState = MovementState.IDLE
         }
     }
 }

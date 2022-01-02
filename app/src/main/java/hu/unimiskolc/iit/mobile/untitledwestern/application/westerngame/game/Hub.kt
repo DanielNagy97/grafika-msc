@@ -6,7 +6,14 @@ import kotlin.math.floor
 import kotlin.math.log10
 import kotlin.math.pow
 
-class Hub (var hubLayer: C2DGraphicsLayer, var scoreNumbers: ArrayList<GameObject>, var hearts: ArrayList<GameObject>, var gameOverText: GameObject, var scale: Float){
+class Hub (
+    var hubLayer: C2DGraphicsLayer,
+    var scoreNumbers: ArrayList<GameObject>,
+    var hearts: ArrayList<GameObject>,
+    var gameOverText: GameObject,
+    var startGameText: GameObject,
+    var scale: Float){
+    var blinkTime: Float = 0f
     init {
         calculateLayout()
     }
@@ -32,9 +39,21 @@ class Hub (var hubLayer: C2DGraphicsLayer, var scoreNumbers: ArrayList<GameObjec
             heart.position.y = hubLayer.mCamera!!.viewPort.maxpoint.y - (heart.getBoundingBox().maxpoint.y-heart.getBoundingBox().minpoint.y) - 2 * scale
         }
 
-        gameOverText.position.x = 0f-(gameOverText.getBoundingBox().maxpoint.x-gameOverText.getBoundingBox().minpoint.x)/2
-        gameOverText.position.y = 0f-(gameOverText.getBoundingBox().maxpoint.y-gameOverText.getBoundingBox().minpoint.y)/2
+        positionTextCenter(gameOverText)
         gameOverText.visible = false
+
+        positionTextCenter(startGameText)
+    }
+
+    private fun positionTextCenter(textObject: GameObject){
+        textObject.position.x = 0f - (textObject.getBoundingBox().maxpoint.x - textObject.getBoundingBox().minpoint.x)/2
+        textObject.position.y = 0f - (textObject.getBoundingBox().maxpoint.y - textObject.getBoundingBox().minpoint.y)/2
+    }
+
+    fun blinkStartText(dt: Float){
+        blinkTime += dt
+        val isVisible = floor(blinkTime) % 2 != 0f
+        startGameText.visible = isVisible
     }
 
     fun updateScoreBoard(score: Int) {

@@ -10,6 +10,7 @@ import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.Ban
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.Collectible
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.Player
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.Hub
+import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.states.GameState
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.states.MovementState
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.utils.SceneLoader
 import java.util.Collections
@@ -46,7 +47,9 @@ class DummyGame(
     var gameCameraLastXPos = 0f
     private val gameCameraBaseOffset: Float = 100f
     private var gameCameraOffset: Float = gameCameraBaseOffset
-    var gameEnded = false
+
+    var gameState: GameState = GameState.NOT_STARTED
+
     var elapsedAfterDeath = 0f
 
     private val nightColor = floatArrayOf(0.2f, 0.4f, 0.7f)
@@ -73,7 +76,12 @@ class DummyGame(
         gameLayer = layers[layers.size-2]
         gameCameraLastXPos = gameLayer.mCamera!!.mPosition.x
 
-        hub = Hub(layers[layers.size-1],sceneLoader.loadScoreNumbers(), sceneLoader.loadHearts(), sceneLoader.loadGameOverText(), scale)
+        hub = Hub(layers[layers.size-1],
+                  sceneLoader.loadScoreNumbers(),
+                  sceneLoader.loadHearts(),
+                  sceneLoader.loadGameOverText(),
+                  sceneLoader.loadStartGameText(),
+                  scale)
         mPlayer = sceneLoader.loadPlayer(hub.hearts.size)
 
         mBandit = sceneLoader.loadBandits(1)
@@ -94,6 +102,7 @@ class DummyGame(
         hub.hubLayer.addGameObjects(hub.scoreNumbers)
         hub.hubLayer.addGameObjects(hub.hearts)
         hub.hubLayer.addGameObject(hub.gameOverText)
+        hub.hubLayer.addGameObject(hub.startGameText)
 
         if(showBoundingBoxes){
             for(gameObject in gameLayer.mObjectList){
@@ -108,14 +117,20 @@ class DummyGame(
     }
 
     fun update(dt: Float) {
-        if(!gameEnded){
+        if(gameState == GameState.NOT_STARTED){
+            hub.blinkStartText(dt)
+        }
+        else{
+            hub.startGameText.visible = false
+        }
+        if(gameState != GameState.ENDED){
             updatePositions(dt)
             updateAnimations()
             updateCameras()
             updateColors()
+            updateScore()
 
             mBandit.shootPlayer(mPlayer)
-            score += mPlayer.checkCollectibles(collectibles)
 
             if(score-lastScoreAtLightChange > 500 && score != lastScoreAtLightChange){
                 isDayLight = !isDayLight
@@ -127,11 +142,11 @@ class DummyGame(
             hub.updateScoreBoard(score)
             hub.updateHearts(mPlayer.lives)
             if(mPlayer.lives <= 0){
-                gameEnded = true
+                gameState = GameState.ENDED
                 hub.gameOverText.visible = true
             }
         }
-        else{
+        else {
             elapsedAfterDeath += dt
             if(elapsedAfterDeath > 3){
                 renderer.view.endGame()
@@ -139,24 +154,26 @@ class DummyGame(
         }
     }
 
+    private fun updateScore() {
+        score += mPlayer.checkCollectibles(collectibles)
+        score += mBandit.updateLives()
+    }
+
     private fun updateColors() {
         val changeRate = 0.005f
-        if(isDayLight){
-            for(i in 0 until layers.size-1){
-                for(j in 0..2){
-                    if(layers[i].color[j]<1f){
+
+        for(i in 0 until layers.size-1){
+            for(j in 0..2){
+                if(isDayLight) {
+                    if (layers[i].color[j] < 1f) {
                         layers[i].color[j] += changeRate
                     }
-                    if(layers[i].color[j]>1f){
-                        layers[i].color[j]=1f
+                    if (layers[i].color[j] > 1f) {
+                        layers[i].color[j] = 1f
                     }
                 }
-            }
-        }
-        else{
-            for(i in 0 until layers.size-1){
-                for(j in 0..2){
-                    if(layers[i].color[j]>nightColor[j]){
+                else {
+                    if(layers[i].color[j] > nightColor[j]){
                         layers[i].color[j] -= changeRate
                     }
                 }
@@ -189,7 +206,7 @@ class DummyGame(
         if(gameCameraOffset>gameCameraBaseOffset){
             gameCameraOffset -=  mPlayer.movement.x.speed * 0.5f * dt
         }
-        if(mPlayer.body.getBoundingBox().maxpoint.x<gameLayer.mCamera!!.viewPort.minpoint.x){
+        if(mPlayer.body.getBoundingBox().maxpoint.x < gameLayer.mCamera!!.viewPort.minpoint.x){
             mPlayer.movementState = MovementState.FALLING
             mPlayer.body.position.y = 282f
             mPlayer.lives--
@@ -203,9 +220,11 @@ class DummyGame(
         }
         mBandit.checkHoles(holes)
         mBandit.updateBullet(dt, gameLayer.mCamera!!.viewPort, mPlayer)
-        score += mBandit.updateLives()
 
-        // Infinite grounds
+        calculateInfiniteGrounds()
+    }
+
+    private fun calculateInfiniteGrounds() {
         for (groundLayer in groundLayers){
             val viewPort = groundLayer.mCamera!!.viewPort
             if(viewPort.maxpoint.x > groundLayer.mObjectList[0].getBoundingBox().maxpoint.x){

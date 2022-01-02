@@ -283,6 +283,17 @@
       }
     ]
   },
+  "startGame": {
+    "type": "once",
+    "positions": [["0.0", "0.0"]],
+    "sprites": [
+      {
+        "fileName": "sprites/tapToStart/tapToStart.png",
+        "numberOfFrames": 1,
+        "Fps": 0
+      }
+    ]
+  },
   "layers": [
     {
       "name": "sky-layer",

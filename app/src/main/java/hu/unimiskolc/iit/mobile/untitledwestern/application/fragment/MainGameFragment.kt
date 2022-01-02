@@ -1,5 +1,6 @@
 package hu.unimiskolc.iit.mobile.untitledwestern.application.fragment
 
+import android.app.Activity
 import android.opengl.GLSurfaceView
 import android.os.Bundle
 import android.view.LayoutInflater

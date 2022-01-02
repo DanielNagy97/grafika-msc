@@ -56,6 +56,10 @@ class SceneLoader(
         return gameObjectLoader.makeObject(sceneModel.getJSONObject("gameOver"), context, scale, horizon)
     }
 
+    fun loadStartGameText(): GameObject {
+        return gameObjectLoader.makeObject(sceneModel.getJSONObject("startGame"), context, scale, horizon)
+    }
+
     fun loadPlayer(lives: Int, velocity: Float = 100f): Player {
         val mPlayerObject = gameObjectLoader.makeObject(sceneModel.getJSONObject("player"), context, scale, horizon)
         val mPistolObject = gameObjectLoader.makeObject(sceneModel.getJSONObject("player").getJSONObject("pistol"), context, scale, horizon)
