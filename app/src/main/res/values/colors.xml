@@ -12,4 +12,5 @@
     <color name="button_color2">#ea2a0d</color>
     <color name="scoreBg">#60696969</color>
     <color name="dimgray">#696969</color>
+    <color name="currentScore">#7500aaff</color>
 </resources>

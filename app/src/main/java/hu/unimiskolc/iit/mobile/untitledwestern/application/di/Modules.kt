@@ -1,7 +1,6 @@
 package hu.unimiskolc.iit.mobile.untitledwestern.application.di
 
 import hu.unimiskolc.iit.mobile.untitledwestern.application.fragment.EndGameViewModel
-import hu.unimiskolc.iit.mobile.untitledwestern.application.fragment.HighScoreViewModel
 import hu.unimiskolc.iit.mobile.untitledwestern.application.fragment.MainGameViewModel
 import hu.unimiskolc.iit.mobile.untitledwestern.application.fragment.StartGameViewModel
 import hu.unimiskolc.iit.mobile.untitledwestern.framework.db.WesternDatabase
@@ -13,6 +12,5 @@ val appModule = module {
 
     viewModel { MainGameViewModel(get()) }
     viewModel { EndGameViewModel(get()) }
-    viewModel { HighScoreViewModel() }
     viewModel { StartGameViewModel() }
 }

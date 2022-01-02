@@ -1,18 +1,18 @@
 package hu.unimiskolc.iit.mobile.untitledwestern.application.fragment
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import hu.unimiskolc.iit.mobile.untitledwestern.application.databinding.EndGameFragmentBinding
 import org.koin.android.ext.android.inject
 import hu.unimiskolc.iit.mobile.untitledwestern.application.R
+import hu.unimiskolc.iit.mobile.untitledwestern.application.fragment.adapter.HighScoreAdapter
 
 class EndGameFragment: Fragment() {
 
@@ -49,6 +49,13 @@ class EndGameFragment: Fragment() {
             view.findViewById<TextView>(R.id.result_text).visibility = View.INVISIBLE
         }
 
-        viewModel.fetchHighScores(requireContext(), binding?.highScores.myListView, gameId ?: -1)
+        var recyclerView: RecyclerView = binding?.highScores.myListView
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.hasFixedSize()
+        val adapter : HighScoreAdapter = HighScoreAdapter(R.color.currentScore, gameId ?: -1)
+        recyclerView.adapter = adapter
+
+        viewModel.fetchHighScores()
+        viewModel.getHighScores().observe(viewLifecycleOwner, { hiScores -> adapter.setScores(hiScores) })
     }
 }
