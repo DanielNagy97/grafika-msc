@@ -130,7 +130,6 @@ class DummyGame(
             updateAnimations()
             updateCameras()
             updateColors()
-            updateScore()
 
             mBandit.shootPlayer(mPlayer)
 
@@ -160,11 +159,6 @@ class DummyGame(
                 renderer.view.endGame()
             }
         }
-    }
-
-    private fun updateScore() {
-
-
     }
 
     private fun updateColors() {

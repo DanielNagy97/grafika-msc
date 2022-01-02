@@ -5,22 +5,22 @@
     "velocity": 1.5,
     "sprites": [
       {
-        "fileName": "sprites/hero/idle",
+        "fileName": "sprites/game/hero/idle",
         "numberOfFrames": 5,
         "Fps": 8
       },
       {
-        "fileName": "sprites/hero/walk",
+        "fileName": "sprites/game/hero/walk",
         "numberOfFrames": 8,
         "Fps": 12
       },
       {
-        "fileName": "sprites/hero/jump/jump3.png",
+        "fileName": "sprites/game/hero/jump/jump3.png",
         "numberOfFrames": 1,
         "Fps": 0
       },
       {
-        "fileName": "sprites/hero/fall/fall3.png",
+        "fileName": "sprites/game/hero/fall/fall3.png",
         "numberOfFrames": 1,
         "Fps": 0
       }
@@ -30,12 +30,12 @@
       "positions": [["0.0", "0.0"]],
       "sprites": [
         {
-          "fileName": "sprites/hero/pistol/pistol1.png",
+          "fileName": "sprites/game/hero/pistol/pistol1.png",
           "numberOfFrames": 1,
           "Fps": 0
         },
         {
-          "fileName": "sprites/hero/pistol",
+          "fileName": "sprites/game/hero/pistol",
           "numberOfFrames": 6,
           "Fps": 20
         }
@@ -49,7 +49,7 @@
       "value": 10,
       "sprites": [
         {
-          "fileName": "sprites/coin",
+          "fileName": "sprites/game/coin",
           "numberOfFrames": 8,
           "Fps": 12
         }
@@ -72,7 +72,7 @@
       "value": 5,
       "sprites": [
         {
-          "fileName": "sprites/card",
+          "fileName": "sprites/game/card",
           "numberOfFrames": 12,
           "Fps": 12
         }
@@ -92,7 +92,7 @@
       "value": 1,
       "sprites": [
         {
-          "fileName": "sprites/bottle",
+          "fileName": "sprites/game/bottle",
           "numberOfFrames": 8,
           "Fps": 10
         }
@@ -122,7 +122,7 @@
     ],
     "sprites": [
       {
-        "fileName": "sprites/platform/platform.png",
+        "fileName": "sprites/game/platform/platform.png",
         "numberOfFrames": 1,
         "Fps": 0
       }
@@ -138,7 +138,7 @@
     ],
     "sprites": [
       {
-        "fileName": "sprites/hole/hole.png",
+        "fileName": "sprites/game/hole/hole.png",
         "numberOfFrames": 1,
         "Fps": 0
       }
@@ -154,7 +154,7 @@
     ],
     "sprites": [
       {
-        "fileName": "sprites/barrel/barrel.png",
+        "fileName": "sprites/game/barrel/barrel.png",
         "numberOfFrames": 1,
         "Fps": 0
       }
@@ -170,22 +170,22 @@
     ],
     "sprites": [
       {
-        "fileName": "sprites/bandit/idle",
+        "fileName": "sprites/game/bandit/idle",
         "numberOfFrames": 5,
         "Fps": 8
       },
       {
-        "fileName": "sprites/hero/walk",
+        "fileName": "sprites/game/hero/walk",
         "numberOfFrames": 8,
         "Fps": 12
       },
       {
-        "fileName": "sprites/hero/jump/jump3.png",
+        "fileName": "sprites/game/hero/jump/jump3.png",
         "numberOfFrames": 1,
         "Fps": 0
       },
       {
-        "fileName": "sprites/bandit/fall/fall.png",
+        "fileName": "sprites/game/bandit/fall/fall.png",
         "numberOfFrames": 1,
         "Fps": 0
       }
@@ -195,12 +195,12 @@
       "positions": [["0.0", "0.0"]],
       "sprites": [
         {
-          "fileName": "sprites/hero/pistol/pistol1.png",
+          "fileName": "sprites/game/hero/pistol/pistol1.png",
           "numberOfFrames": 1,
           "Fps": 0
         },
         {
-          "fileName": "sprites/hero/pistol",
+          "fileName": "sprites/game/hero/pistol",
           "numberOfFrames": 6,
           "Fps": 20
         }
@@ -211,52 +211,52 @@
     "n": 6,
     "sprites": [
       {
-        "fileName": "sprites/numbers/0.png",
+        "fileName": "sprites/hub/numbers/0.png",
         "numberOfFrames": 1,
         "Fps": 0
       },
       {
-        "fileName": "sprites/numbers/1.png",
+        "fileName": "sprites/hub/numbers/1.png",
         "numberOfFrames": 1,
         "Fps": 0
       },
       {
-        "fileName": "sprites/numbers/2.png",
+        "fileName": "sprites/hub/numbers/2.png",
         "numberOfFrames": 1,
         "Fps": 0
       },
       {
-        "fileName": "sprites/numbers/3.png",
+        "fileName": "sprites/hub/numbers/3.png",
         "numberOfFrames": 1,
         "Fps": 0
       },
       {
-        "fileName": "sprites/numbers/4.png",
+        "fileName": "sprites/hub/numbers/4.png",
         "numberOfFrames": 1,
         "Fps": 0
       },
       {
-        "fileName": "sprites/numbers/5.png",
+        "fileName": "sprites/hub/numbers/5.png",
         "numberOfFrames": 1,
         "Fps": 0
       },
       {
-        "fileName": "sprites/numbers/6.png",
+        "fileName": "sprites/hub/numbers/6.png",
         "numberOfFrames": 1,
         "Fps": 0
       },
       {
-        "fileName": "sprites/numbers/7.png",
+        "fileName": "sprites/hub/numbers/7.png",
         "numberOfFrames": 1,
         "Fps": 0
       },
       {
-        "fileName": "sprites/numbers/8.png",
+        "fileName": "sprites/hub/numbers/8.png",
         "numberOfFrames": 1,
         "Fps": 0
       },
       {
-        "fileName": "sprites/numbers/9.png",
+        "fileName": "sprites/hub/numbers/9.png",
         "numberOfFrames": 1,
         "Fps": 0
       }
@@ -266,7 +266,7 @@
     "n": 4,
     "sprites": [
       {
-        "fileName": "sprites/heart/heart.png",
+        "fileName": "sprites/hub/heart/heart.png",
         "numberOfFrames": 1,
         "Fps": 0
       }
@@ -277,7 +277,7 @@
     "positions": [["0.0", "0.0"]],
     "sprites": [
       {
-        "fileName": "sprites/gameOver/gameOver.png",
+        "fileName": "sprites/hub/gameOver/gameOver.png",
         "numberOfFrames": 1,
         "Fps": 0
       }
@@ -288,7 +288,7 @@
     "positions": [["0.0", "0.0"]],
     "sprites": [
       {
-        "fileName": "sprites/tapToStart/tapToStart.png",
+        "fileName": "sprites/hub/tapToStart/tapToStart.png",
         "numberOfFrames": 1,
         "Fps": 0
       }
@@ -304,7 +304,7 @@
           "positions": [["-200.0", "horizon"]],
           "sprites": [
             {
-              "fileName": "sprites/sky/sky1.png",
+              "fileName": "sprites/background/sky/sky1.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -324,7 +324,7 @@
           "positions": [["-90.0", "horizon"]],
           "sprites": [
             {
-              "fileName": "sprites/mountains/mountains2.png",
+              "fileName": "sprites/background/mountains/mountains2.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -338,7 +338,7 @@
           "positions": [["10.0", "horizon"]],
           "sprites": [
             {
-              "fileName": "sprites/mountains/mountains3.png",
+              "fileName": "sprites/background/mountains/mountains3.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -352,7 +352,7 @@
           "positions": [["300.0", "horizon"]],
           "sprites": [
             {
-              "fileName": "sprites/mountains/mountains1.png",
+              "fileName": "sprites/background/mountains/mountains1.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -366,7 +366,7 @@
           "positions": [["100.0", "horizon"]],
           "sprites": [
             {
-              "fileName": "sprites/mountains/mountains4.png",
+              "fileName": "sprites/background/mountains/mountains4.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -386,7 +386,7 @@
           "positions": [["80.0", "horizon"]],
           "sprites": [
             {
-              "fileName": "sprites/rocks/rocks2.png",
+              "fileName": "sprites/background/rocks/rocks2.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -400,7 +400,7 @@
           "positions": [["300.0", "horizon"]],
           "sprites": [
             {
-              "fileName": "sprites/rocks/rocks1.png",
+              "fileName": "sprites/background/rocks/rocks1.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -414,7 +414,7 @@
           "positions": [["600.0", "horizon"]],
           "sprites": [
             {
-              "fileName": "sprites/rocks/rocks3.png",
+              "fileName": "sprites/background/rocks/rocks3.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -434,7 +434,7 @@
           "positions": [["-280.0", "horizon"]],
           "sprites": [
             {
-              "fileName": "sprites/dunes/dunes1.png",
+              "fileName": "sprites/background/dunes/dunes1.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -448,7 +448,7 @@
           "positions": [["300.0", "horizon"]],
           "sprites": [
             {
-              "fileName": "sprites/dunes/dunes2.png",
+              "fileName": "sprites/background/dunes/dunes2.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -468,7 +468,7 @@
         ],
         "sprites": [
           {
-            "fileName": "sprites/ground/ground8.png",
+            "fileName": "sprites/background/ground/ground8.png",
             "numberOfFrames": 1,
             "Fps": 0
           }
@@ -487,7 +487,7 @@
           ],
           "sprites": [
             {
-              "fileName": "sprites/ground/ground7.png",
+              "fileName": "sprites/background/ground/ground7.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -507,7 +507,7 @@
           ],
           "sprites": [
             {
-              "fileName": "sprites/ground/ground6.png",
+              "fileName": "sprites/background/ground/ground6.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -523,7 +523,7 @@
             ["-50.0", "-75.0"]],
           "sprites": [
             {
-              "fileName": "sprites/stones/stone6.png",
+              "fileName": "sprites/background/stones/stone6.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -543,7 +543,7 @@
           ],
           "sprites": [
             {
-              "fileName": "sprites/ground/ground5.png",
+              "fileName": "sprites/background/ground/ground5.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -557,7 +557,7 @@
           "positions": [["-60.0", "-28.0"]],
           "sprites": [
             {
-              "fileName": "sprites/cactus/cactus3.png",
+              "fileName": "sprites/background/cactus/cactus3.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -573,7 +573,7 @@
             ["-50.0", "-75.0"]],
           "sprites": [
             {
-              "fileName": "sprites/stones/stone4.png",
+              "fileName": "sprites/background/stones/stone4.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -593,7 +593,7 @@
           ],
           "sprites": [
             {
-              "fileName": "sprites/ground/ground4.png",
+              "fileName": "sprites/background/ground/ground4.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -607,7 +607,7 @@
           "positions": [["10.0", "-33.0"]],
           "sprites": [
             {
-              "fileName": "sprites/cactus/cactus1.png",
+              "fileName": "sprites/background/cactus/cactus1.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -621,7 +621,7 @@
           "positions": [["20.0", "-70.0"]],
           "sprites": [
             {
-              "fileName": "sprites/grass/medium/grass4.png",
+              "fileName": "sprites/background/grass/medium/grass4.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -641,7 +641,7 @@
           ],
           "sprites": [
             {
-              "fileName": "sprites/ground/ground3.png",
+              "fileName": "sprites/background/ground/ground3.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -655,7 +655,7 @@
           "positions": [["200.0", "-44.0"]],
           "sprites": [
             {
-              "fileName": "sprites/cactus/cactus2.png",
+              "fileName": "sprites/background/cactus/cactus2.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -671,7 +671,7 @@
             ["-50.0", "-75.0"]],
           "sprites": [
             {
-              "fileName": "sprites/stones/stone5.png",
+              "fileName": "sprites/background/stones/stone5.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -685,7 +685,7 @@
           "positions": [["20.0", "-70.0"]],
           "sprites": [
             {
-              "fileName": "sprites/grass/medium/grass1.png",
+              "fileName": "sprites/background/grass/medium/grass1.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -699,7 +699,7 @@
           "positions": [["20.0", "-70.0"]],
           "sprites": [
             {
-              "fileName": "sprites/grass/medium/grass2.png",
+              "fileName": "sprites/background/grass/medium/grass2.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -719,7 +719,7 @@
           ],
           "sprites": [
             {
-              "fileName": "sprites/ground/ground2.png",
+              "fileName": "sprites/background/ground/ground2.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -733,7 +733,7 @@
           "positions": [["60.0", "-60.0"]],
           "sprites": [
             {
-              "fileName": "sprites/vulture",
+              "fileName": "sprites/background/vulture",
               "numberOfFrames": 8,
               "Fps": 3
             }
@@ -747,7 +747,7 @@
           "positions": [["400.0", "-50.0"]],
           "sprites": [
             {
-              "fileName": "sprites/cactus/cactus4.png",
+              "fileName": "sprites/background/cactus/cactus4.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -761,7 +761,7 @@
           "positions": [["20.0", "-50.0"]],
           "sprites": [
             {
-              "fileName": "sprites/skull/skull.png",
+              "fileName": "sprites/background/skull/skull.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -777,7 +777,7 @@
             ["-50.0", "-75.0"]],
           "sprites": [
             {
-              "fileName": "sprites/stones/stone2.png",
+              "fileName": "sprites/background/stones/stone2.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -793,7 +793,7 @@
             ["-50.0", "-75.0"]],
           "sprites": [
             {
-              "fileName": "sprites/stones/stone3.png",
+              "fileName": "sprites/background/stones/stone3.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -807,7 +807,7 @@
           "positions": [["-60.0", "-70.0"]],
           "sprites": [
             {
-              "fileName": "sprites/grass/large/grass3.png",
+              "fileName": "sprites/background/grass/large/grass3.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -821,7 +821,7 @@
           "positions": [["-100.0", "-70.0"]],
           "sprites": [
             {
-              "fileName": "sprites/grass/large/grass4.png",
+              "fileName": "sprites/background/grass/large/grass4.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -841,7 +841,7 @@
           ],
           "sprites": [
             {
-              "fileName": "sprites/ground/ground1.png",
+              "fileName": "sprites/background/ground/ground1.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -857,7 +857,7 @@
             ["-50.0", "-75.0"]],
           "sprites": [
             {
-              "fileName": "sprites/stones/stone1.png",
+              "fileName": "sprites/background/stones/stone1.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -873,7 +873,7 @@
             ["-50.0", "-75.0"]],
           "sprites": [
             {
-              "fileName": "sprites/stones/stone2.png",
+              "fileName": "sprites/background/stones/stone2.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -887,7 +887,7 @@
           "positions": [["-90.0", "-70.0"]],
           "sprites": [
             {
-              "fileName": "sprites/grass/large/grass1.png",
+              "fileName": "sprites/background/grass/large/grass1.png",
               "numberOfFrames": 1,
               "Fps": 0
             }
@@ -901,7 +901,7 @@
           "positions": [["50.0", "-70.0"]],
           "sprites": [
             {
-              "fileName": "sprites/grass/large/grass2.png",
+              "fileName": "sprites/background/grass/large/grass2.png",
               "numberOfFrames": 1,
               "Fps": 0
             }

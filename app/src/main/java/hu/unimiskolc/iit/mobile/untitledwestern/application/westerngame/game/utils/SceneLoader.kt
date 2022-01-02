@@ -67,7 +67,7 @@ class SceneLoader(
 
         for (i in 0 until 6){
             mPlayer.bullets.add(Bullet(context, 0f,0f, scale, 0f, 0f, 0f))
-            mPlayer.bullets.last().addSprite("sprites/bullet/bullet.png", 1, 0)
+            mPlayer.bullets.last().addSprite("sprites/game/bullet/bullet.png", 1, 0)
         }
         return mPlayer
     }
@@ -79,7 +79,7 @@ class SceneLoader(
 
         for (i in 0 until 1){
             mBandit.bullets.add(Bullet(context, 0f,0f, scale, 0f, 0f, 0f))
-            mBandit.bullets.last().addSprite("sprites/bullet/bullet.png", 1, 0)
+            mBandit.bullets.last().addSprite("sprites/game/bullet/bullet.png", 1, 0)
         }
         return mBandit
     }
