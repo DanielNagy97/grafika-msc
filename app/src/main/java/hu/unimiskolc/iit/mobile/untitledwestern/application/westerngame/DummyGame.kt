@@ -55,6 +55,8 @@ class DummyGame(
     private val nightColor = floatArrayOf(0.2f, 0.4f, 0.7f)
     private var isDayLight: Boolean = true
     private var lastScoreAtLightChange: Int = 0
+    private var lastScoreAtSpeedUp: Int = 0
+    private val maxSeed = 150f
 
     fun init(){
         var sceneLoader = SceneLoader("scenes/scene01.json", context, scale, horizon, renderer.ratio)
@@ -136,6 +138,12 @@ class DummyGame(
                 isDayLight = !isDayLight
                 lastScoreAtLightChange = score
             }
+            if(score-lastScoreAtSpeedUp > 100 && score != lastScoreAtSpeedUp){
+                if(mPlayer.movement.x.speed<maxSeed){
+                    mPlayer.movement.x.speed *= 1.05f
+                }
+                lastScoreAtSpeedUp = score
+            }
 
             mPlayer.updateInvincible(dt)
 
@@ -155,12 +163,12 @@ class DummyGame(
     }
 
     private fun updateScore() {
-        score += mPlayer.checkCollectibles(collectibles)
-        score += mBandit.updateLives()
+
+
     }
 
     private fun updateColors() {
-        val changeRate = 0.005f
+        val changeRate = 0.003f
 
         for(i in 0 until layers.size-1){
             for(j in 0..2){
@@ -197,7 +205,8 @@ class DummyGame(
     private fun updatePositions(dt: Float){
         mPlayer.updatePosition(ground, dt)
         mPlayer.checkPlatforms(platforms)
-        mPlayer.updateBullet(dt, gameLayer.mCamera!!.viewPort, mBandit)
+        score += mPlayer.updateBullet(dt, gameLayer.mCamera!!.viewPort, mBandit)
+        score += mPlayer.checkCollectibles(collectibles)
         if(!mPlayer.state.isInjured){
             mPlayer.checkHoles(holes)
             gameCameraOffset = mPlayer.checkBarrels(barrels, gameCameraOffset, dt)
@@ -214,12 +223,14 @@ class DummyGame(
         }
 
         mBandit.updatePosition(ground, dt)
+
         mBandit.checkPlatforms(platforms)
         if(!mBandit.body.getBoundingBox().checkOverlapping(gameLayer.mCamera!!.viewPort)){
             mBandit.movementState = MovementState.FALLING
         }
         mBandit.checkHoles(holes)
         mBandit.updateBullet(dt, gameLayer.mCamera!!.viewPort, mPlayer)
+        mBandit.updateLives()
 
         calculateInfiniteGrounds()
     }

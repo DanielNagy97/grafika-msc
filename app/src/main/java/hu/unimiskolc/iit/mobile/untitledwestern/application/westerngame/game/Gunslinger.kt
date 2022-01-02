@@ -61,12 +61,16 @@ open class Gunslinger (
         }
     }
 
-    fun updateBullet(dt: Float, viewPort: BoundingBox2D, opponent: Character){
+    fun updateBullet(dt: Float, viewPort: BoundingBox2D, opponent: Character): Int{
+        var score : Int = 0
         for (bullet in bullets){
-            bullet.updatePosition(dt, viewPort)
+            bullet.updatePosition(dt, viewPort, movement.x.speed)
             if(!opponent.state.isInjured){
-                bullet.checkOpponent(opponent)
+                if(bullet.checkOpponent(opponent)){
+                    score += 100
+                }
             }
         }
+        return score
     }
 }

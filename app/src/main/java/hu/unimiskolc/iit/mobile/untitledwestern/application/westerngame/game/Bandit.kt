@@ -1,6 +1,7 @@
 package hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game
 
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.engine.GameObject
+import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.states.MovementState
 
 class Bandit (
     body: GameObject,
@@ -26,14 +27,11 @@ class Bandit (
         }
     }
 
-    fun updateLives(): Int{
-        return if(lives<=0){
+    fun updateLives(){
+        if(lives <= 0){
             lives = 1
-            body.position.x -= 1000
+            body.position.x -= body.repeatingInterval * 10
             state.isInjured = false
-            100
-        } else{
-            0
         }
     }
 }

@@ -162,7 +162,7 @@
   },
   "bandits": {
     "type": "repeating",
-    "interval": "120.0",
+    "interval": "100.0",
     "minY": "-70",
     "maxY": "280",
     "positions": [

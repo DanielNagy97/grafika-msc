@@ -21,9 +21,9 @@ class Bullet (
         visible = false
     }
 
-    fun updatePosition(dt: Float, viewPort: BoundingBox2D){
+    fun updatePosition(dt: Float, viewPort: BoundingBox2D, characterSpeedX: Float){
         if(isFired){
-            position.x += movement.direction * (movement.speed * dt)
+            position.x += movement.direction * (movement.speed * dt) + characterSpeedX * dt
             checkViewPort(viewPort)
         }
     }
@@ -38,12 +38,14 @@ class Bullet (
         }
     }
 
-    fun checkOpponent(opponent: Character){
+    fun checkOpponent(opponent: Character) : Boolean{
         if(isFired && getBoundingBox().checkOverlapping(opponent.body.getBoundingBox())){
             isFired = false
             visible = false
             opponent.lives--
             opponent.state.isInjured = true
+            return true
         }
+        return false
     }
 }

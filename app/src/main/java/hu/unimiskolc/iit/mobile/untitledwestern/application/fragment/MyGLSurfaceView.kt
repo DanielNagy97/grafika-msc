@@ -20,17 +20,11 @@ class MyGLSurfaceView(context: Context, private val mainGameFragment: MainGameFr
         // Create an OpenGL ES 3.0 context
         setEGLContextClientVersion(3)
 
+        hideNavBar()
+
         val isBBEnabled = mainGameFragment.arguments?.getBoolean("boundingBoxCheck")
 
         renderer = Renderer(context, this, isBBEnabled!!)
-
-        // Hiding the navigationbar
-        systemUiVisibility = (SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                or SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                or SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                or SYSTEM_UI_FLAG_FULLSCREEN
-                or SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
 
         // Set the Renderer for drawing on the GLSurfaceView
         setRenderer(renderer)
@@ -53,5 +47,14 @@ class MyGLSurfaceView(context: Context, private val mainGameFragment: MainGameFr
             mainGameFragment.viewModel.endGame(renderer.dummygame.score)
             mainGameFragment.findNavController().navigate(R.id.endGameFragment, bundle)
         }
+    }
+
+    fun hideNavBar() {
+        systemUiVisibility = (SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                or SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or SYSTEM_UI_FLAG_FULLSCREEN
+                or SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
     }
 }
