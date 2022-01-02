@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:textAlignment="center"
-        android:text="ID"
+        android:text="0"
         android:layout_weight="43"
         android:textSize="26sp"
         style="@style/myFont"

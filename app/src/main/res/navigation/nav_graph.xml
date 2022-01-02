@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/startGameFragment">
 
     <fragment
         android:id="@+id/startGameFragment"
         android:name="hu.unimiskolc.iit.mobile.untitledwestern.application.fragment.StartGameFragment"
-        android:label="StartGameFragment" >
+        android:label="StartGameFragment"
+        tools:layout="@layout/start_game_fragment" >
         <action
             android:id="@+id/action_startGameFragment_to_mainGameFragment"
             app:destination="@id/mainGameFragment" />
@@ -18,7 +21,8 @@
     <fragment
         android:id="@+id/mainGameFragment"
         android:name="hu.unimiskolc.iit.mobile.untitledwestern.application.fragment.MainGameFragment"
-        android:label="MainGameFragment" >
+        android:label="MainGameFragment"
+        tools:layout="@layout/main_game_fragment" >
         <action
             android:id="@+id/action_mainGameFragment_to_endGameFragment"
             app:destination="@id/endGameFragment" />
@@ -26,7 +30,8 @@
     <fragment
         android:id="@+id/endGameFragment"
         android:name="hu.unimiskolc.iit.mobile.untitledwestern.application.fragment.EndGameFragment"
-        android:label="EndGameFragment" >
+        android:label="EndGameFragment"
+        tools:layout="@layout/end_game_fragment" >
         <action
             android:id="@+id/action_endGameFragment_to_startGameFragment"
             app:destination="@id/startGameFragment" />
