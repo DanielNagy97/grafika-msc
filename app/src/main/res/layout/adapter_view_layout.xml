@@ -8,20 +8,13 @@
     <TextView
         android:id="@+id/score_id"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:textAlignment="center"
         android:text="ID"
         android:layout_weight="43"
-        android:shadowColor="#000000"
-        android:shadowDx="2.5"
-        android:shadowDy="2.5"
-        android:shadowRadius="2.6"
-        android:textAllCaps="true"
-        android:textColor="@android:color/white"
         android:textSize="26sp"
-        android:textStyle="bold"
-        android:typeface="sans"
+        style="@style/myFont"
         />
 
     <LinearLayout
@@ -37,36 +30,22 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:text="score date"
-            android:shadowColor="#000000"
-            android:shadowDx="2.5"
-            android:shadowDy="2.5"
-            android:shadowRadius="2.6"
-            android:textAllCaps="true"
-            android:textColor="@android:color/white"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:typeface="sans"
+            style="@style/myFont"
             />
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="30dp">
             <TextView
-                android:id="@+id/duration"
+                android:id="@+id/duration_text"
                 android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:text="duration:"
+                android:text="@string/duration"
                 android:layout_marginEnd="5dp"
-                android:shadowColor="#000000"
-                android:shadowDx="2.5"
-                android:shadowDy="2.5"
-                android:shadowRadius="2.6"
-                android:textAllCaps="true"
-                android:textColor="@android:color/white"
                 android:textSize="14sp"
-                android:textStyle="bold"
-                android:typeface="sans"
+                style="@style/myFont"
                 />
             <TextView
                 android:id="@+id/score_duration"
@@ -74,15 +53,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:text="00:00"
-                android:shadowColor="#000000"
-                android:shadowDx="2.5"
-                android:shadowDy="2.5"
-                android:shadowRadius="2.6"
-                android:textAllCaps="true"
-                android:textColor="@android:color/white"
                 android:textSize="14sp"
-                android:textStyle="bold"
-                android:typeface="sans"
+                style="@style/myFont"
                 />
         </LinearLayout>
     </LinearLayout>
@@ -90,20 +62,13 @@
     <TextView
         android:id="@+id/score_value"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:textAlignment="center"
         android:text="000000000"
         android:layout_weight="29"
-        android:shadowColor="#000000"
-        android:shadowDx="2.5"
-        android:shadowDy="2.5"
-        android:shadowRadius="2.6"
-        android:textAllCaps="true"
-        android:textColor="@android:color/white"
         android:textSize="32sp"
-        android:textStyle="bold"
-        android:typeface="sans"
+        style="@style/myFont"
         />
 
 </LinearLayout>

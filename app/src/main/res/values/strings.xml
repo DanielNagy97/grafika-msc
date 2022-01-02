@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">UntitledWesternGame</string>
     <string name="result_description">Your score: %d</string>
+    <string name="duration">duration:</string>
+    <string name="high_scores">High Scores</string>
+    <string name="back_to_menu_button">Back to menu</string>
+    <string name="menu_image_description">Menu image</string>
+    <string name="enable_bounding_boxes_text">Enable bounding boxes</string>
+    <string name="start_game_button">Start Game</string>
 </resources>

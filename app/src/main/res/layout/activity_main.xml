@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.fragment.app.FragmentContainerView xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/navHostFragment"
     android:name="androidx.navigation.fragment.NavHostFragment"

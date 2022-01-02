@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="vm"
@@ -20,22 +19,14 @@
         android:layout_width="match_parent"
         android:gravity="center"
         android:layout_height="wrap_content"
-
-        android:shadowColor="#000000"
-        android:shadowDx="2.5"
-        android:shadowDy="2.5"
-        android:shadowRadius="2.6"
-        android:text="High Scores"
-        android:textAllCaps="true"
-        android:textColor="@android:color/white"
+        android:text="@string/high_scores"
         android:textSize="32sp"
-        android:textStyle="bold"
-        android:typeface="sans"
-
+        style="@style/myFont"
+        android:layout_margin="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="5dp"/>
+        />
 
 
     <View
@@ -63,18 +54,11 @@
         android:id="@+id/backToMenuButton"
         android:layout_width="100dp"
         android:layout_height="60dp"
-        android:text="Back to menu"
+        android:text="@string/back_to_menu_button"
         android:layout_margin="5dp"
         android:background="@drawable/my_btn"
-        android:typeface="sans"
-        android:textStyle="bold"
         android:textSize="16sp"
-        android:shadowColor="#000000"
-        android:shadowDx="2.5"
-        android:shadowDy="2.5"
-        android:shadowRadius="2.6"
-        android:textAllCaps="true"
-        android:textColor="@android:color/white"
+        style="@style/myFont"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
