@@ -1,7 +1,6 @@
 package hu.unimiskolc.iit.mobile.untitledwestern.application.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +32,7 @@ class StartGameFragment : Fragment(R.layout.start_game_fragment){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = StartGameFragmentBinding.bind(view)
-        viewModel = ViewModelProvider(this).get(StartGameViewModel::class.java)
+        viewModel = ViewModelProvider(this)[StartGameViewModel::class.java]
 
         binding?.startGameButton?.setOnClickListener {
             val bundle = bundleOf("boundingBoxCheck" to binding?.boundingBoxCheck?.isChecked)

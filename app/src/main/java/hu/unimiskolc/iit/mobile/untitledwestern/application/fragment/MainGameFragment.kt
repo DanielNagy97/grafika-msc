@@ -21,7 +21,7 @@ class MainGameFragment: Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         myGLSurfaceView = MyGLSurfaceView(requireContext(), this)
         return myGLSurfaceView
     }

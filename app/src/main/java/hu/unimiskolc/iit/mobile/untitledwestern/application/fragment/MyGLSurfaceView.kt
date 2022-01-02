@@ -32,7 +32,7 @@ class MyGLSurfaceView(context: Context, private val mainGameFragment: MainGameFr
     }
 
     override fun onTouchEvent(e: MotionEvent): Boolean {
-        if(!renderer.dummygame.gameEnded && renderer.dummygame.mPlayer != null){
+        if(!renderer.dummygame.gameEnded){
             touchHandler.handleInput(e, renderer.dummygame, width, height)
         }
         return true

@@ -33,10 +33,10 @@ class EndGameFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = EndGameFragmentBinding.bind(view)
-        binding?.vm = viewModel
-        binding?.lifecycleOwner = this
+        binding.vm = viewModel
+        binding.lifecycleOwner = this
 
-        binding?.highScores.backToMenuButton?.setOnClickListener {
+        binding.highScores.backToMenuButton.setOnClickListener {
             findNavController().navigate(R.id.startGameFragment)
         }
 
@@ -49,10 +49,10 @@ class EndGameFragment: Fragment() {
             view.findViewById<TextView>(R.id.result_text).visibility = View.INVISIBLE
         }
 
-        var recyclerView: RecyclerView = binding?.highScores.myListView
+        val recyclerView: RecyclerView = binding.highScores.myListView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.hasFixedSize()
-        val adapter : HighScoreAdapter = HighScoreAdapter(R.color.currentScore, gameId ?: -1)
+        val adapter = HighScoreAdapter(R.color.currentScore, gameId ?: -1)
         recyclerView.adapter = adapter
 
         viewModel.fetchHighScores()
