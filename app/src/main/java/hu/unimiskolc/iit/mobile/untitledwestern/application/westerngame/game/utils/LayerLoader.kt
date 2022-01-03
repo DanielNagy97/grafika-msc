@@ -11,6 +11,7 @@ class LayerLoader: JsonLoader() {
                   scale: Float,
                   horizon: Float,
                   aspect: Float,
+                  viewPortHalfHeight: Float,
                   gameObjectLoader: GameObjectLoader
     ): C2DGraphicsLayer {
         val newLayer: C2DGraphicsLayer
@@ -28,7 +29,7 @@ class LayerLoader: JsonLoader() {
                 newLayer.addGameObject(gameObj)
             }
         }
-        newLayer.setCamera(CCamera2D(0f, 0f, aspect))
+        newLayer.setCamera(CCamera2D(0f, 0f, aspect, viewPortHalfHeight))
 
         return newLayer
     }

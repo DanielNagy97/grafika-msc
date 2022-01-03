@@ -17,7 +17,7 @@ open class Character (
 
     private var onPlatform : GameObject? = null
 
-    protected fun calcPosition(ground: Float, dt:Float){
+    protected fun calcPosition(ground: Float, viewPortHalfHeight: Float, dt:Float){
         body.position.x += movement.x.direction * (movement.x.speed * dt)
         body.position.y += movement.y.direction * (movement.y.speed * dt)
 

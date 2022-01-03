@@ -96,17 +96,17 @@ class SceneLoader(
         return gameObjectLoader.makeObjects(sceneModel.getJSONObject("barrels"), context, scale, horizon)
     }
 
-    fun loadLayers(): ArrayList<C2DGraphicsLayer>{
+    fun loadLayers(viewPortHalfHeight: Float): ArrayList<C2DGraphicsLayer>{
         val layers: ArrayList<C2DGraphicsLayer> = ArrayList()
         val layerModels = loadArray("layers", sceneModel)
         for (i in 0 until layerModels.length()){
             layers.add(
                 layerLoader.makeLayer(layerModels.getJSONObject(i),
-                context, scale, horizon, ratio, gameObjectLoader))
+                context, scale, horizon, ratio, viewPortHalfHeight, gameObjectLoader))
         }
         //Hub-layer
         layers.add(C2DGraphicsLayer(0.0f))
-        layers.last().setCamera(CCamera2D(0f, 0f, ratio))
+        layers.last().setCamera(CCamera2D(0f, 0f, ratio, viewPortHalfHeight))
         return layers
     }
 }

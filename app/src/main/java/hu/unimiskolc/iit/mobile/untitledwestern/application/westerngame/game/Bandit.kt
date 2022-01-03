@@ -1,5 +1,6 @@
 package hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game
 
+import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.engine.BoundingBox2D
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.engine.GameObject
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.states.MovementState
 
@@ -35,6 +36,12 @@ class Bandit (
             if(state.inHole){
                 state.inHole = false
             }
+        }
+    }
+
+    fun checkIfOutsideOfViewport(viewPort: BoundingBox2D) {
+        if(!body.getBoundingBox().checkOverlapping(viewPort)){
+            movementState = MovementState.FALLING
         }
     }
 }

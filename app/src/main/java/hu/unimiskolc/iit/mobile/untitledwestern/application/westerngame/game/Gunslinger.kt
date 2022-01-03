@@ -22,8 +22,8 @@ open class Gunslinger (
         }
     }
 
-    fun updatePosition(ground: Float, dt: Float) {
-        calcPosition(ground, dt)
+    fun updatePosition(ground: Float, viewPortHalfHeight: Float, dt: Float) {
+        calcPosition(ground, viewPortHalfHeight, dt)
         calcPistolPosition()
     }
 
@@ -34,7 +34,6 @@ open class Gunslinger (
                 state.shooting = false
             }
         } else{
-            // TODO: Make a function that plays animation only once and a resetter!!
             pistol.mSprites[1].miActualFrame = 0
             pistol.currSprite = 0
         }

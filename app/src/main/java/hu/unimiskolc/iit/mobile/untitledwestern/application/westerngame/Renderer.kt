@@ -15,7 +15,7 @@ import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.engine.u
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
-class Renderer(private val context: Context, val view: MyGLSurfaceView, var dummyGame: DummyGame) : GLSurfaceView.Renderer {
+class Renderer(private val context: Context, val view: MyGLSurfaceView, private var dummyGame: DummyGame) : GLSurfaceView.Renderer {
     lateinit var shaderProgram: ShaderProgram
     lateinit var lineShader: ShaderProgram
 
@@ -24,6 +24,7 @@ class Renderer(private val context: Context, val view: MyGLSurfaceView, var dumm
 
     var ratio: Float = 16f/9f
     private var timer: Timer = Timer()
+    val viewPortHalfHeight = 82f
 
     override fun onSurfaceCreated(unused: GL10, config: EGLConfig) {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f)
@@ -67,7 +68,7 @@ class Renderer(private val context: Context, val view: MyGLSurfaceView, var dumm
             dummyGame.hub.calculateLayout()
         }
 
-        Matrix.frustumM(projectionMatrix, 0, -ratio, ratio, -1f, 1f, 1f, 82f)
+        Matrix.frustumM(projectionMatrix, 0, -ratio, ratio, -1f, 1f, 1f, viewPortHalfHeight)
     }
 
     fun cleanup() {

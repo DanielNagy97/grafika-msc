@@ -11,7 +11,6 @@ import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.Col
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.Player
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.Hub
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.states.GameState
-import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.states.MovementState
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.utils.SceneLoader
 import java.util.Collections
 import kotlin.collections.ArrayList
@@ -71,7 +70,7 @@ class DummyGame(
         holes = sceneLoader.loadHoles()
         barrels = sceneLoader.loadBarrels()
 
-        layers = sceneLoader.loadLayers()
+        layers = sceneLoader.loadLayers(renderer.viewPortHalfHeight)
 
         for (i in 4 until layers.size-1){
             groundLayers.add(layers[i])
@@ -134,19 +133,9 @@ class DummyGame(
             updateColors()
 
             mBandit.shootPlayer(mPlayer)
-
-            if(score-lastScoreAtLightChange > 500 && score != lastScoreAtLightChange){
-                isDayLight = !isDayLight
-                lastScoreAtLightChange = score
-            }
-            if(score-lastScoreAtSpeedUp > 100 && score != lastScoreAtSpeedUp){
-                if(mPlayer.movement.x.speed<maxSeed){
-                    mPlayer.movement.x.speed *= 1.05f
-                }
-                lastScoreAtSpeedUp = score
-            }
-
             mPlayer.updateInvincible(dt)
+
+            makeChangesAccordingToScore()
 
             hub.updateScoreBoard(score)
             hub.updateHearts(mPlayer.lives)
@@ -160,6 +149,19 @@ class DummyGame(
             if(elapsedAfterDeath > 3){
                 renderer.view.endGame()
             }
+        }
+    }
+
+    private fun makeChangesAccordingToScore(){
+        if(score-lastScoreAtLightChange > 500 && score != lastScoreAtLightChange){
+            isDayLight = !isDayLight
+            lastScoreAtLightChange = score
+        }
+        if(score-lastScoreAtSpeedUp > 100 && score != lastScoreAtSpeedUp){
+            if(mPlayer.movement.x.speed<maxSeed){
+                mPlayer.movement.x.speed *= 1.05f
+            }
+            lastScoreAtSpeedUp = score
         }
     }
 
@@ -199,32 +201,18 @@ class DummyGame(
     }
 
     private fun updatePositions(dt: Float){
-        mPlayer.updatePosition(ground, dt)
+        mPlayer.updatePosition(ground, renderer.viewPortHalfHeight, dt)
         mPlayer.checkPlatforms(platforms)
         score += mPlayer.updateBullet(dt, gameLayer.mCamera!!.viewPort, mBandit)
         score += mPlayer.checkCollectibles(collectibles)
-        if(!mPlayer.state.isInjured){
-            mPlayer.checkHoles(holes)
-            gameCameraOffset = mPlayer.checkBarrels(barrels, gameCameraOffset, dt)
-        }
+        gameCameraOffset = mPlayer.updateCameraOffset(barrels, holes, gameCameraOffset, gameCameraBaseOffset, dt)
+        mPlayer.checkIfPushedFromViewport(gameLayer.mCamera!!.viewPort.minpoint.x, renderer.viewPortHalfHeight)
 
-        if(gameCameraOffset>gameCameraBaseOffset){
-            gameCameraOffset -=  mPlayer.movement.x.speed * 0.5f * dt
-        }
-        if(mPlayer.body.getBoundingBox().maxpoint.x < gameLayer.mCamera!!.viewPort.minpoint.x && !mPlayer.state.isInjured){
-            mPlayer.movementState = MovementState.FALLING
-            mPlayer.body.position.y = 82f
-            mPlayer.lives--
-            mPlayer.state.isInjured = true
-        }
-
-        mBandit.updatePosition(ground, dt)
+        mBandit.updatePosition(ground, renderer.viewPortHalfHeight, dt)
         mBandit.checkPlatforms(platforms)
         mBandit.checkHoles(holes)
         mBandit.updateBullet(dt, gameLayer.mCamera!!.viewPort, mPlayer)
-        if(!mBandit.body.getBoundingBox().checkOverlapping(gameLayer.mCamera!!.viewPort)){
-            mBandit.movementState = MovementState.FALLING
-        }
+        mBandit.checkIfOutsideOfViewport(gameLayer.mCamera!!.viewPort)
         mBandit.updateLives(gameLayer.mCamera!!.viewPort.minpoint.x)
 
         calculateInfiniteGrounds()
