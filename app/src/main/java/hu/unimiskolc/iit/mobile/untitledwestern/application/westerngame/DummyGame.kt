@@ -18,10 +18,11 @@ import kotlin.collections.ArrayList
 
 class DummyGame(
     private var context: Context,
-    var renderer: Renderer,
     private val scale: Float,
+    private val sceneFileName: String,
     private var showBoundingBoxes: Boolean = false
     ) {
+    lateinit var renderer: Renderer
     var sceneManager: C2DSceneManager = C2DSceneManager()
     private var scene: C2DScene = C2DScene()
 
@@ -58,8 +59,9 @@ class DummyGame(
     private var lastScoreAtSpeedUp: Int = 0
     private val maxSeed = 150f
 
-    fun init(){
-        val sceneLoader = SceneLoader("scenes/scene01.json", context, scale, horizon, renderer.ratio)
+    fun init(renderer: Renderer){
+        this.renderer = renderer
+        val sceneLoader = SceneLoader(sceneFileName, context, scale, horizon, renderer.ratio)
 
         horizon = sceneLoader.loadHorizon()
         ground = sceneLoader.loadGround()

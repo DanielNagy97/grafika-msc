@@ -27,7 +27,7 @@ class EndGameViewModel(private val interactors: GameInteractors): ViewModel() {
 
     fun fetchHighScores() {
         viewModelScope.launch {
-            val scores = interactors.getHighScores(4)
+            val scores = interactors.getHighScores(10)
             highScores.postValue(scores)
         }
     }

@@ -15,7 +15,7 @@ import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.engine.u
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
-class Renderer(private val context: Context, val view: MyGLSurfaceView, isBBEnabled: Boolean = false) : GLSurfaceView.Renderer {
+class Renderer(private val context: Context, val view: MyGLSurfaceView, var dummyGame: DummyGame) : GLSurfaceView.Renderer {
     lateinit var shaderProgram: ShaderProgram
     lateinit var lineShader: ShaderProgram
 
@@ -24,8 +24,6 @@ class Renderer(private val context: Context, val view: MyGLSurfaceView, isBBEnab
 
     var ratio: Float = 16f/9f
     private var timer: Timer = Timer()
-
-    var dummygame = DummyGame(context, this, 1f, isBBEnabled)
 
     override fun onSurfaceCreated(unused: GL10, config: EGLConfig) {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f)
@@ -48,31 +46,28 @@ class Renderer(private val context: Context, val view: MyGLSurfaceView, isBBEnab
         lineShader.createUniform("projectionMatrix")
         lineShader.createUniform("modelMatrix")
         lineShader.createUniform("vColor")
-        dummygame.init()
+        dummyGame.init(this)
     }
 
     override fun onDrawFrame(gl: GL10) {
-
         val dt: Float = timer.getElapsedTime()
-        dummygame.update(dt)
+        dummyGame.update(dt)
 
         glClear(GL_COLOR_BUFFER_BIT)
-        glClear(GL_DEPTH_BUFFER_BIT)
-        dummygame.sceneManager.render(this)
-
+        dummyGame.sceneManager.render(this)
     }
 
     override fun onSurfaceChanged(unused: GL10, width: Int, height: Int) {
         glViewport(0, 0, width, height)
         ratio = width.toFloat() / height.toFloat()
 
-        for(layer in dummygame.sceneManager.mScenes[0].mLayers) {
+        for(layer in dummyGame.sceneManager.getCurrentScene().mLayers) {
             layer.mCamera!!.aspect = ratio
             layer.mCamera!!.recalculateViewPort()
-            dummygame.hub.calculateLayout()
+            dummyGame.hub.calculateLayout()
         }
 
-        Matrix.frustumM(projectionMatrix, 0, -ratio, ratio, -1f, 1f, 1f, 10000f)
+        Matrix.frustumM(projectionMatrix, 0, -ratio, ratio, -1f, 1f, 1f, 82f)
     }
 
     fun cleanup() {

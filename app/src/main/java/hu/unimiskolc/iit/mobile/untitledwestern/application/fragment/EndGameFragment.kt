@@ -56,6 +56,14 @@ class EndGameFragment: Fragment() {
         recyclerView.adapter = adapter
 
         viewModel.fetchHighScores()
-        viewModel.getHighScores().observe(viewLifecycleOwner, { hiScores -> adapter.setScores(hiScores) })
+        viewModel.getHighScores().observe(viewLifecycleOwner, {
+                hiScores -> adapter.setScores(hiScores)
+                if(gameId != null){
+                    val gameListPosition = hiScores!!.mapIndexedNotNull { index, score ->  if (score.id == gameId) index else null}
+                    if(gameListPosition.isNotEmpty()){
+                        (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(gameListPosition[0], 0)
+                    }
+                }
+        })
     }
 }

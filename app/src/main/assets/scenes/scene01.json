@@ -1,7 +1,7 @@
 {
   "player": {
     "type": "once",
-    "positions": [["-90.0", "-70.0"]],
+    "positions": [["-90.0", "0.0"]],
     "velocity": 1.5,
     "sprites": [
       {

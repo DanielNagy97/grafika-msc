@@ -12,7 +12,7 @@ class TouchHandler {
 
         if(e.action == MotionEvent.ACTION_DOWN ) {
 
-            if(dummyGame.gameState == GameState.NOT_STARTED){
+            if(dummyGame.gameState == GameState.NOT_STARTED && dummyGame.mPlayer.movementState == MovementState.IDLE){
                 dummyGame.gameState = GameState.STARTED
                 dummyGame.mPlayer.movementState = MovementState.WALKING
                 dummyGame.mPlayer.movement.x.speed = dummyGame.mPlayer.velocity

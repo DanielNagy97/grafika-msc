@@ -7,12 +7,14 @@ import android.view.MotionEvent
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import hu.unimiskolc.iit.mobile.untitledwestern.application.R
+import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.DummyGame
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.Renderer
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.touchhandler.TouchHandler
 
 class MyGLSurfaceView(context: Context, private val mainGameFragment: MainGameFragment) : GLSurfaceView(context) {
     private val renderer: hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.Renderer
     private val touchHandler: TouchHandler
+    private val dummyGame: DummyGame
 
     init {
         // Create an OpenGL ES 3.0 context
@@ -21,8 +23,9 @@ class MyGLSurfaceView(context: Context, private val mainGameFragment: MainGameFr
         hideNavBar()
 
         val isBBEnabled = mainGameFragment.arguments?.getBoolean("boundingBoxCheck")
+        dummyGame = DummyGame(context, 1f, "scenes/scene01.json", isBBEnabled!!)
 
-        renderer = Renderer(context, this, isBBEnabled!!)
+        renderer = Renderer(context, this, dummyGame)
 
         // Set the Renderer for drawing on the GLSurfaceView
         setRenderer(renderer)
@@ -31,7 +34,9 @@ class MyGLSurfaceView(context: Context, private val mainGameFragment: MainGameFr
     }
 
     override fun onTouchEvent(e: MotionEvent): Boolean {
-        touchHandler.handleInput(e, renderer.dummygame, width, height)
+        if(dummyGame.sceneManager.mScenes.size != 0){
+            touchHandler.handleInput(e, dummyGame, width, height)
+        }
         return true
     }
 
@@ -39,12 +44,12 @@ class MyGLSurfaceView(context: Context, private val mainGameFragment: MainGameFr
         // Switching to manual render mode
         renderMode = 0
         renderer.cleanup()
-        renderer.dummygame.cleanup()
+        dummyGame.cleanup()
 
         (context as Activity).runOnUiThread() {
-            val bundle = bundleOf("score" to renderer.dummygame.score, "gameId" to mainGameFragment.viewModel.getGame().id)
+            val bundle = bundleOf("score" to dummyGame.score, "gameId" to mainGameFragment.viewModel.getGame().id)
 
-            mainGameFragment.viewModel.endGame(renderer.dummygame.score)
+            mainGameFragment.viewModel.endGame(dummyGame.score)
             mainGameFragment.findNavController().navigate(R.id.endGameFragment, bundle)
         }
     }
