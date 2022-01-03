@@ -209,7 +209,7 @@ class DummyGame(
         if(gameCameraOffset>gameCameraBaseOffset){
             gameCameraOffset -=  mPlayer.movement.x.speed * 0.5f * dt
         }
-        if(mPlayer.body.getBoundingBox().maxpoint.x < gameLayer.mCamera!!.viewPort.minpoint.x){
+        if(mPlayer.body.getBoundingBox().maxpoint.x < gameLayer.mCamera!!.viewPort.minpoint.x && !mPlayer.state.isInjured){
             mPlayer.movementState = MovementState.FALLING
             mPlayer.body.position.y = 82f
             mPlayer.lives--

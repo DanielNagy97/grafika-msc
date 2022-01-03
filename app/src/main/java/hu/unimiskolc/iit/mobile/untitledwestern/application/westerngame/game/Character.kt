@@ -35,6 +35,8 @@ open class Character (
             }
             if(state.inHole){
                 if (body.getBoundingBox().maxpoint.y < ground){
+                    lives--
+                    state.isInjured = true
                     body.position.y = 82f
                     state.inHole = false
                 }
@@ -106,10 +108,6 @@ open class Character (
                 if (movementState != MovementState.JUMPING && !state.inHole && (body.getBoundingBox().minpoint.x > hole.getBoundingBox().minpoint.x && body.getBoundingBox().maxpoint.x < hole.getBoundingBox().maxpoint.x) && body.getBoundingBox().minpoint.y < hole.getBoundingBox().maxpoint.y){
                     state.inHole = true
                     movementState = MovementState.FALLING
-                }
-                else if(state.inHole && body.getBoundingBox().maxpoint.y < hole.getBoundingBox().maxpoint.y){
-                    lives--
-                    state.isInjured = true
                 }
             }
         }
