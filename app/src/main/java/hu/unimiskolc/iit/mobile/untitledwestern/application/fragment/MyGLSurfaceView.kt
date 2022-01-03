@@ -50,13 +50,11 @@ class MyGLSurfaceView(context: Context, private val mainGameFragment: MainGameFr
     }
 
     private fun hideNavBar() {
-        (context as Activity).window.decorView.apply {
-            systemUiVisibility = (SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    or SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    or SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    or SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    or SYSTEM_UI_FLAG_FULLSCREEN
-                    or SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
-        }
+        systemUiVisibility = (SYSTEM_UI_FLAG_LAYOUT_STABLE
+            or SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+            or SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            or SYSTEM_UI_FLAG_HIDE_NAVIGATION
+            or SYSTEM_UI_FLAG_FULLSCREEN
+            or SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
     }
 }
