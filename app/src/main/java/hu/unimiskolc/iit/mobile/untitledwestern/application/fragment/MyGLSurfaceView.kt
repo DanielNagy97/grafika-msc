@@ -38,6 +38,8 @@ class MyGLSurfaceView(context: Context, private val mainGameFragment: MainGameFr
     fun endGame(){
         // Switching to manual render mode
         renderMode = 0
+        renderer.cleanup()
+        renderer.dummygame.cleanup()
 
         (context as Activity).runOnUiThread() {
             val bundle = bundleOf("score" to renderer.dummygame.score, "gameId" to mainGameFragment.viewModel.getGame().id)

@@ -15,7 +15,9 @@ class C2DSceneManager {
     }
 
     fun render(renderer: Renderer) {
-        mScenes[currentScene].render(renderer)
+        if(mScenes.size != 0){
+            mScenes[currentScene].render(renderer)
+        }
     }
 
     fun cleanup(){
