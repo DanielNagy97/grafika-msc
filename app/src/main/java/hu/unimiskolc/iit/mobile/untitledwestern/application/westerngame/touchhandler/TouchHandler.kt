@@ -2,7 +2,6 @@ package hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.touchha
 
 import android.view.MotionEvent
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.DummyGame
-import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.Player
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.states.GameState
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.states.MovementState
 
@@ -25,9 +24,6 @@ class TouchHandler {
                 if(y > height / 2){
                     dummyGame.mPlayer.shootABullet()
                 }
-            }
-            else if(dummyGame.gameState == GameState.ENDED){
-
             }
         }
     }

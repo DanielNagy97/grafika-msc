@@ -1,7 +1,7 @@
 {
   "player": {
     "type": "once",
-    "positions": [["-90.0", "-20.0"]],
+    "positions": [["-90.0", "-70.0"]],
     "velocity": 1.5,
     "sprites": [
       {
@@ -163,8 +163,8 @@
   "bandits": {
     "type": "repeating",
     "interval": "100.0",
-    "minY": "-70",
-    "maxY": "280",
+    "minY": "0",
+    "maxY": "82",
     "positions": [
       ["2000.0", "-10.0"]
     ],

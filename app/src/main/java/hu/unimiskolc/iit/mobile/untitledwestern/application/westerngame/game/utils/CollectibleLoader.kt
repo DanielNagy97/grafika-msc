@@ -10,7 +10,7 @@ class CollectibleLoader: GameObjectLoader() {
                              scale: Float,
                              horizon: Float
     ): ArrayList<Collectible> {
-        var collectibles: ArrayList<Collectible> = ArrayList()
+        val collectibles: ArrayList<Collectible> = ArrayList()
 
         val positions = loadPositions(jsonObject, horizon)
         val type = loadType(jsonObject)
@@ -20,7 +20,7 @@ class CollectibleLoader: GameObjectLoader() {
         val value = loadInt("value", jsonObject)
 
         for (position in positions){
-            var newCoin = Collectible(context, position.x, position.y,
+            val newCoin = Collectible(context, position.x, position.y,
                 scale, interval, minY, maxY, value)
             loadSpritesToGameObject(jsonObject, newCoin)
 

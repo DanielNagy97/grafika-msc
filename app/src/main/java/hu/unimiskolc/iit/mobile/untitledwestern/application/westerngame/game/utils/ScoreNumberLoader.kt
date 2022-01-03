@@ -11,12 +11,12 @@ class ScoreNumberLoader : GameObjectLoader() {
         scale: Float,
         horizon: Float
     ): ArrayList<GameObject> {
-        var scoreNumbers: ArrayList<GameObject> = ArrayList()
+        val scoreNumbers: ArrayList<GameObject> = ArrayList()
 
         val n = loadInt("n", jsonObject)
 
         for (i in 1..n) {
-            var newNumber = GameObject(
+            val newNumber = GameObject(
                 context, 0.0f, 0.0f,
                 scale,0.0f, 0.0f, 0.0f
             )

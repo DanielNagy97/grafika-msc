@@ -8,8 +8,6 @@ import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import hu.unimiskolc.iit.mobile.untitledwestern.application.R
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.Renderer
-import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.states.GameState
-import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.states.MovementState
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.touchhandler.TouchHandler
 
 class MyGLSurfaceView(context: Context, private val mainGameFragment: MainGameFragment) : GLSurfaceView(context) {
@@ -49,12 +47,14 @@ class MyGLSurfaceView(context: Context, private val mainGameFragment: MainGameFr
         }
     }
 
-    fun hideNavBar() {
-        systemUiVisibility = (SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                or SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                or SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                or SYSTEM_UI_FLAG_FULLSCREEN
-                or SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+    private fun hideNavBar() {
+        (context as Activity).window.decorView.apply {
+            systemUiVisibility = (SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    or SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    or SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    or SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    or SYSTEM_UI_FLAG_FULLSCREEN
+                    or SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+        }
     }
 }

@@ -9,7 +9,7 @@ class Player(
     velocity: Float,
     lives: Int
 ): Gunslinger(body, pistol, velocity, lives) {
-    var invincibleTime: Float = 0f
+    private var invincibleTime: Float = 0f
 
     fun checkCollectibles(collectibles: List<Collectible>): Int{
         var score = 0

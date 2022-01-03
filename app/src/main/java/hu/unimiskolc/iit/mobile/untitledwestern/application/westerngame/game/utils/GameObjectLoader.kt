@@ -7,13 +7,13 @@ import org.json.JSONObject
 
 open class GameObjectLoader: JsonLoader() {
     protected fun loadPositions(jsonObject: JSONObject, horizon: Float): ArrayList<Vector2D>{
-        var result: ArrayList<Vector2D> = ArrayList()
+        val result: ArrayList<Vector2D> = ArrayList()
         val pPositions = loadArray("positions", jsonObject)
 
         for (i in 0 until pPositions.length()) {
             val pPosition = pPositions.getJSONArray(i)
-            var posX = pPosition[0].toString().toFloat()
-            var posY = if (pPosition[1].toString() == "horizon") {
+            val posX = pPosition[0].toString().toFloat()
+            val posY = if (pPosition[1].toString() == "horizon") {
                 horizon
             } else {
                 pPosition[1].toString().toFloat()
@@ -75,7 +75,7 @@ open class GameObjectLoader: JsonLoader() {
                          scale: Float,
                          horizon: Float
     ): List<GameObject>{
-        var gameObjects: ArrayList<GameObject> = ArrayList()
+        val gameObjects: ArrayList<GameObject> = ArrayList()
 
         val positions = loadPositions(jsonObject, horizon)
         val type = loadType(jsonObject)
@@ -84,7 +84,7 @@ open class GameObjectLoader: JsonLoader() {
         val maxY = loadMaxY(jsonObject, type, horizon)
 
         for (position in positions){
-            var newGameObject = GameObject(context, position.x, position.y,
+            val newGameObject = GameObject(context, position.x, position.y,
                 scale, interval, minY, maxY)
             loadSpritesToGameObject(jsonObject, newGameObject)
 

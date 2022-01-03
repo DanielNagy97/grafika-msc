@@ -12,6 +12,4 @@ class Collectible (
     minRepeatY: Float,
     maxRepeatX: Float,
     val value: Int
-) : GameObject(context,posX, posY, scale, repeatingInterval, minRepeatY, maxRepeatX){
-
-}
+) : GameObject(context,posX, posY, scale, repeatingInterval, minRepeatY, maxRepeatX)

@@ -9,7 +9,7 @@ class Sprite(
     private val context: Context,
     filenames: String,
     numOfFrames: Int,
-    private var miFps: Int,// Position of the sprite
+    private var miFps: Int,
     var position: Vector2D,
     var mScale: Float
 ) {

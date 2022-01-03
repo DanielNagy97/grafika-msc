@@ -20,7 +20,7 @@ class DummyGame(
     private var context: Context,
     var renderer: Renderer,
     private val scale: Float,
-    var showBoundingBoxes: Boolean = false
+    private var showBoundingBoxes: Boolean = false
     ) {
     var sceneManager: C2DSceneManager = C2DSceneManager()
     private var scene: C2DScene = C2DScene()
@@ -32,7 +32,7 @@ class DummyGame(
     private lateinit var barrels: List<GameObject>
     private lateinit var mBandit: Bandit
 
-    var collectibles: ArrayList<Collectible> = ArrayList()
+    private var collectibles: ArrayList<Collectible> = ArrayList()
 
     private var ground: Float = -75f
     private var horizon: Float = -21f
@@ -44,13 +44,13 @@ class DummyGame(
     var score: Int = 0
     lateinit var hub: Hub
 
-    var gameCameraLastXPos = 0f
+    private var gameCameraLastXPos = 0f
     private val gameCameraBaseOffset: Float = 100f
     private var gameCameraOffset: Float = gameCameraBaseOffset
 
     var gameState: GameState = GameState.NOT_STARTED
 
-    var elapsedAfterDeath = 0f
+    private var elapsedAfterDeath = 0f
 
     private val nightColor = floatArrayOf(0.2f, 0.4f, 0.7f)
     private var isDayLight: Boolean = true
@@ -59,7 +59,7 @@ class DummyGame(
     private val maxSeed = 150f
 
     fun init(){
-        var sceneLoader = SceneLoader("scenes/scene01.json", context, scale, horizon, renderer.ratio)
+        val sceneLoader = SceneLoader("scenes/scene01.json", context, scale, horizon, renderer.ratio)
 
         horizon = sceneLoader.loadHorizon()
         ground = sceneLoader.loadGround()
@@ -189,7 +189,7 @@ class DummyGame(
     }
 
     private fun updateCameras(){
-        gameLayer.mCamera!!.setMPosition(Vector2D(mPlayer.body.position.x + gameCameraOffset, 0f))
+        gameLayer.mCamera!!.mPosition = Vector2D(mPlayer.body.position.x + gameCameraOffset, 0f)
         for (i in 0 until layers.size-2){
             layers[i].mCamera!!.moveLeft((gameLayer.mCamera!!.mPosition.x - gameCameraLastXPos) * layers[i].cameraSpeed)
         }
@@ -211,20 +211,19 @@ class DummyGame(
         }
         if(mPlayer.body.getBoundingBox().maxpoint.x < gameLayer.mCamera!!.viewPort.minpoint.x){
             mPlayer.movementState = MovementState.FALLING
-            mPlayer.body.position.y = 282f
+            mPlayer.body.position.y = 82f
             mPlayer.lives--
             mPlayer.state.isInjured = true
         }
 
         mBandit.updatePosition(ground, dt)
-
         mBandit.checkPlatforms(platforms)
+        mBandit.checkHoles(holes)
+        mBandit.updateBullet(dt, gameLayer.mCamera!!.viewPort, mPlayer)
         if(!mBandit.body.getBoundingBox().checkOverlapping(gameLayer.mCamera!!.viewPort)){
             mBandit.movementState = MovementState.FALLING
         }
-        mBandit.checkHoles(holes)
-        mBandit.updateBullet(dt, gameLayer.mCamera!!.viewPort, mPlayer)
-        mBandit.updateLives()
+        mBandit.updateLives(gameLayer.mCamera!!.viewPort.minpoint.x)
 
         calculateInfiniteGrounds()
     }

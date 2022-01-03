@@ -13,9 +13,8 @@ class LayerLoader: JsonLoader() {
                   aspect: Float,
                   gameObjectLoader: GameObjectLoader
     ): C2DGraphicsLayer {
-        var newLayer: C2DGraphicsLayer
+        val newLayer: C2DGraphicsLayer
 
-        val name = loadString("name", jsonObject)
         val cameraSpeed = loadFloat("cameraSpeed", jsonObject)
         newLayer = C2DGraphicsLayer(cameraSpeed)
 

@@ -61,7 +61,7 @@ class C2DGraphicsLayer(var cameraSpeed: Float) {
         mObjectList.clear()
     }
 
-    fun rand(from: Float, to: Float) : Float{
+    private fun rand(from: Float, to: Float) : Float{
         val random = Random()
         return from + random.nextFloat() * (to - from)
     }

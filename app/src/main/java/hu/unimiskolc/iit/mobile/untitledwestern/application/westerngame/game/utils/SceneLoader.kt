@@ -34,7 +34,7 @@ class SceneLoader(
     }
 
     fun loadCollectibles(): ArrayList<Collectible> {
-        var collectibles : ArrayList<Collectible> = ArrayList()
+        val collectibles : ArrayList<Collectible> = ArrayList()
         val collectibleModels = loadArray("collectibles", sceneModel)
 
         for (i in 0 until collectibleModels.length()){
@@ -97,7 +97,7 @@ class SceneLoader(
     }
 
     fun loadLayers(): ArrayList<C2DGraphicsLayer>{
-        var layers: ArrayList<C2DGraphicsLayer> = ArrayList()
+        val layers: ArrayList<C2DGraphicsLayer> = ArrayList()
         val layerModels = loadArray("layers", sceneModel)
         for (i in 0 until layerModels.length()){
             layers.add(

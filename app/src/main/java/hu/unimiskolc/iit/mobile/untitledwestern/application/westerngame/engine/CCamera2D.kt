@@ -5,6 +5,13 @@ import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.engine.m
 
 class CCamera2D(x: Float, y: Float, var aspect: Float) {
     var mPosition: Vector2D = Vector2D(x, y)
+    set(newPos) {
+        field = newPos
+        viewPort.setPoints(
+            Vector2D(mPosition.x - 82f * aspect, -82f),
+            Vector2D(mPosition.x + 82f * aspect, 82f)
+        )
+    }
 
     // TODO: Make the 82f constant or something
     var viewPort = BoundingBox2D(Vector2D(-82f * aspect, -82f), Vector2D(82f * aspect, 82f))
@@ -18,15 +25,6 @@ class CCamera2D(x: Float, y: Float, var aspect: Float) {
         viewPort.setPoints(
             Vector2D(mPosition.x - 82f * aspect, -82f),
                            Vector2D(mPosition.x + 82f * aspect, 82f)
-        )
-    }
-
-    @JvmName("setMPosition1")
-    fun setMPosition(newPos: Vector2D){
-        mPosition = newPos
-        viewPort.setPoints(
-            Vector2D(mPosition.x - 82f * aspect, -82f),
-                            Vector2D(mPosition.x + 82f * aspect, 82f)
         )
     }
 

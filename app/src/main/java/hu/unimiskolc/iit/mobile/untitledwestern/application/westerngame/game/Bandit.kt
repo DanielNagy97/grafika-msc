@@ -27,11 +27,14 @@ class Bandit (
         }
     }
 
-    fun updateLives(){
+    fun updateLives(viewPortMin: Float){
         if(lives <= 0){
             lives = 1
-            body.position.x -= body.repeatingInterval * 10
+            body.position.x = viewPortMin -100f
             state.isInjured = false
+            if(state.inHole){
+                state.inHole = false
+            }
         }
     }
 }

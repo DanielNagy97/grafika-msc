@@ -62,7 +62,7 @@ open class Gunslinger (
     }
 
     fun updateBullet(dt: Float, viewPort: BoundingBox2D, opponent: Character): Int{
-        var score : Int = 0
+        var score = 0
         for (bullet in bullets){
             bullet.updatePosition(dt, viewPort, movement.x.speed)
             if(!opponent.state.isInjured){

@@ -7,13 +7,13 @@ class Timer {
         lastLoopTime = getTime()
     }
 
-    fun getTime(): Double {
+    private fun getTime(): Double {
         return System.nanoTime() / 1000_000_000.0
     }
 
     fun getElapsedTime(): Float {
-        var time: Double = getTime()
-        var elapsedTime: Float = (time - lastLoopTime).toFloat()
+        val time: Double = getTime()
+        val elapsedTime: Float = (time - lastLoopTime).toFloat()
         lastLoopTime = time
         return elapsedTime
     }

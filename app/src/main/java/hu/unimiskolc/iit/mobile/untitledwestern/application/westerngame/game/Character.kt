@@ -33,10 +33,9 @@ open class Character (
                     movement.y.speed = velocity * 4f
                 }
             }
-
             if(state.inHole){
                 if (body.getBoundingBox().maxpoint.y < ground){
-                    body.position.y = 282f
+                    body.position.y = 82f
                     state.inHole = false
                 }
             }
@@ -94,11 +93,9 @@ open class Character (
     fun checkPlatforms(platforms: List<GameObject>) {
         val eps = 11f
         for(plat in platforms){
-            //if(plat.visible){
-                if (body.getBoundingBox().checkOverlapping(plat.getBoundingBox())) {
-                    landOnPlatform(plat, eps)
-                }
-            //}
+            if (body.getBoundingBox().checkOverlapping(plat.getBoundingBox())) {
+                landOnPlatform(plat, eps)
+            }
         }
         fallFromPlatform()
     }
@@ -106,7 +103,7 @@ open class Character (
     fun checkHoles(holes: List<GameObject>){
         for (hole in holes) {
             if(hole.visible){
-                if (!state.inHole && (body.getBoundingBox().minpoint.x > hole.getBoundingBox().minpoint.x && body.getBoundingBox().maxpoint.x < hole.getBoundingBox().maxpoint.x) && body.getBoundingBox().minpoint.y < hole.getBoundingBox().maxpoint.y){
+                if (movementState != MovementState.JUMPING && !state.inHole && (body.getBoundingBox().minpoint.x > hole.getBoundingBox().minpoint.x && body.getBoundingBox().maxpoint.x < hole.getBoundingBox().maxpoint.x) && body.getBoundingBox().minpoint.y < hole.getBoundingBox().maxpoint.y){
                     state.inHole = true
                     movementState = MovementState.FALLING
                 }
@@ -123,7 +120,7 @@ open class Character (
         for (barrel in barrels){
             if(barrel.visible){
                 if (barrel.getBoundingBox().checkOverlapping(body.getBoundingBox())){
-                    if(!landOnPlatform(barrel, 11f) && onPlatform == null){
+                    if(!landOnPlatform(barrel, 11f) && onPlatform != barrel){
                         body.position.x = barrel.position.x-(body.getBoundingBox().maxpoint.x-body.getBoundingBox().minpoint.x)
                         newOffset += movement.x.direction * (movement.x.speed) * dt
                     }

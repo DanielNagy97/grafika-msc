@@ -5,7 +5,7 @@ import hu.unimiskolc.iit.mobile.untitledwestern.core.domain.Game
 import hu.unimiskolc.iit.mobile.untitledwestern.framework.db.dao.GameDao
 import hu.unimiskolc.iit.mobile.untitledwestern.framework.db.mapper.GameMapper
 
-class RoomGameDataSource(val dao: GameDao, val mapper: GameMapper): GameDataSource{
+class RoomGameDataSource(private val dao: GameDao, private val mapper: GameMapper): GameDataSource{
 
     override suspend fun add(game: Game) = dao.insert(mapper.mapToEntity(game))
 

@@ -13,7 +13,8 @@ class Hub (
     var gameOverText: GameObject,
     var startGameText: GameObject,
     var scale: Float){
-    var blinkTime: Float = 0f
+    private var blinkTime: Float = 0f
+
     init {
         calculateLayout()
     }

@@ -20,7 +20,7 @@ val dataSourceModule = module {
 }
 
 val repositoryModule = module {
-    single<GameRepository> { GameRepository(get()) }
+    single { GameRepository(get()) }
 }
 
 val interactorModule = module {

@@ -15,7 +15,7 @@ import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.engine.u
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
-class Renderer(private val context: Context, val view: MyGLSurfaceView, val isBBEnabled: Boolean = false) : GLSurfaceView.Renderer {
+class Renderer(private val context: Context, val view: MyGLSurfaceView, isBBEnabled: Boolean = false) : GLSurfaceView.Renderer {
     lateinit var shaderProgram: ShaderProgram
     lateinit var lineShader: ShaderProgram
 
@@ -23,7 +23,7 @@ class Renderer(private val context: Context, val view: MyGLSurfaceView, val isBB
     var viewMatrix = FloatArray(16)
 
     var ratio: Float = 16f/9f
-    var timer: Timer = Timer()
+    private var timer: Timer = Timer()
 
     var dummygame = DummyGame(context, this, 1f, isBBEnabled)
 
