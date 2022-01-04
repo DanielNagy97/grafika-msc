@@ -26,6 +26,6 @@ val repositoryModule = module {
 val interactorModule = module {
     single { StartGame(get()) }
     single { EndGame(get()) }
-    single { GetHighScores(get())}
+    single { GetHighScores(get()) }
     single { GameInteractors(get(), get(), get()) }
 }

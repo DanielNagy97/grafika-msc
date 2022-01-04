@@ -15,11 +15,11 @@ interface GameDao {
     suspend fun delete(entity: GameEntity)
 
     @Query("SELECT * FROM game WHERE id = :id")
-    suspend fun fetchById(id: Int) : GameEntity?
+    suspend fun fetchById(id: Int): GameEntity?
 
     @Query("SELECT * FROM game")
-    suspend fun fetchAll() : List<GameEntity>
+    suspend fun fetchAll(): List<GameEntity>
 
     @Query("SELECT * FROM game ORDER BY score DESC LIMIT :limit")
-    suspend fun fetchOrderByScore(limit: Int) : List<GameEntity>
+    suspend fun fetchOrderByScore(limit: Int): List<GameEntity>
 }

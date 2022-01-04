@@ -24,11 +24,13 @@ abstract class WesternDatabase : RoomDatabase() {
         private const val DATABASE_NAME = "western.db"
         private var instance: WesternDatabase? = null
 
-        private fun create(context: Context) : WesternDatabase = Room.databaseBuilder(context, WesternDatabase::class.java, DATABASE_NAME)
-            .addCallback(DB_CALLBACK)
-            .build()
+        private fun create(context: Context): WesternDatabase =
+            Room.databaseBuilder(context, WesternDatabase::class.java, DATABASE_NAME)
+                .addCallback(DB_CALLBACK)
+                .build()
 
-        fun getInstance(context: Context) : WesternDatabase = (instance ?: create(context)).also { instance = it}
+        fun getInstance(context: Context): WesternDatabase =
+            (instance ?: create(context)).also { instance = it }
 
         private val DB_CALLBACK = object : RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
@@ -37,5 +39,5 @@ abstract class WesternDatabase : RoomDatabase() {
         }
     }
 
-    abstract fun gameDao() : GameDao
+    abstract fun gameDao(): GameDao
 }
