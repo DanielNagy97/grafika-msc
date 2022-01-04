@@ -4,11 +4,8 @@ import android.content.Context
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.engine.C2DGraphicsLayer
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.engine.CCamera2D
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.engine.GameObject
-import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.Bandit
-import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.Bullet
-import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.Collectible
-import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.Player
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.engine.util.TextUtil
+import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.*
 import org.json.JSONObject
 import org.json.JSONTokener
 
@@ -16,7 +13,7 @@ class SceneLoader(
     sceneFileName: String,
     private val context: Context,
     private val scale: Float,
-    private val horizon: Float,
+    private var horizon: Float,
     private var ratio: Float
 ) : JsonLoader() {
     private val sceneModel: JSONObject =
@@ -27,7 +24,8 @@ class SceneLoader(
     private val scoreNumberLoader = ScoreNumberLoader()
 
     fun loadHorizon(): Float {
-        return loadFloat("horizon", sceneModel)
+        horizon = loadFloat("horizon", sceneModel)
+        return horizon
     }
 
     fun loadGround(): Float {
@@ -52,107 +50,68 @@ class SceneLoader(
         return collectibles
     }
 
-    fun loadScoreNumbers(): ArrayList<GameObject> {
+    fun loadHubElements(name: String): ArrayList<GameObject> {
         return scoreNumberLoader.makeObjects(
-            sceneModel.getJSONObject("scoreNumbers"),
+            sceneModel.getJSONObject(name),
             context,
             scale,
             horizon
         )
     }
 
-    fun loadHearts(): ArrayList<GameObject> {
-        return scoreNumberLoader.makeObjects(
-            sceneModel.getJSONObject("hearts"),
-            context,
-            scale,
-            horizon
-        )
-    }
-
-    fun loadGameOverText(): GameObject {
+    fun loadGameObject(name: String): GameObject {
         return gameObjectLoader.makeObject(
-            sceneModel.getJSONObject("gameOver"),
+            sceneModel.getJSONObject(name),
             context,
             scale,
             horizon
         )
     }
 
-    fun loadStartGameText(): GameObject {
-        return gameObjectLoader.makeObject(
-            sceneModel.getJSONObject("startGame"),
+    fun loadGameObjects(name: String): List<GameObject> {
+        return gameObjectLoader.makeObjects(
+            sceneModel.getJSONObject(name),
             context,
             scale,
             horizon
         )
+    }
+
+    private fun loadPistol(characterName: String): GameObject {
+        return gameObjectLoader.makeObject(
+            sceneModel.getJSONObject(characterName).getJSONObject("pistol"),
+            context,
+            scale,
+            horizon
+        )
+    }
+
+    private fun loadBullets(gunslinger: Gunslinger, characterName: String) {
+        val bulletSpritePath = loadString("bulletSpritePath", sceneModel)
+        val numberOfBullets = loadInt("numberOfBullets", sceneModel.getJSONObject(characterName))
+
+        for (i in 0 until numberOfBullets) {
+            gunslinger.bullets.add(Bullet(context, 0f, 0f, scale, 0f, 0f, 0f))
+            gunslinger.bullets.last().addSprite(bulletSpritePath, 1, 0)
+        }
     }
 
     fun loadPlayer(lives: Int, velocity: Float = 100f): Player {
-        val mPlayerObject =
-            gameObjectLoader.makeObject(sceneModel.getJSONObject("player"), context, scale, horizon)
-        val mPistolObject = gameObjectLoader.makeObject(
-            sceneModel.getJSONObject("player").getJSONObject("pistol"),
-            context,
-            scale,
-            horizon
-        )
-        val mPlayer = Player(mPlayerObject, mPistolObject, velocity, lives)
+        val mBodyObject = loadGameObject("player")
+        val mPistolObject = loadPistol("player")
+        val mPlayer = Player(mBodyObject, mPistolObject, velocity, lives)
 
-        for (i in 0 until 6) {
-            mPlayer.bullets.add(Bullet(context, 0f, 0f, scale, 0f, 0f, 0f))
-            mPlayer.bullets.last().addSprite("sprites/game/bullet/bullet.png", 1, 0)
-        }
+        loadBullets(mPlayer, "player")
         return mPlayer
     }
 
     fun loadBandits(lives: Int, velocity: Float = 100f): Bandit {
-        val mBodyObject = gameObjectLoader.makeObject(
-            sceneModel.getJSONObject("bandits"),
-            context,
-            scale,
-            horizon
-        )
-        val mPistolObject = gameObjectLoader.makeObject(
-            sceneModel.getJSONObject("bandits").getJSONObject("pistol"),
-            context,
-            scale,
-            horizon
-        )
+        val mBodyObject = loadGameObject("bandit")
+        val mPistolObject = loadPistol("bandit")
         val mBandit = Bandit(mBodyObject, mPistolObject, velocity, lives)
 
-        for (i in 0 until 1) {
-            mBandit.bullets.add(Bullet(context, 0f, 0f, scale, 0f, 0f, 0f))
-            mBandit.bullets.last().addSprite("sprites/game/bullet/bullet.png", 1, 0)
-        }
+        loadBullets(mBandit, "bandit")
         return mBandit
-    }
-
-    fun loadPlatforms(): List<GameObject> {
-        return gameObjectLoader.makeObjects(
-            sceneModel.getJSONObject("platforms"),
-            context,
-            scale,
-            horizon
-        )
-    }
-
-    fun loadHoles(): List<GameObject> {
-        return gameObjectLoader.makeObjects(
-            sceneModel.getJSONObject("holes"),
-            context,
-            scale,
-            horizon
-        )
-    }
-
-    fun loadBarrels(): List<GameObject> {
-        return gameObjectLoader.makeObjects(
-            sceneModel.getJSONObject("barrels"),
-            context,
-            scale,
-            horizon
-        )
     }
 
     fun loadLayers(viewPortHalfHeight: Float): ArrayList<C2DGraphicsLayer> {

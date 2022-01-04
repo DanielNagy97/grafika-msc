@@ -66,9 +66,9 @@ class DummyGame(
         ground = sceneLoader.loadGround()
 
         collectibles = sceneLoader.loadCollectibles()
-        platforms = sceneLoader.loadPlatforms()
-        holes = sceneLoader.loadHoles()
-        barrels = sceneLoader.loadBarrels()
+        platforms = sceneLoader.loadGameObjects("platforms")
+        holes = sceneLoader.loadGameObjects("holes")
+        barrels = sceneLoader.loadGameObjects("barrels")
 
         layers = sceneLoader.loadLayers(renderer.viewPortHalfHeight)
 
@@ -81,33 +81,29 @@ class DummyGame(
 
         hub = Hub(
             layers[layers.size - 1],
-            sceneLoader.loadScoreNumbers(),
-            sceneLoader.loadHearts(),
-            sceneLoader.loadGameOverText(),
-            sceneLoader.loadStartGameText(),
+            sceneLoader.loadHubElements("scoreNumbers"),
+            sceneLoader.loadHubElements("hearts"),
+            sceneLoader.loadGameObject("gameOver"),
+            sceneLoader.loadGameObject("startGame"),
             scale
         )
         mPlayer = sceneLoader.loadPlayer(hub.hearts.size)
-
         mBandit = sceneLoader.loadBandits(1)
 
-        gameLayer.addGameObjects(holes)
-        gameLayer.addGameObjects(platforms)
-        gameLayer.addGameObjects(barrels)
-        gameLayer.addGameObjects(collectibles)
+        gameLayer.addListOfGameObjectLists(
+            listOf(
+                holes,
+                platforms,
+                barrels,
+                collectibles,
+                mPlayer.bullets,
+                mBandit.bullets
+            )
+        )
+        gameLayer.addGameObjects(listOf(mPlayer.body, mPlayer.pistol, mBandit.body, mBandit.pistol))
 
-        gameLayer.addGameObject(mPlayer.body)
-        gameLayer.addGameObject(mPlayer.pistol)
-        gameLayer.addGameObjects(mPlayer.bullets)
-
-        gameLayer.addGameObject(mBandit.body)
-        gameLayer.addGameObject(mBandit.pistol)
-        gameLayer.addGameObjects(mBandit.bullets)
-
-        hub.hubLayer.addGameObjects(hub.scoreNumbers)
-        hub.hubLayer.addGameObjects(hub.hearts)
-        hub.hubLayer.addGameObject(hub.gameOverText)
-        hub.hubLayer.addGameObject(hub.startGameText)
+        hub.hubLayer.addListOfGameObjectLists(listOf(hub.scoreNumbers, hub.hearts))
+        hub.hubLayer.addGameObjects(listOf(hub.gameOverText, hub.startGameText))
 
         if (showBoundingBoxes) {
             for (gameObject in gameLayer.mObjectList) {

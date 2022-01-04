@@ -25,6 +25,12 @@ class C2DGraphicsLayer(var cameraSpeed: Float) {
         }
     }
 
+    fun addListOfGameObjectLists(gameObjectsList: List<List<GameObject>>){
+        for (gameObjects in gameObjectsList){
+            addGameObjects(gameObjects)
+        }
+    }
+
     fun render(renderer: Renderer) {
         if (!mVisible) {
             return

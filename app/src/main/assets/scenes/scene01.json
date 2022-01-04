@@ -40,8 +40,10 @@
           "Fps": 20
         }
       ]
-    }
+    },
+    "numberOfBullets": 6
   },
+  "bulletSpritePath": "sprites/game/bullet/bullet.png",
   "ground": -75.0,
   "horizon": -21.0,
   "collectibles": [
@@ -160,7 +162,7 @@
       }
     ]
   },
-  "bandits": {
+  "bandit": {
     "type": "repeating",
     "interval": "100.0",
     "minY": "0",
@@ -205,7 +207,8 @@
           "Fps": 20
         }
       ]
-    }
+    },
+    "numberOfBullets": 1
   },
   "scoreNumbers": {
     "n": 6,
