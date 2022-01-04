@@ -40,6 +40,4 @@ dependencies {
     testImplementation testDeps.junit
     androidTestImplementation testDeps.ext_junit
     androidTestImplementation testDeps.espresso
-
-    implementation 'com.google.android.material:material:1.4.0'
 }
