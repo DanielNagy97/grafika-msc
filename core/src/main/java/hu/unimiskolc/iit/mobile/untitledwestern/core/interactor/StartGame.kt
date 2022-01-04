@@ -5,12 +5,12 @@ import hu.unimiskolc.iit.mobile.untitledwestern.core.data.repository.GameReposit
 import hu.unimiskolc.iit.mobile.untitledwestern.core.domain.Game
 import java.util.*
 
-class StartGame (
+class StartGame(
     private val gameRepository: GameRepository
-        ){
+) {
 
-    suspend operator fun invoke() : Game {
-        val newGame = Game((SystemClock.elapsedRealtime()/1000.0).toInt(), Date(), null, 0)
+    suspend operator fun invoke(): Game {
+        val newGame = Game((SystemClock.elapsedRealtime() / 1000.0).toInt(), Date(), null, 0)
         gameRepository.add(newGame)
         gameRepository
         return newGame
