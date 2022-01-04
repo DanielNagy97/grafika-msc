@@ -5,7 +5,7 @@ import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.engine.B
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.engine.GameObject
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.movement.Movement
 
-class Bullet (
+class Bullet(
     context: Context,
     posX: Float,
     posY: Float,
@@ -13,7 +13,7 @@ class Bullet (
     repeatingInterval: Float,
     minRepeatY: Float,
     maxRepeatX: Float
-) : GameObject(context, posX, posY, scale, repeatingInterval, minRepeatY, maxRepeatX){
+) : GameObject(context, posX, posY, scale, repeatingInterval, minRepeatY, maxRepeatX) {
     var isFired: Boolean = false
     var movement: Movement = Movement(250f, 1)
 
@@ -21,25 +21,26 @@ class Bullet (
         visible = false
     }
 
-    fun updatePosition(dt: Float, viewPort: BoundingBox2D, characterSpeedX: Float){
-        if(isFired){
+    fun updatePosition(dt: Float, viewPort: BoundingBox2D, characterSpeedX: Float) {
+        if (isFired) {
             position.x += movement.direction * (movement.speed * dt) + characterSpeedX * dt
             checkViewPort(viewPort)
         }
     }
 
     private fun checkViewPort(viewPort: BoundingBox2D) {
-        if(visible) {
-            if(getBoundingBox().minpoint.x > viewPort.maxpoint.x
-                || getBoundingBox().maxpoint.x < viewPort.minpoint.x) {
+        if (visible) {
+            if (getBoundingBox().minpoint.x > viewPort.maxpoint.x
+                || getBoundingBox().maxpoint.x < viewPort.minpoint.x
+            ) {
                 isFired = false
                 visible = false
             }
         }
     }
 
-    fun checkOpponent(opponent: Character) : Boolean{
-        if(isFired && getBoundingBox().checkOverlapping(opponent.body.getBoundingBox())){
+    fun checkOpponent(opponent: Character): Boolean {
+        if (isFired && getBoundingBox().checkOverlapping(opponent.body.getBoundingBox())) {
             isFired = false
             visible = false
             opponent.lives--

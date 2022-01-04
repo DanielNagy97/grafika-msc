@@ -6,7 +6,7 @@ class C2DSceneManager {
     var mScenes: ArrayList<C2DScene> = ArrayList()
     private var currentScene: Int = 0
 
-    fun registerScene(scene: C2DScene){
+    fun registerScene(scene: C2DScene) {
         mScenes.add(scene)
     }
 
@@ -15,13 +15,13 @@ class C2DSceneManager {
     }
 
     fun render(renderer: Renderer) {
-        if(mScenes.size != 0){
+        if (mScenes.size != 0) {
             mScenes[currentScene].render(renderer)
         }
     }
 
-    fun cleanup(){
-        for(scene in mScenes){
+    fun cleanup() {
+        for (scene in mScenes) {
             scene.cleanup()
         }
         mScenes.clear()

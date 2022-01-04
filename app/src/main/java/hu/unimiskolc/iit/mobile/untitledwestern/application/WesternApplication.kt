@@ -14,7 +14,15 @@ class WesternApplication : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@WesternApplication)
-            modules(listOf(appModule, daoModule, dataSourceModule, repositoryModule, interactorModule))
+            modules(
+                listOf(
+                    appModule,
+                    daoModule,
+                    dataSourceModule,
+                    repositoryModule,
+                    interactorModule
+                )
+            )
         }
     }
 }

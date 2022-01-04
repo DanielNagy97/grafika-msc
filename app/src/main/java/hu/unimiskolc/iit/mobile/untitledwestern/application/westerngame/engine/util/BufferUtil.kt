@@ -5,8 +5,8 @@ import java.nio.ByteOrder
 import java.nio.FloatBuffer
 
 class BufferUtil {
-    companion object{
-        fun createFloatBuffer(inputArray: FloatArray): FloatBuffer{
+    companion object {
+        fun createFloatBuffer(inputArray: FloatArray): FloatBuffer {
             return ByteBuffer.allocateDirect(inputArray.size * 4).run {
                 order(ByteOrder.nativeOrder())
                 asFloatBuffer().apply {

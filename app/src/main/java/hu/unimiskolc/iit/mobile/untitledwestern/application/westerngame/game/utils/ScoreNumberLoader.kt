@@ -18,7 +18,7 @@ class ScoreNumberLoader : GameObjectLoader() {
         for (i in 1..n) {
             val newNumber = GameObject(
                 context, 0.0f, 0.0f,
-                scale,0.0f, 0.0f, 0.0f
+                scale, 0.0f, 0.0f, 0.0f
             )
             loadSpritesToGameObject(jsonObject, newNumber)
 

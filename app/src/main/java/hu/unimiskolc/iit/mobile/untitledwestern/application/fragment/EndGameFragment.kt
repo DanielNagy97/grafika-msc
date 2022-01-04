@@ -14,13 +14,13 @@ import org.koin.android.ext.android.inject
 import hu.unimiskolc.iit.mobile.untitledwestern.application.R
 import hu.unimiskolc.iit.mobile.untitledwestern.application.fragment.adapter.HighScoreAdapter
 
-class EndGameFragment: Fragment() {
+class EndGameFragment : Fragment() {
 
     companion object {
         fun newInstance() = EndGameFragment()
     }
 
-    private lateinit var binding : EndGameFragmentBinding
+    private lateinit var binding: EndGameFragmentBinding
     private val viewModel: EndGameViewModel by inject()
 
     override fun onCreateView(
@@ -45,7 +45,7 @@ class EndGameFragment: Fragment() {
 
         val gameId = arguments?.getInt("gameId")
 
-        if(gameId == null){
+        if (gameId == null) {
             view.findViewById<TextView>(R.id.result_text).visibility = View.INVISIBLE
         }
 
@@ -56,14 +56,18 @@ class EndGameFragment: Fragment() {
         recyclerView.adapter = adapter
 
         viewModel.fetchHighScores()
-        viewModel.getHighScores().observe(viewLifecycleOwner, {
-                hiScores -> adapter.setScores(hiScores)
-                if(gameId != null){
-                    val gameListPosition = hiScores!!.mapIndexedNotNull { index, score ->  if (score.id == gameId) index else null}
-                    if(gameListPosition.isNotEmpty()){
-                        (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(gameListPosition[0], 0)
-                    }
+        viewModel.getHighScores().observe(viewLifecycleOwner, { hiScores ->
+            adapter.setScores(hiScores)
+            if (gameId != null) {
+                val gameListPosition =
+                    hiScores!!.mapIndexedNotNull { index, score -> if (score.id == gameId) index else null }
+                if (gameListPosition.isNotEmpty()) {
+                    (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(
+                        gameListPosition[0],
+                        0
+                    )
                 }
+            }
         })
     }
 }

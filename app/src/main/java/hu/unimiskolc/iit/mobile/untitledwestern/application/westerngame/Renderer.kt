@@ -15,14 +15,18 @@ import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.engine.u
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
-class Renderer(private val context: Context, val view: MyGLSurfaceView, private var dummyGame: DummyGame) : GLSurfaceView.Renderer {
+class Renderer(
+    private val context: Context,
+    val view: MyGLSurfaceView,
+    private var dummyGame: DummyGame
+) : GLSurfaceView.Renderer {
     lateinit var shaderProgram: ShaderProgram
     lateinit var lineShader: ShaderProgram
 
     val projectionMatrix = FloatArray(16)
     var viewMatrix = FloatArray(16)
 
-    var ratio: Float = 16f/9f
+    var ratio: Float = 16f / 9f
     private var timer: Timer = Timer()
     val viewPortHalfHeight = 82f
 
@@ -30,8 +34,18 @@ class Renderer(private val context: Context, val view: MyGLSurfaceView, private 
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f)
 
         shaderProgram = ShaderProgram()
-        shaderProgram.createVertexShader(TextUtil.readFile(context, "shaders/vertexShader.vert"))
-        shaderProgram.createFragmentShader(TextUtil.readFile(context, "shaders/fragmentShader.frag"))
+        shaderProgram.createVertexShader(
+            TextUtil.readFile(
+                context,
+                "shaders/vertexShader.vert"
+            )
+        )
+        shaderProgram.createFragmentShader(
+            TextUtil.readFile(
+                context,
+                "shaders/fragmentShader.frag"
+            )
+        )
         shaderProgram.bindAttribLocation("a_TexCoordinate", 0)
         shaderProgram.link()
         shaderProgram.createUniform("viewMatrix")
@@ -62,7 +76,7 @@ class Renderer(private val context: Context, val view: MyGLSurfaceView, private 
         glViewport(0, 0, width, height)
         ratio = width.toFloat() / height.toFloat()
 
-        for(layer in dummyGame.sceneManager.getCurrentScene().mLayers) {
+        for (layer in dummyGame.sceneManager.getCurrentScene().mLayers) {
             layer.mCamera!!.aspect = ratio
             layer.mCamera!!.recalculateViewPort()
             dummyGame.hub.calculateLayout()

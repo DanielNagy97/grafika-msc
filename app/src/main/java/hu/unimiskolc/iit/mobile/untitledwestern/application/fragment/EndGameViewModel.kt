@@ -8,7 +8,7 @@ import hu.unimiskolc.iit.mobile.untitledwestern.core.domain.Game
 import hu.unimiskolc.iit.mobile.untitledwestern.core.interactor.GameInteractors
 import kotlinx.coroutines.launch
 
-class EndGameViewModel(private val interactors: GameInteractors): ViewModel() {
+class EndGameViewModel(private val interactors: GameInteractors) : ViewModel() {
 
     private val score: MutableLiveData<Int> = MutableLiveData()
     private val highScores: MutableLiveData<List<Game>> = MutableLiveData()

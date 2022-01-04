@@ -11,7 +11,8 @@ import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.DummyGam
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.Renderer
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.touchhandler.TouchHandler
 
-class MyGLSurfaceView(context: Context, private val mainGameFragment: MainGameFragment) : GLSurfaceView(context) {
+class MyGLSurfaceView(context: Context, private val mainGameFragment: MainGameFragment) :
+    GLSurfaceView(context) {
     private val renderer: hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.Renderer
     private val touchHandler: TouchHandler
     private val dummyGame: DummyGame
@@ -34,20 +35,23 @@ class MyGLSurfaceView(context: Context, private val mainGameFragment: MainGameFr
     }
 
     override fun onTouchEvent(e: MotionEvent): Boolean {
-        if(dummyGame.sceneManager.mScenes.size != 0){
+        if (dummyGame.sceneManager.mScenes.size != 0) {
             touchHandler.handleInput(e, dummyGame, width, height)
         }
         return true
     }
 
-    fun endGame(){
+    fun endGame() {
         // Switching to manual render mode
         renderMode = 0
         renderer.cleanup()
         dummyGame.cleanup()
 
         (context as Activity).runOnUiThread() {
-            val bundle = bundleOf("score" to dummyGame.score, "gameId" to mainGameFragment.viewModel.getGame().id)
+            val bundle = bundleOf(
+                "score" to dummyGame.score,
+                "gameId" to mainGameFragment.viewModel.getGame().id
+            )
 
             mainGameFragment.viewModel.endGame(dummyGame.score)
             mainGameFragment.findNavController().navigate(R.id.endGameFragment, bundle)
@@ -56,10 +60,10 @@ class MyGLSurfaceView(context: Context, private val mainGameFragment: MainGameFr
 
     private fun hideNavBar() {
         systemUiVisibility = (SYSTEM_UI_FLAG_LAYOUT_STABLE
-            or SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-            or SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-            or SYSTEM_UI_FLAG_HIDE_NAVIGATION
-            or SYSTEM_UI_FLAG_FULLSCREEN
-            or SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+                or SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                or SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or SYSTEM_UI_FLAG_FULLSCREEN
+                or SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
     }
 }

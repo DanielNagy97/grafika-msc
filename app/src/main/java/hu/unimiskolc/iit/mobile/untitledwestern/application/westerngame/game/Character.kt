@@ -6,18 +6,18 @@ import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.mov
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.states.MovementState
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.states.PlayerState
 
-open class Character (
+open class Character(
     var body: GameObject,
     var velocity: Float,
     var lives: Int
-    ){
+) {
     var state: PlayerState = PlayerState()
     var movementState: MovementState = MovementState.FALLING
     var movement = Movement2D(Movement(0f, 1), Movement(0f, -1))
 
-    private var onPlatform : GameObject? = null
+    private var onPlatform: GameObject? = null
 
-    protected fun calcPosition(ground: Float, viewPortHalfHeight: Float, dt:Float){
+    protected fun calcPosition(ground: Float, viewPortHalfHeight: Float, dt: Float) {
         body.position.x += movement.x.direction * (movement.x.speed * dt)
         body.position.y += movement.y.direction * (movement.y.speed * dt)
 
@@ -33,15 +33,14 @@ open class Character (
                     movement.y.speed = velocity * 4f
                 }
             }
-            if(state.inHole){
-                if (body.getBoundingBox().maxpoint.y < ground){
+            if (state.inHole) {
+                if (body.getBoundingBox().maxpoint.y < ground) {
                     lives--
                     state.isInjured = true
                     body.position.y = 82f
                     state.inHole = false
                 }
-            }
-            else{
+            } else {
                 if (body.position.y < ground) {
                     movement.y.speed = 0f
                     body.position.y = ground
@@ -53,48 +52,49 @@ open class Character (
             if (movement.y.speed <= 0f) {
                 movement.y.direction = 1
                 movement.y.speed = velocity * 4f
-            } else if (movement.y.speed >= velocity/5f && movement.y.direction == 1) {
+            } else if (movement.y.speed >= velocity / 5f && movement.y.direction == 1) {
                 movement.y.speed *= 0.9f * (1 - dt)
-            } else if (movement.y.speed < velocity/5f) {
+            } else if (movement.y.speed < velocity / 5f) {
                 movementState = MovementState.FALLING
                 movement.y.direction = -1
             }
         }
     }
 
-    private fun fallFromPlatform(){
-        if(onPlatform != null){
-            if((body.getBoundingBox().maxpoint.x <= onPlatform!!.getBoundingBox().minpoint.x
-                        || body.getBoundingBox().minpoint.x >= onPlatform!!.getBoundingBox().maxpoint.x) && movementState != MovementState.JUMPING){
+    private fun fallFromPlatform() {
+        if (onPlatform != null) {
+            if ((body.getBoundingBox().maxpoint.x <= onPlatform!!.getBoundingBox().minpoint.x
+                        || body.getBoundingBox().minpoint.x >= onPlatform!!.getBoundingBox().maxpoint.x) && movementState != MovementState.JUMPING
+            ) {
                 onPlatform = null
                 movementState = MovementState.FALLING
             }
         }
     }
 
-    private fun landOnPlatform(platform: GameObject, eps: Float): Boolean{
+    private fun landOnPlatform(platform: GameObject, eps: Float): Boolean {
         return if (movementState == MovementState.FALLING && body.getBoundingBox().minpoint.y > platform.getBoundingBox().maxpoint.y - eps) {
             onPlatform = platform
             body.position.y = platform.getBoundingBox().maxpoint.y
             movement.y.speed = 0f
             checkIfWalking()
             true
-        } else{
+        } else {
             false
         }
     }
 
-    private fun checkIfWalking(){
+    private fun checkIfWalking() {
         movementState = if (movement.x.speed > 0) {
             MovementState.WALKING
-        } else{
+        } else {
             MovementState.IDLE
         }
     }
 
     fun checkPlatforms(platforms: List<GameObject>) {
         val eps = 11f
-        for(plat in platforms){
+        for (plat in platforms) {
             if (body.getBoundingBox().checkOverlapping(plat.getBoundingBox())) {
                 landOnPlatform(plat, eps)
             }
@@ -102,10 +102,10 @@ open class Character (
         fallFromPlatform()
     }
 
-    fun checkHoles(holes: List<GameObject>){
+    fun checkHoles(holes: List<GameObject>) {
         for (hole in holes) {
-            if(hole.visible){
-                if (movementState != MovementState.JUMPING && !state.inHole && (body.getBoundingBox().minpoint.x > hole.getBoundingBox().minpoint.x && body.getBoundingBox().maxpoint.x < hole.getBoundingBox().maxpoint.x) && body.getBoundingBox().minpoint.y < hole.getBoundingBox().maxpoint.y){
+            if (hole.visible) {
+                if (movementState != MovementState.JUMPING && !state.inHole && (body.getBoundingBox().minpoint.x > hole.getBoundingBox().minpoint.x && body.getBoundingBox().maxpoint.x < hole.getBoundingBox().maxpoint.x) && body.getBoundingBox().minpoint.y < hole.getBoundingBox().maxpoint.y) {
                     state.inHole = true
                     movementState = MovementState.FALLING
                 }
@@ -113,13 +113,14 @@ open class Character (
         }
     }
 
-    fun checkBarrels(barrels: List<GameObject>, gameCameraOffset: Float, dt: Float): Float{
+    fun checkBarrels(barrels: List<GameObject>, gameCameraOffset: Float, dt: Float): Float {
         var newOffset = gameCameraOffset
-        for (barrel in barrels){
-            if(barrel.visible){
-                if (barrel.getBoundingBox().checkOverlapping(body.getBoundingBox())){
-                    if(!landOnPlatform(barrel, 11f) && onPlatform != barrel){
-                        body.position.x = barrel.position.x-(body.getBoundingBox().maxpoint.x-body.getBoundingBox().minpoint.x)
+        for (barrel in barrels) {
+            if (barrel.visible) {
+                if (barrel.getBoundingBox().checkOverlapping(body.getBoundingBox())) {
+                    if (!landOnPlatform(barrel, 11f) && onPlatform != barrel) {
+                        body.position.x =
+                            barrel.position.x - (body.getBoundingBox().maxpoint.x - body.getBoundingBox().minpoint.x)
                         newOffset += movement.x.direction * (movement.x.speed) * dt
                     }
                 }
@@ -128,7 +129,7 @@ open class Character (
         return newOffset
     }
 
-    protected fun updateAnimation(){
+    protected fun updateAnimation() {
         when (movementState) {
             MovementState.FALLING -> {
                 body.currSprite = 3

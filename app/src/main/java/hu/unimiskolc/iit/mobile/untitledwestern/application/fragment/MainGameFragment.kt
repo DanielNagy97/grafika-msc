@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import org.koin.android.ext.android.inject
 
-class MainGameFragment: Fragment() {
+class MainGameFragment : Fragment() {
     private lateinit var myGLSurfaceView: GLSurfaceView
 
     companion object {

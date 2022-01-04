@@ -4,43 +4,42 @@ import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.engine.B
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.engine.GameObject
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.game.states.MovementState
 
-class Bandit (
+class Bandit(
     body: GameObject,
     pistol: GameObject,
     velocity: Float,
     lives: Int
-): Gunslinger(body, pistol, velocity, lives) {
+) : Gunslinger(body, pistol, velocity, lives) {
 
-    private fun turnToPlayer(player: Player){
-        if(body.position.x < player.body.position.x){
+    private fun turnToPlayer(player: Player) {
+        if (body.position.x < player.body.position.x) {
             movement.x.direction = 1
-        }
-        else{
+        } else {
             movement.x.direction = -1
         }
     }
 
-    fun shootPlayer(player: Player){
+    fun shootPlayer(player: Player) {
         turnToPlayer(player)
 
-        if(player.body.position.y == body.position.y){
+        if (player.body.position.y == body.position.y) {
             shootABullet()
         }
     }
 
-    fun updateLives(viewPortMin: Float){
-        if(lives <= 0){
+    fun updateLives(viewPortMin: Float) {
+        if (lives <= 0) {
             lives = 1
-            body.position.x = viewPortMin -100f
+            body.position.x = viewPortMin - 100f
             state.isInjured = false
-            if(state.inHole){
+            if (state.inHole) {
                 state.inHole = false
             }
         }
     }
 
     fun checkIfOutsideOfViewport(viewPort: BoundingBox2D) {
-        if(!body.getBoundingBox().checkOverlapping(viewPort)){
+        if (!body.getBoundingBox().checkOverlapping(viewPort)) {
             movementState = MovementState.FALLING
         }
     }

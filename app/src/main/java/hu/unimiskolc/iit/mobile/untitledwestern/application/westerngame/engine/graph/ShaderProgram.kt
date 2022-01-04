@@ -40,25 +40,25 @@ class ShaderProgram {
 
     fun createUniform(uniformName: String) {
         val uniformLocation: Int = glGetUniformLocation(programId, uniformName)
-        if(uniformLocation < 0) {
+        if (uniformLocation < 0) {
             throw Exception("Could not find uniform: $uniformName")
         }
         uniforms[uniformName] = uniformLocation
     }
 
-    fun setUniform(uniformName: String, value: FloatArray){
+    fun setUniform(uniformName: String, value: FloatArray) {
         glUniformMatrix4fv(uniforms[uniformName]!!, 1, false, value, 0)
     }
 
-    fun setUniform(uniformName: String, value: Int){
+    fun setUniform(uniformName: String, value: Int) {
         glUniform1i(uniforms[uniformName]!!, value)
     }
 
-    fun setUniform4fv(uniformName: String, value: FloatArray){
+    fun setUniform4fv(uniformName: String, value: FloatArray) {
         glUniform4fv(uniforms[uniformName]!!, 1, value, 0)
     }
 
-    fun bindAttribLocation(attribName: String, location: Int){
+    fun bindAttribLocation(attribName: String, location: Int) {
         glBindAttribLocation(programId, location, attribName)
     }
 
@@ -72,7 +72,7 @@ class ShaderProgram {
 
     private fun createShader(shaderCode: String, shaderType: Int): Int {
         return glCreateShader(shaderType).also { shaderId ->
-            if(shaderId == 0) {
+            if (shaderId == 0) {
                 throw Exception("Error creating shader. Id: $shaderId")
             }
 
@@ -81,7 +81,7 @@ class ShaderProgram {
 
             val compileStatus = IntArray(1)
             glGetShaderiv(shaderId, GL_COMPILE_STATUS, compileStatus, 0)
-            if(compileStatus[0] == 0){
+            if (compileStatus[0] == 0) {
                 throw Exception("Error compiling shader code: ${glGetProgramInfoLog(shaderId)}")
             }
 
@@ -94,7 +94,7 @@ class ShaderProgram {
 
         val linkStatus = IntArray(1)
         glGetProgramiv(programId, GL_LINK_STATUS, linkStatus, 0)
-        if(linkStatus[0] == 0){
+        if (linkStatus[0] == 0) {
             throw Exception("Error linking shader code: ${glGetProgramInfoLog(programId)}")
         }
 
@@ -110,7 +110,7 @@ class ShaderProgram {
 
         val validateStatus = IntArray(1)
         glGetProgramiv(programId, GL_VALIDATE_STATUS, validateStatus, 0)
-        if(validateStatus[0] == 0){
+        if (validateStatus[0] == 0) {
             throw Exception("Error validating shader code: ${glGetProgramInfoLog(programId)}")
         }
     }

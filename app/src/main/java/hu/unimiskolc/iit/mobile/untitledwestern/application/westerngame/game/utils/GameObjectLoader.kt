@@ -5,8 +5,8 @@ import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.engine.G
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.engine.math.Vector2D
 import org.json.JSONObject
 
-open class GameObjectLoader: JsonLoader() {
-    protected fun loadPositions(jsonObject: JSONObject, horizon: Float): ArrayList<Vector2D>{
+open class GameObjectLoader : JsonLoader() {
+    protected fun loadPositions(jsonObject: JSONObject, horizon: Float): ArrayList<Vector2D> {
         val result: ArrayList<Vector2D> = ArrayList()
         val pPositions = loadArray("positions", jsonObject)
 
@@ -23,43 +23,43 @@ open class GameObjectLoader: JsonLoader() {
         return result
     }
 
-    protected fun loadType(jsonObject: JSONObject): String{
+    protected fun loadType(jsonObject: JSONObject): String {
         return loadString("type", jsonObject)
     }
 
-    protected fun loadInterval(jsonObject: JSONObject, type: String): Float{
-        return if(type == "repeating") {
+    protected fun loadInterval(jsonObject: JSONObject, type: String): Float {
+        return if (type == "repeating") {
             loadFloat("interval", jsonObject)
-        } else{
+        } else {
             0.0f
         }
     }
 
-    protected fun loadMinX(jsonObject: JSONObject, type: String, horizon: Float): Float{
-        return if(type == "repeating") {
-            if(loadString("minY", jsonObject) == "horizon"){
+    protected fun loadMinX(jsonObject: JSONObject, type: String, horizon: Float): Float {
+        return if (type == "repeating") {
+            if (loadString("minY", jsonObject) == "horizon") {
                 horizon
             } else {
                 loadFloat("minY", jsonObject)
             }
-        } else{
+        } else {
             0.0f
         }
     }
 
-    protected fun loadMaxY(jsonObject: JSONObject, type: String, horizon: Float): Float{
-        return if(type == "repeating") {
-            if(loadString("maxY", jsonObject) == "horizon"){
+    protected fun loadMaxY(jsonObject: JSONObject, type: String, horizon: Float): Float {
+        return if (type == "repeating") {
+            if (loadString("maxY", jsonObject) == "horizon") {
                 horizon
             } else {
                 loadFloat("maxY", jsonObject)
             }
-        } else{
+        } else {
             0.0f
         }
     }
 
-    protected fun loadSpritesToGameObject(jsonObject: JSONObject, gameObject: GameObject){
+    protected fun loadSpritesToGameObject(jsonObject: JSONObject, gameObject: GameObject) {
         val pSprites = loadArray("sprites", jsonObject)
         for (i in 0 until pSprites.length()) {
             val spriteName = loadString("fileName", pSprites.getJSONObject(i))
@@ -70,11 +70,12 @@ open class GameObjectLoader: JsonLoader() {
     }
 
 
-    open fun makeObjects(jsonObject: JSONObject,
-                         context: Context,
-                         scale: Float,
-                         horizon: Float
-    ): List<GameObject>{
+    open fun makeObjects(
+        jsonObject: JSONObject,
+        context: Context,
+        scale: Float,
+        horizon: Float
+    ): List<GameObject> {
         val gameObjects: ArrayList<GameObject> = ArrayList()
 
         val positions = loadPositions(jsonObject, horizon)
@@ -83,9 +84,11 @@ open class GameObjectLoader: JsonLoader() {
         val minY = loadMinX(jsonObject, type, horizon)
         val maxY = loadMaxY(jsonObject, type, horizon)
 
-        for (position in positions){
-            val newGameObject = GameObject(context, position.x, position.y,
-                scale, interval, minY, maxY)
+        for (position in positions) {
+            val newGameObject = GameObject(
+                context, position.x, position.y,
+                scale, interval, minY, maxY
+            )
             loadSpritesToGameObject(jsonObject, newGameObject)
 
             gameObjects.add(newGameObject)
@@ -93,10 +96,11 @@ open class GameObjectLoader: JsonLoader() {
         return gameObjects
     }
 
-    fun makeObject(jsonObject: JSONObject,
-                   context: Context,
-                   scale: Float,
-                   horizon: Float
+    fun makeObject(
+        jsonObject: JSONObject,
+        context: Context,
+        scale: Float,
+        horizon: Float
     ): GameObject {
         return makeObjects(jsonObject, context, scale, horizon)[0]
     }

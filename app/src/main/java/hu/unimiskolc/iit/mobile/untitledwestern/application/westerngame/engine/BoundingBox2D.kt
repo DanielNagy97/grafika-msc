@@ -49,7 +49,7 @@ class BoundingBox2D(newMinPoint: Vector2D, newMaxPoint: Vector2D) {
         boxHalfHeight = (maxpoint.y - minpoint.y) / 2.0f
     }
 
-    fun setPoints(min: Vector2D, max: Vector2D){
+    fun setPoints(min: Vector2D, max: Vector2D) {
         minpoint.set(min.x, min.y)
         maxpoint.set(max.x, max.y)
 
@@ -71,7 +71,7 @@ class BoundingBox2D(newMinPoint: Vector2D, newMaxPoint: Vector2D) {
         val min = Vector2D(bbPoints[0].x, bbPoints[0].y)
         val max = Vector2D(bbPoints[0].x, bbPoints[0].y)
 
-        for (i in 0 until aabbPoints2D){
+        for (i in 0 until aabbPoints2D) {
             if (bbPoints[i].x < min.x) {
                 min.x = bbPoints[i].x
             }
@@ -95,14 +95,14 @@ class BoundingBox2D(newMinPoint: Vector2D, newMaxPoint: Vector2D) {
         Matrix.setIdentityM(transformationMatrix, 0)
         Matrix.scaleM(transformationMatrix, 0, scale, scale, scale)
 
-        for (i in 0 until aabbPoints2D){
+        for (i in 0 until aabbPoints2D) {
             transformPoint(bbPoints[i])
         }
         searchMinMax()
         setUpBBPoints()
     }
 
-    private fun transformPoint(vec: Vector2D){
+    private fun transformPoint(vec: Vector2D) {
         val x = vec.x
         val y = vec.y
 
@@ -114,7 +114,7 @@ class BoundingBox2D(newMinPoint: Vector2D, newMaxPoint: Vector2D) {
         Matrix.setIdentityM(transformationMatrix, 0)
         Matrix.translateM(transformationMatrix, 0, translateVector.x, translateVector.y, 0f)
 
-        for (i in 0 until aabbPoints2D){
+        for (i in 0 until aabbPoints2D) {
             transformPoint(bbPoints[i])
         }
         searchMinMax()
@@ -130,7 +130,7 @@ class BoundingBox2D(newMinPoint: Vector2D, newMaxPoint: Vector2D) {
         Matrix.multiplyMM(transformationMatrix, 0, transformationMatrix, 0, rotationMatrix, 0)
         Matrix.translateM(transformationMatrix, 0, -x, -y, 0f)
 
-        for (i in 0 until aabbPoints2D){
+        for (i in 0 until aabbPoints2D) {
             transformPoint(bbPoints[i])
         }
         searchMinMax()
@@ -138,7 +138,7 @@ class BoundingBox2D(newMinPoint: Vector2D, newMaxPoint: Vector2D) {
     }
 
     fun draw(renderer: Renderer) {
-        if (!mEnabled){
+        if (!mEnabled) {
             return
         }
 

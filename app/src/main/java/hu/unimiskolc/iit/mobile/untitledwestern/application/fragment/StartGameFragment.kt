@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import hu.unimiskolc.iit.mobile.untitledwestern.application.R
 import hu.unimiskolc.iit.mobile.untitledwestern.application.databinding.StartGameFragmentBinding
 
-class StartGameFragment : Fragment(R.layout.start_game_fragment){
+class StartGameFragment : Fragment(R.layout.start_game_fragment) {
 
     private var binding: StartGameFragmentBinding? = null
 

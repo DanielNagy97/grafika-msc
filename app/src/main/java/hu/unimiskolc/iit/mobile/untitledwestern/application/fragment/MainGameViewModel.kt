@@ -7,7 +7,7 @@ import hu.unimiskolc.iit.mobile.untitledwestern.core.interactor.GameInteractors
 import kotlinx.coroutines.launch
 import java.util.*
 
-class MainGameViewModel(private val interactors: GameInteractors): ViewModel() {
+class MainGameViewModel(private val interactors: GameInteractors) : ViewModel() {
     private lateinit var game: Game
 
     fun getGame(): Game {

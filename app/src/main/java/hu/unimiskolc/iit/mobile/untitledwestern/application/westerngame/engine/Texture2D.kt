@@ -35,7 +35,7 @@ class Texture2D {
     private var toFlip: Boolean
     var color = floatArrayOf(1.0f, 1.0f, 1.0f, 1.0f)
 
-    init{
+    init {
         textureId = -1
         scale = 1f
         width = 0
@@ -47,11 +47,11 @@ class Texture2D {
         rotationMatrix = FloatArray(16)
     }
 
-    private fun bind(){
+    private fun bind() {
         glBindTexture(GL_TEXTURE_2D, textureId)
     }
 
-    fun createTexture(bitmap: Bitmap): Boolean{
+    fun createTexture(bitmap: Bitmap): Boolean {
         loadTexture(bitmap)
 
         val positions = floatArrayOf(
@@ -63,7 +63,7 @@ class Texture2D {
             0.0f, height.toFloat(), 0.0f,
         )
 
-        val textCoords =  floatArrayOf(
+        val textCoords = floatArrayOf(
             0.0f, 1.0f,
             1.0f, 1.0f,
             1.0f, 0.0f,
@@ -76,7 +76,7 @@ class Texture2D {
         return true
     }
 
-    private fun loadTexture(bitmap: Bitmap){
+    private fun loadTexture(bitmap: Bitmap) {
         width = bitmap.width
         height = bitmap.height
 
@@ -110,7 +110,7 @@ class Texture2D {
         bitmap.recycle()
     }
 
-    private fun flipOnYAxis(){
+    private fun flipOnYAxis() {
         Matrix.translateM(transformationMatrix, 0, width.toFloat(), 0.0f, 0f)
         Matrix.scaleM(transformationMatrix, 0, -1.0f, 1.0f, 1.0f)
     }
@@ -120,7 +120,7 @@ class Texture2D {
         Matrix.translateM(transformationMatrix, 0, position.x, position.y, 0f)
         Matrix.scaleM(transformationMatrix, 0, scale, scale, scale)
 
-        if(toFlip){
+        if (toFlip) {
             flipOnYAxis()
         }
 
@@ -135,7 +135,7 @@ class Texture2D {
         return transformationMatrix
     }
 
-    fun draw(renderer: Renderer){
+    fun draw(renderer: Renderer) {
         renderer.shaderProgram.bind()
 
         renderer.shaderProgram.setUniform("projectionMatrix", renderer.projectionMatrix)
@@ -149,7 +149,14 @@ class Texture2D {
         renderer.shaderProgram.unbind()
     }
 
-    fun draw(renderer: Renderer, position: Vector2D, scale:Float, rotationAngle:Float, flip:Boolean, color: FloatArray){
+    fun draw(
+        renderer: Renderer,
+        position: Vector2D,
+        scale: Float,
+        rotationAngle: Float,
+        flip: Boolean,
+        color: FloatArray
+    ) {
         this.position = position
         this.scale = scale
         this.rotationAngle = rotationAngle
@@ -159,13 +166,11 @@ class Texture2D {
         this.draw(renderer)
     }
 
-    fun cleanup(){
+    fun cleanup() {
         val names = IntArray(1)
         names[0] = textureId
         glDeleteTextures(1, names, 0)
 
         mesh.cleanup()
-
-
     }
 }

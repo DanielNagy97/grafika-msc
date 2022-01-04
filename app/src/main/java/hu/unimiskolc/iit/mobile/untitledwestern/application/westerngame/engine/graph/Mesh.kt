@@ -5,8 +5,7 @@ import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.engine.T
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.engine.util.BufferUtil
 import java.nio.FloatBuffer
 
-class Mesh
-    (
+class Mesh(
     positions: FloatArray,
     textCoords: FloatArray,
     private var texture: Texture2D,

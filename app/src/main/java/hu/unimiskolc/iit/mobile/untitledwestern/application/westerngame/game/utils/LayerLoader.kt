@@ -5,14 +5,15 @@ import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.engine.C
 import hu.unimiskolc.iit.mobile.untitledwestern.application.westerngame.engine.CCamera2D
 import org.json.JSONObject
 
-class LayerLoader: JsonLoader() {
-    fun makeLayer(jsonObject: JSONObject,
-                  context: Context,
-                  scale: Float,
-                  horizon: Float,
-                  aspect: Float,
-                  viewPortHalfHeight: Float,
-                  gameObjectLoader: GameObjectLoader
+class LayerLoader : JsonLoader() {
+    fun makeLayer(
+        jsonObject: JSONObject,
+        context: Context,
+        scale: Float,
+        horizon: Float,
+        aspect: Float,
+        viewPortHalfHeight: Float,
+        gameObjectLoader: GameObjectLoader
     ): C2DGraphicsLayer {
         val newLayer: C2DGraphicsLayer
 

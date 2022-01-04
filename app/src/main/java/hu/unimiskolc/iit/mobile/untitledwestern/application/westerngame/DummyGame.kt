@@ -20,7 +20,7 @@ class DummyGame(
     private val scale: Float,
     private val sceneFileName: String,
     private var showBoundingBoxes: Boolean = false
-    ) {
+) {
     lateinit var renderer: Renderer
     var sceneManager: C2DSceneManager = C2DSceneManager()
     private var scene: C2DScene = C2DScene()
@@ -58,7 +58,7 @@ class DummyGame(
     private var lastScoreAtSpeedUp: Int = 0
     private val maxSeed = 150f
 
-    fun init(renderer: Renderer){
+    fun init(renderer: Renderer) {
         this.renderer = renderer
         val sceneLoader = SceneLoader(sceneFileName, context, scale, horizon, renderer.ratio)
 
@@ -72,19 +72,21 @@ class DummyGame(
 
         layers = sceneLoader.loadLayers(renderer.viewPortHalfHeight)
 
-        for (i in 4 until layers.size-1){
+        for (i in 4 until layers.size - 1) {
             groundLayers.add(layers[i])
         }
 
-        gameLayer = layers[layers.size-2]
+        gameLayer = layers[layers.size - 2]
         gameCameraLastXPos = gameLayer.mCamera!!.mPosition.x
 
-        hub = Hub(layers[layers.size-1],
-                  sceneLoader.loadScoreNumbers(),
-                  sceneLoader.loadHearts(),
-                  sceneLoader.loadGameOverText(),
-                  sceneLoader.loadStartGameText(),
-                  scale)
+        hub = Hub(
+            layers[layers.size - 1],
+            sceneLoader.loadScoreNumbers(),
+            sceneLoader.loadHearts(),
+            sceneLoader.loadGameOverText(),
+            sceneLoader.loadStartGameText(),
+            scale
+        )
         mPlayer = sceneLoader.loadPlayer(hub.hearts.size)
 
         mBandit = sceneLoader.loadBandits(1)
@@ -107,26 +109,25 @@ class DummyGame(
         hub.hubLayer.addGameObject(hub.gameOverText)
         hub.hubLayer.addGameObject(hub.startGameText)
 
-        if(showBoundingBoxes){
-            for(gameObject in gameLayer.mObjectList){
+        if (showBoundingBoxes) {
+            for (gameObject in gameLayer.mObjectList) {
                 gameObject.enableBoundingBoxesVisibility()
             }
         }
 
-        for(layer in layers){
+        for (layer in layers) {
             scene.registerLayer(layer)
         }
         sceneManager.registerScene(scene)
     }
 
     fun update(dt: Float) {
-        if(gameState == GameState.NOT_STARTED){
+        if (gameState == GameState.NOT_STARTED) {
             hub.blinkStartText(dt)
-        }
-        else{
+        } else {
             hub.startGameText.visible = false
         }
-        if(gameState != GameState.ENDED){
+        if (gameState != GameState.ENDED) {
             updatePositions(dt)
             updateAnimations()
             updateCameras()
@@ -139,26 +140,25 @@ class DummyGame(
 
             hub.updateScoreBoard(score)
             hub.updateHearts(mPlayer.lives)
-            if(mPlayer.lives <= 0){
+            if (mPlayer.lives <= 0) {
                 gameState = GameState.ENDED
                 hub.gameOverText.visible = true
             }
-        }
-        else {
+        } else {
             elapsedAfterDeath += dt
-            if(elapsedAfterDeath > 3){
+            if (elapsedAfterDeath > 3) {
                 renderer.view.endGame()
             }
         }
     }
 
-    private fun makeChangesAccordingToScore(){
-        if(score-lastScoreAtLightChange > 500 && score != lastScoreAtLightChange){
+    private fun makeChangesAccordingToScore() {
+        if (score - lastScoreAtLightChange > 500 && score != lastScoreAtLightChange) {
             isDayLight = !isDayLight
             lastScoreAtLightChange = score
         }
-        if(score-lastScoreAtSpeedUp > 100 && score != lastScoreAtSpeedUp){
-            if(mPlayer.movement.x.speed<maxSeed){
+        if (score - lastScoreAtSpeedUp > 100 && score != lastScoreAtSpeedUp) {
+            if (mPlayer.movement.x.speed < maxSeed) {
                 mPlayer.movement.x.speed *= 1.05f
             }
             lastScoreAtSpeedUp = score
@@ -168,18 +168,17 @@ class DummyGame(
     private fun updateColors() {
         val changeRate = 0.003f
 
-        for(i in 0 until layers.size-1){
-            for(j in 0..2){
-                if(isDayLight) {
+        for (i in 0 until layers.size - 1) {
+            for (j in 0..2) {
+                if (isDayLight) {
                     if (layers[i].color[j] < 1f) {
                         layers[i].color[j] += changeRate
                     }
                     if (layers[i].color[j] > 1f) {
                         layers[i].color[j] = 1f
                     }
-                }
-                else {
-                    if(layers[i].color[j] > nightColor[j]){
+                } else {
+                    if (layers[i].color[j] > nightColor[j]) {
                         layers[i].color[j] -= changeRate
                     }
                 }
@@ -187,26 +186,30 @@ class DummyGame(
         }
     }
 
-    private fun updateAnimations(){
+    private fun updateAnimations() {
         mPlayer.updateAnimations()
         mBandit.updateAnimations()
     }
 
-    private fun updateCameras(){
+    private fun updateCameras() {
         gameLayer.mCamera!!.mPosition = Vector2D(mPlayer.body.position.x + gameCameraOffset, 0f)
-        for (i in 0 until layers.size-2){
+        for (i in 0 until layers.size - 2) {
             layers[i].mCamera!!.moveLeft((gameLayer.mCamera!!.mPosition.x - gameCameraLastXPos) * layers[i].cameraSpeed)
         }
         gameCameraLastXPos = gameLayer.mCamera!!.mPosition.x
     }
 
-    private fun updatePositions(dt: Float){
+    private fun updatePositions(dt: Float) {
         mPlayer.updatePosition(ground, renderer.viewPortHalfHeight, dt)
         mPlayer.checkPlatforms(platforms)
         score += mPlayer.updateBullet(dt, gameLayer.mCamera!!.viewPort, mBandit)
         score += mPlayer.checkCollectibles(collectibles)
-        gameCameraOffset = mPlayer.updateCameraOffset(barrels, holes, gameCameraOffset, gameCameraBaseOffset, dt)
-        mPlayer.checkIfPushedFromViewport(gameLayer.mCamera!!.viewPort.minpoint.x, renderer.viewPortHalfHeight)
+        gameCameraOffset =
+            mPlayer.updateCameraOffset(barrels, holes, gameCameraOffset, gameCameraBaseOffset, dt)
+        mPlayer.checkIfPushedFromViewport(
+            gameLayer.mCamera!!.viewPort.minpoint.x,
+            renderer.viewPortHalfHeight
+        )
 
         mBandit.updatePosition(ground, renderer.viewPortHalfHeight, dt)
         mBandit.checkPlatforms(platforms)
@@ -219,13 +222,13 @@ class DummyGame(
     }
 
     private fun calculateInfiniteGrounds() {
-        for (groundLayer in groundLayers){
+        for (groundLayer in groundLayers) {
             val viewPort = groundLayer.mCamera!!.viewPort
-            if(viewPort.maxpoint.x > groundLayer.mObjectList[0].getBoundingBox().maxpoint.x){
-                groundLayer.mObjectList[1].position.x = groundLayer.mObjectList[0].getBoundingBox().maxpoint.x
+            if (viewPort.maxpoint.x > groundLayer.mObjectList[0].getBoundingBox().maxpoint.x) {
+                groundLayer.mObjectList[1].position.x =
+                    groundLayer.mObjectList[0].getBoundingBox().maxpoint.x
                 Collections.swap(groundLayer.mObjectList, 1, 0)
-            }
-            else if(viewPort.minpoint.x < groundLayer.mObjectList[0].getBoundingBox().minpoint.x){
+            } else if (viewPort.minpoint.x < groundLayer.mObjectList[0].getBoundingBox().minpoint.x) {
                 groundLayer.mObjectList[1].position.x =
                     groundLayer.mObjectList[0].getBoundingBox().minpoint.x - (groundLayer.mObjectList[0].getBoundingBox().maxpoint.x - groundLayer.mObjectList[0].getBoundingBox().minpoint.x)
                 Collections.swap(groundLayer.mObjectList, 1, 0)

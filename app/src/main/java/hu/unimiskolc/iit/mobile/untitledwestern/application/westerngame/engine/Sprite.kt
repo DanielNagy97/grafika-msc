@@ -29,8 +29,8 @@ class Sprite(
         this.toFlip = false
     }
 
-    private fun loadTextures(fileNames: String, numOfFrames: Int){
-        if (numOfFrames == 1){
+    private fun loadTextures(fileNames: String, numOfFrames: Int) {
+        if (numOfFrames == 1) {
             val tex = Texture2D()
 
             val bitmap = ImageUtil.loadBitmap(context, fileNames)
@@ -38,11 +38,13 @@ class Sprite(
             tex.createTexture(bitmap)
 
             val newFrame = SpriteFrame(tex)
-            newFrame.addBoundingBox(Vector2D(0.0f, 0.0f), Vector2D(tex.width.toFloat(), tex.height.toFloat()))
+            newFrame.addBoundingBox(
+                Vector2D(0.0f, 0.0f),
+                Vector2D(tex.width.toFloat(), tex.height.toFloat())
+            )
             mvFrames.add(newFrame)
-        }
-        else {
-            for (i in 1..numOfFrames){
+        } else {
+            for (i in 1..numOfFrames) {
                 val tex = Texture2D()
 
                 val fileName = fileNames.split("/").last()
@@ -52,7 +54,10 @@ class Sprite(
                 tex.createTexture(bitmap)
 
                 val newFrame = SpriteFrame(tex)
-                newFrame.addBoundingBox(Vector2D(0.0f, 0.0f), Vector2D(tex.width.toFloat(), tex.height.toFloat()))
+                newFrame.addBoundingBox(
+                    Vector2D(0.0f, 0.0f),
+                    Vector2D(tex.width.toFloat(), tex.height.toFloat())
+                )
                 mvFrames.add(newFrame)
             }
         }
@@ -72,7 +77,7 @@ class Sprite(
         return transformed
     }
 
-    fun draw(renderer: Renderer){
+    fun draw(renderer: Renderer) {
         val tex = mvFrames[miActualFrame].mFrame
         tex.draw(renderer, position, mScale, mRotationAngle, toFlip, color)
         update()
@@ -81,14 +86,14 @@ class Sprite(
     private fun update() {
         if (1000.0f / miFps < (System.currentTimeMillis() - miLastUpdate)) {
             miLastUpdate = System.currentTimeMillis()
-            if(++miActualFrame == mvFrames.size){
+            if (++miActualFrame == mvFrames.size) {
                 miActualFrame = 0
             }
         }
     }
 
-    fun cleanup(){
-        for(frame in mvFrames){
+    fun cleanup() {
+        for (frame in mvFrames) {
             val tex = frame.mFrame
             tex.cleanup()
         }

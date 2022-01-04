@@ -7,27 +7,27 @@ class C2DScene {
     private var mName: String = ""
     private var mVisible: Boolean
 
-    init{
+    init {
         mName = "Sample Scene"
         mVisible = true
     }
 
-    fun registerLayer(layer: C2DGraphicsLayer){
+    fun registerLayer(layer: C2DGraphicsLayer) {
         mLayers.add(layer)
     }
 
     fun render(renderer: Renderer) {
-        if (!mVisible || mLayers.size == 0){
+        if (!mVisible || mLayers.size == 0) {
             return
         }
 
-        for(layer in mLayers){
+        for (layer in mLayers) {
             layer.render(renderer)
         }
     }
 
     fun cleanup() {
-        for(layer in mLayers) {
+        for (layer in mLayers) {
             layer.cleanup()
         }
         mLayers.clear()

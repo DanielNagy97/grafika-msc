@@ -15,7 +15,7 @@ class C2DGraphicsLayer(var cameraSpeed: Float) {
         mCamera = null
     }
 
-    fun addGameObject(gameObject: GameObject){
+    fun addGameObject(gameObject: GameObject) {
         mObjectList.add(gameObject)
     }
 
@@ -30,38 +30,41 @@ class C2DGraphicsLayer(var cameraSpeed: Float) {
             return
         }
 
-        if(mCamera != null){
-             mCamera!!.setViewMatrix(renderer.viewMatrix)
+        if (mCamera != null) {
+            mCamera!!.setViewMatrix(renderer.viewMatrix)
         }
 
-        for(gameObject in mObjectList){
+        for (gameObject in mObjectList) {
             gameObject.color = color
-            if(gameObject.repeatingInterval > 0.0f){
-                if(mCamera!!.viewPort.minpoint.x > gameObject.getBoundingBox().maxpoint.x){
-                    gameObject.position.x = rand(mCamera!!.viewPort.maxpoint.x, mCamera!!.viewPort.maxpoint.x + gameObject.repeatingInterval*10)
+            if (gameObject.repeatingInterval > 0.0f) {
+                if (mCamera!!.viewPort.minpoint.x > gameObject.getBoundingBox().maxpoint.x) {
+                    gameObject.position.x = rand(
+                        mCamera!!.viewPort.maxpoint.x,
+                        mCamera!!.viewPort.maxpoint.x + gameObject.repeatingInterval * 10
+                    )
                     gameObject.position.y = rand(gameObject.minRepeatY, gameObject.maxRepeatY)
                 }
             }
 
-            if (!gameObject.visible || !mCamera!!.viewPort.checkOverlapping(gameObject.getBoundingBox())){
+            if (!gameObject.visible || !mCamera!!.viewPort.checkOverlapping(gameObject.getBoundingBox())) {
                 continue
             }
             gameObject.draw(renderer)
         }
     }
 
-    fun setCamera(camera: CCamera2D){
+    fun setCamera(camera: CCamera2D) {
         mCamera = camera
     }
 
     fun cleanup() {
-        for (gameObject in mObjectList){
+        for (gameObject in mObjectList) {
             gameObject.cleanup()
         }
         mObjectList.clear()
     }
 
-    private fun rand(from: Float, to: Float) : Float{
+    private fun rand(from: Float, to: Float): Float {
         val random = Random()
         return from + random.nextFloat() * (to - from)
     }
